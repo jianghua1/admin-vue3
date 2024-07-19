@@ -19,6 +19,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { viteMockServe } from 'vite-plugin-mock'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -83,6 +86,23 @@ export default defineConfig({
     viteMockServe({
       mockPath: 'mock',
       enable: false
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+      // 指定symbolId格式
+      symbolId: 'icon-[dir]-[name]',
+      svgoOptions: {
+        full: true,
+        plugins: [
+          {
+            name: 'removeAttrs',
+            params: {
+              attrs: 'fill'
+            }
+          }
+        ]
+      }
     })
   ],
   resolve: {

@@ -2,7 +2,7 @@
 <template>
   <el-switch v-model="copyTypeFlag" active-text="复制SVG图标数据" inactive-text="复制Icon名称">
   </el-switch>
-  <IconList @click="handleClick" :collection="iconPrefix"></IconList>
+  <IconList @click="handleClick" :collection="iconPrefix" :show-text="showTextFlag"></IconList>
 </template>
 
 <script setup lang='ts'>
@@ -11,6 +11,7 @@ import { loadIcon } from '@iconify/vue';
 import { useClipboard } from '@vueuse/core';
 //开关 true - CopySvgData false - CopyIconName
 const copyTypeFlag = ref(false)
+const showTextFlag = ref(true)
 
 const source = ref('')
 const iconPrefix = ref('ep')

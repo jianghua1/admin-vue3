@@ -1,9 +1,10 @@
 <template>
-  <ul class="flex flex-wrap border rounded">
-    <li @click="handleClick(i)" :class="['border-b border-r flex flex-col justify-center items-center cursor-pointer ',
-      itemClass]" v-for="(i, index) in iconData" :key="index">
-      <component :is="Icon" :icon="`${collection}:${i}`" :class="iconClass"></component>
-      <div>{{ i }}</div>
+  <ul class="grid grid-cols-[repeat(auto-fill,minmax(1.825rem,1fr))] border-l border-t rounded">
+    <li :class="['border-b border-r flex flex-col justify-center items-center cursor-pointer ',
+      itemClass]" v-for="(i, index) in iconData" :key="index" @click="handleClick(i, index)">
+      <component :is="Icon" :icon="`${collection}:${i}`" :class="[iconClass, { [activeClass]: choose === index }]">
+      </component>
+      <div v-if="showText" class="text-sm mt-3">{{ i }}</div>
     </li>
   </ul>
 </template>
@@ -23,15 +24,17 @@ interface IconListType {
   showText: boolean
   itemClass: string
   iconClass: string
+  activeClass: string
 }
 
 
 const props = withDefaults(defineProps<IconListType>(), {
   iconData: () => data,
-  // collection: 'ep',
+  collection: 'ep',
   showText: false,
   itemClass: 'hover:bg-sky-200 w-1/8 py-4',
-  iconClass: 'text-3xl mt-3'
+  iconClass: 'text-3xl',
+  activeClass: ''
 })
 
 
@@ -44,8 +47,10 @@ const emits = defineEmits<{
   'click': [iconName: string]
 }>()
 
+const choose = ref(-1)
 //点击事件
-async function handleClick(iconName: string) {
+async function handleClick(iconName: string, index: number) {
+  choose.value = index
   emits('click', iconName)
 }
 

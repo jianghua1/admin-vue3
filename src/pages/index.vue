@@ -1,5 +1,4 @@
 <template>
-  <div>home</div>
   <!-- <Icon icon="mdi:home" class="text-3xl text-red-500" @click="handleClick" />
   <SvgIcon type="微信" class="text-red w-5 h-5"></SvgIcon>
   <NetIcon url="//at.alicdn.com/t/c/font_4421207_cksjqt2r42n.css" type="icon-youjiantou"></NetIcon>

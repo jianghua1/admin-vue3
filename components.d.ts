@@ -25,6 +25,7 @@ declare module 'vue' {
     IconFontIcon: typeof import('./src/components/IconFontIcon.vue')['default']
     IconIfy: typeof import('./src/components/Icon/Iconify.vue')['default']
     IconList: typeof import('./src/components/IconList.vue')['default']
+    IconPicker: typeof import('./src/components/IconPicker.vue')['default']
     NetIcon: typeof import('./src/components/NetIcon.vue')['default']
     Notice: typeof import('./src/components/Notice/Notice.vue')['default']
     NoticeMessageList: typeof import('./src/components/Notice/NoticeMessageList.vue')['default']

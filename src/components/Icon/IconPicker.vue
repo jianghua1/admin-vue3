@@ -5,14 +5,20 @@
       <slot>选择图标</slot>
     </el-button>
     <!-- dialog -->
-    <el-dialog :width="width" v-model="show">
+    <el-dialog :title="title" :width="width" v-model="show">
       <!-- icon-list -->
       <IconList @click="handleClick1" :show-text="showTextFlag" active-class="text-[#409EFF]"
         item-class="'hover:bg-sky-200" icon-class="text-2xl"></IconList>
       <!-- setting 颜色和大小 -->
-      <div class="py-2">
-        <el-color-picker v-model="color1" class="mr-2" />
-        <el-input-number v-model="num" :step="1" />
+      <div class="p-2 flex">
+        <div class="mr-4">
+          <span>color：</span>
+          <el-color-picker v-model="color1" class="mr-2" />
+        </div>
+        <div class="flex items-center flex-1">
+          <span class="pr-2">fontSize：</span>
+          <el-slider v-model="num" :step="1" show-input />
+        </div>
       </div>
       <div>
         选中的图标：
@@ -29,12 +35,16 @@
 
 <script setup lang='ts'>
 import { Icon } from '@iconify/vue';
-import type { IconPickerSubmitDataType } from './types';
+import type { IconPickerSubmitDataType } from '../types';
 
 defineProps({
   width: {
     type: String,
     default: '50%'
+  },
+  title: {
+    type: String,
+    default: '图标选择器'
   }
 })
 
@@ -62,4 +72,12 @@ const handleConfirm = () => {
 }
 
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+:deep(.el-dialog_body) {
+  padding-top: 0;
+  padding-bottom: 0;
+  max-height: 65vh;
+  overflow-y: auto;
+  height: auto;
+}
+</style>

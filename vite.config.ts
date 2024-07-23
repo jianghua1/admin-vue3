@@ -26,7 +26,11 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     VueRouter(),
-    vue(),
+    vue({
+      script: {
+        defineModel: true
+      }
+    }),
     vueJsx(),
     // Vue3.3以后，不需要这些新的特性了
     // VueMacros.vite({

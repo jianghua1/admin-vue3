@@ -12,20 +12,12 @@
 
 import data from './icon-ep.json';
 import { loadIcons, Icon } from '@iconify/vue';
+import { IconListType } from '../types';
 
 // import json from '@iconify/json/json/ep.json';
 // console.log(Object.keys(json))
 // const iconsKeyAndValue = json.icons;
 // console.log(Object.keys(iconsKeyAndValue))
-
-interface IconListType {
-  iconData: string[]
-  collection: string
-  showText: boolean
-  itemClass: string
-  iconClass: string
-  activeClass: string
-}
 
 
 const props = withDefaults(defineProps<IconListType>(), {

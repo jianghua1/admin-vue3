@@ -22,6 +22,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'path'
 
+import Icons from 'unplugin-icons/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -40,6 +41,9 @@ export default defineConfig({
     //   }
     // }),
     UnoCSS(),
+    Icons({
+      // 配置选项
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
       include: [
@@ -59,7 +63,7 @@ export default defineConfig({
       ]
     }),
     Components({
-      directoryAsNamespace: true,
+      directoryAsNamespace: false,
       collapseSamePrefixes: true,
       resolvers: [ElementPlusResolver()]
     }),

@@ -40,21 +40,13 @@
   <div class="flex w-full justify-around border-t">
     <div class="py-3 border-r flex-1 flex justify-center items-center hover:bg-sky-200 cursor-pointer"
       v-for="(action, index) in actions" :key="index" @click="action.click">
-      <!-- <Iconify v-if="action.icon" :icon="action.icon" :color="action.color" :style="action.style"></Iconify> -->
+      <Iconify v-if="action.icon" :icon="action.icon" :color="action.color" :style="action.style"></Iconify>
       <span class="ml-2">{{ action.title }}</span>
     </div>
   </div>
 </template>
 <script setup lang='ts'>
-const Delete = () => h('i', {
-  class: 'i-ep:delete'
-})
-const More = () => h('i', {
-  class: 'i-ep:more'
-})
-
-
-import { BadgeProps, TabsPaneContext } from 'element-plus'
+import { TabsPaneContext } from 'element-plus'
 
 import type { AvatarProps } from 'element-plus'
 import { MessageListItem, NoticeMessageListProps } from './types'

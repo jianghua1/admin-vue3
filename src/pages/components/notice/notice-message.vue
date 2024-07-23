@@ -11,8 +11,8 @@ import { NoticeActionsItem, NoticeMessageListOptions } from "../../../components
 import TagProps from 'element-plus';
 
 const actions = ref<NoticeActionsItem[]>([
-  { title: '清空', icon: 'i-ep:delete', click: () => console.log('清空') },
-  { title: '更多', icon: 'i-ep:more', click: () => console.log('更多') }
+  { title: '清空', icon: 'ep:delete', click: () => console.log('清空') },
+  { title: '更多', icon: 'ep:more', click: () => console.log('更多') }
 ])
 const lists = ref<NoticeMessageListOptions[]>([
   {

@@ -4,7 +4,6 @@
   </el-switch>
   <IconList @click="handleClick" :collection="iconPrefix" :show-text="showTextFlag"></IconList>
 </template>
-
 <script setup lang='ts'>
 import { loadIcon } from '@iconify/vue';
 //可省略

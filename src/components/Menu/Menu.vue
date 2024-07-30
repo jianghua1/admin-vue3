@@ -2,8 +2,8 @@
   <el-menu v-bind="menuProps">
     <slot name="icon"></slot>
     <div class="flex-grow" v-if="isDefined(slots['icon'])" />
-    <SubMenu v-for="(menu) in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse" v-bind="subMenuProps">
-    </SubMenu>
+    <sub-menu v-for="menu in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse" v-bind="subMenuProps">
+    </sub-menu>
   </el-menu>
 </template>
 <script setup lang='ts'>

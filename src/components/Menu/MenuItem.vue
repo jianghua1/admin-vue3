@@ -1,7 +1,8 @@
 <template>
   <!-- 没有ICON显示这个 -->
-  <el-sub-menu :index="getIndex(data)" :disabled="data.meta?.disabled" v-if="!data.meta?.icon">{{ data.meta?.title
-    }}</el-sub-menu>
+  <el-menu-item :index="getIndex(data)" :disabled="data.meta?.disabled" v-if="!data.meta?.icon">
+    {{ data.meta?.title }}
+  </el-menu-item>
   <!-- 有ICON显示这个 -->
   <template v-else>
     <!-- 折叠 -->

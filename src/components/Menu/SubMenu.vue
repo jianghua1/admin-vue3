@@ -1,13 +1,18 @@
 <template>
+  <!-- el-menu-item不含子菜单的情况 -->
   <menu-item :data="data" :collapse="collapse" v-if="!menuHasChildren(data)">
   </menu-item>
+
+  <!-- 左右布局中存在的元素 -->
+  <!-- <div class="flex-grow" /> -->
+
+  <!-- el-menu-item含有子菜单的情况 -->
   <el-sub-menu :index="getIndex(data)" v-if="menuHasChildren(data)">
     <template #title v-if="!data.meta?.icon">{{ data.meta?.title }}</template>
     <template #title v-else>
       <Iconify :icon="data.meta?.icon"></Iconify>
       <span>{{ data.meta?.title }}</span>
     </template>
-    <!-- data应该是子菜单的data -->
     <SubMenu v-for="child in data.children" :data="child" v-bind="subAttrs" :key="`${data.path}/${child.path}`">
     </SubMenu>
   </el-sub-menu>

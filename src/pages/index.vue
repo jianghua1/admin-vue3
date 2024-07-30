@@ -9,11 +9,8 @@
 
 <script setup lang="ts">
 import { registerSW } from 'virtual:pwa-register'
-import { Icon } from '@iconify/vue';
 
 import type { AppRouteMenuItem } from '@/components/menu/types'
-
-
 
 const data: AppRouteMenuItem[] = [
   {
@@ -34,7 +31,7 @@ const data: AppRouteMenuItem[] = [
         meta: {
           title: 'Analytics',
           order: 1,
-          icon: 'ep:apple',
+          icon: '',
           key: 'analytics',
           hideMenu: false,
           disabled: false
@@ -46,7 +43,6 @@ const data: AppRouteMenuItem[] = [
             meta: {
               title: 'Reports',
               order: 1,
-              icon: 'ep:bell',
               key: 'reports',
               hideMenu: false,
               disabled: false

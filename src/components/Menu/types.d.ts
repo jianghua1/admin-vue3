@@ -24,5 +24,5 @@ export interface RouteMeta extends Record<string | number | symbol, unknown> {
   icon?: string | IconifyIcon
   hideMenu?: boolean
   disabled?: boolean
-  key: string
+  // key: string
 }

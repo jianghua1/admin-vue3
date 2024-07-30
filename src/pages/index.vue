@@ -1,17 +1,62 @@
 <template>
-  <!-- <Icon icon="mdi:home" class="text-3xl text-red-500" @click="handleClick" />
-  <SvgIcon type="微信" class="text-red w-5 h-5"></SvgIcon>
-  <NetIcon url="//at.alicdn.com/t/c/font_4421207_cksjqt2r42n.css" type="icon-youjiantou"></NetIcon>
-  <IconFontIcon type="icon-youjiantou"></IconFontIcon> -->
-  <!-- <IconList></IconList> -->
-  <!-- <ThemesDarkModeToggle></ThemesDarkModeToggle> -->
-  <ThemesFullScreen></ThemesFullScreen>
+  <Menu mode="horizontal" :data="data" class="w-[600px] mx-auto!">
+    <template #icon>
+      123
+    </template>
+  </Menu>
 </template>
 
 
 <script setup lang="ts">
 import { registerSW } from 'virtual:pwa-register'
 import { Icon } from '@iconify/vue';
+
+import type { AppRouteMenuItem } from '@/components/menu/types'
+
+
+
+const data: AppRouteMenuItem[] = [
+  {
+    name: 'Dashboard',
+    path: '/dashboard',
+    meta: {
+      title: 'Dashboard',
+      order: 1,
+      icon: 'ep:bell',
+      key: 'dashboard',
+      hideMenu: false,
+      disabled: false
+    },
+    children: [
+      {
+        name: 'Analytics',
+        path: '/dashboard/analytics',
+        meta: {
+          title: 'Analytics',
+          order: 1,
+          icon: 'ep:apple',
+          key: 'analytics',
+          hideMenu: false,
+          disabled: false
+        },
+        children: [
+          {
+            name: 'Reports',
+            path: '/dashboard/analytics/reports',
+            meta: {
+              title: 'Reports',
+              order: 1,
+              icon: 'ep:bell',
+              key: 'reports',
+              hideMenu: false,
+              disabled: false
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
 
 onMounted(() => {
   registerSW({
@@ -24,6 +69,12 @@ onMounted(() => {
   })
 })
 
+import {
+  Document,
+  Menu as IconMenu,
+  Location,
+  Setting,
+} from '@element-plus/icons-vue'
 
 </script>
 

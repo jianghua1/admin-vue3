@@ -6,9 +6,16 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from "vue";
-import { NoticeActionsItem, NoticeMessageListOptions } from "../../../components/Notice/types";
+import { NoticeActionsItem, NoticeMessageListOptions } from "@components/Notice/types";
 import TagProps from 'element-plus';
+
+// 路由组件的一部分
+definePage({
+  meta: {
+    title: '通知组件示例',
+    icon: 'mdi:message'
+  }
+})
 
 const actions = ref<NoticeActionsItem[]>([
   { title: '清空', icon: 'ep:delete', click: () => console.log('清空') },

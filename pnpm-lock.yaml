@@ -9675,7 +9675,7 @@ snapshots:
   terser@5.17.2:
     dependencies:
       '@jridgewell/source-map': 0.3.3
-      acorn: 8.8.2
+      acorn: 8.12.1
       commander: 2.20.3
       source-map-support: 0.5.21
 

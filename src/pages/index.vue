@@ -12,6 +12,13 @@ import { registerSW } from 'virtual:pwa-register'
 
 import type { AppRouteMenuItem } from '@/components/menu/types'
 
+definePage({
+  meta: {
+    title: '首页',
+    icon: 'mdi:home'
+  }
+})
+
 const data: AppRouteMenuItem[] = [
   {
     name: 'Dashboard',

@@ -7,7 +7,7 @@ export type Component<T = any> =
 
 export interface AppRouteMenuItem {
   // 菜单名（别名）
-  name?: string
+  name?: string | Symbol
   meta?: RouteMeta
   children?: AppRouteMenuItem[]
   alias?: string
@@ -25,4 +25,10 @@ export interface RouteMeta extends Record<string | number | symbol, unknown> {
   hideMenu?: boolean
   disabled?: boolean
   // key: string
+}
+
+//控制icon的基础样式
+export interface IconOptions {
+  style: CSSProperties
+  class: string
 }

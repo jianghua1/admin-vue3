@@ -8,6 +8,14 @@
 import { loadIcon } from '@iconify/vue';
 //可省略
 import { useClipboard } from '@vueuse/core';
+
+definePage({
+  meta: {
+    title: '图标列表',
+    icon: 'mdi:message'
+  }
+})
+
 //开关 true - CopySvgData false - CopyIconName
 const copyTypeFlag = ref(false)
 const showTextFlag = ref(true)

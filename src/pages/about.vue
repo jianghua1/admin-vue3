@@ -8,6 +8,13 @@
 
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router/auto'
+
+definePage({
+  meta: {
+    title: '关于我们',
+    icon: 'mdi:user'
+  }
+})
 </script>
 
 <style>

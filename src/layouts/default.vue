@@ -11,6 +11,7 @@
     <!-- 右边 撑满右边的整个区域-->
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
+      <Header1></Header1>
       <router-view></router-view>
     </div>
   </div>

@@ -10,7 +10,6 @@ export function useMenu() {
         const orderB = b.meta?.order ?? 100
         return orderA - orderB
       })
-    console.log('filteredMenus', filteredMenus)
     let i = 1
     filteredMenus.forEach((item) => {
       //通过index中是否存在-来判断是否是第一级菜单

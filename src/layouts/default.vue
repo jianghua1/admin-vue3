@@ -11,7 +11,7 @@
     <!-- 右边 撑满右边的整个区域-->
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
-      <Header1></Header1>
+      <Header1 :username="username" :src="avatar" :data="avatarMenu"></Header1>
       <router-view></router-view>
     </div>
   </div>
@@ -21,15 +21,24 @@
 import type { AppRouteMenuItem } from '@/components/Menu/types';
 import type { RouteRecordRaw } from 'vue-router/auto';
 import { routes } from 'vue-router/auto/routes'
+import type { DropDownMenuItem } from '../components/Avatar/types';
 
-console.log('routes', routes)
+// console.log('routes', routes)
 interface ThemeSetting {
   menuWidth: number | string
+  username: string,
+  avatar: string,
+  avatarMenu: DropDownMenuItem[]
 }
 
 //初始化函数
 withDefaults(defineProps<ThemeSetting>(), {
-  menuWidth: 240
+  menuWidth: 240,
+  username: 'admin',
+  avatar: 'https://fastly.picsum.photos/id/820/200/200.jpg?hmac=dWVRjEMHD9jchbBs5tM-RR5xdXdBGAzIn1qI9WzpLs4',
+  avatarMenu: () => [
+    { key: 1, value: '退出登陆' }
+  ]
 })
 
 function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {

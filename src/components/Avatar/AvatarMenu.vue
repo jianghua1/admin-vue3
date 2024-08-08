@@ -2,17 +2,22 @@
   <el-dropdown v-bind="props" @command="handleCommand">
     <div class="flex items-center">
       <!-- 用户头像 -->
-      <el-avatar :size="avatarSize" :src="src" :alt="alt" :fit="fit" :src-set="srcSet" :shape="shape"
-        :icon="icon"></el-avatar>
-      <span class="ml-2">{{ username }}</span>
+      <el-avatar :size="avatarSize" :src="src" :alt="alt" :fit="fit" :src-set="srcSet" :shape="shape" :icon="icon">
+        {{ username ? username[0].toUpperCase() : '' }}
+      </el-avatar>
+      <span v-if="username" class="ml-2">{{ username }}</span>
     </div>
     <!-- dropdown menu -->
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item v-for="(menu, index) in data" :key="index" :command="typeof menu === 'object'
-          && menu?.key ? menu.key : menu">{{ typeof menu === 'object'
-            && menu?.value ? menu.value : menu
-          }}</el-dropdown-item>
+        <template v-for="(menu, index) in data" :key="index">
+          <el-dropdown-item v-if="(typeof menu === 'object'
+            && menu?.key ? menu.key : menu) !== 'divider'" :command="typeof menu === 'object'
+              && menu?.key ? menu.key : menu">{{ typeof menu === 'object'
+                && menu?.value ? menu.value : menu
+            }}</el-dropdown-item>
+          <el-divider v-else class="my-0!"></el-divider>
+        </template>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -25,7 +30,8 @@ const props = withDefaults(defineProps<AvatarMenuProps>(), {
   //触发方式
   trigger: 'click',
   data: () => [],
-  username: ''
+  username: '',
+  size: 'small'
 })
 
 const emits = defineEmits<{

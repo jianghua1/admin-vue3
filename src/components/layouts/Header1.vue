@@ -1,6 +1,7 @@
 <template>
   <el-row>
-    <Iconify :icon="collapse ? 'ep:expand' : 'ep:fold'" class="text-xl cursor-pointer"></Iconify>
+    <Iconify :icon="collapseModel ? 'ep:expand' : 'ep:fold'" class="text-xl cursor-pointer"
+      @click="collapseModel = !collapseModel"></Iconify>
     <div class="flex-grow"></div>
     <el-row class="items-center">
       <!-- 这个settings是从HeaderProps中来的 -->
@@ -22,6 +23,10 @@ import type { HeaderProps } from './types';
 const props = withDefaults(defineProps<HeaderProps>(), {
   collapse: true
 })
+const collapseModel = defineModel('collapse', {
+  default: false,
+})
+
 //将主题设置的setting保存一份在当前组件中
 const localProps = reactive({ ...props })
 

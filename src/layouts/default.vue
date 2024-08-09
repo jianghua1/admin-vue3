@@ -2,16 +2,20 @@
   <div class="w-full h-screen overflow-hidden flex">
     <!-- 左右布局 -->
     <!-- 左边 -->
-    <div :style="{ width: `${menuWidth}px`, backgroundColor: settings?.backgroundColor }" class="h-full">
+    <div
+      :style="{ width: localSettings.collapse ? '64px' : `${menuWidth}px`, backgroundColor: settings?.backgroundColor }"
+      class="h-full transition-width">
       <el-scrollbar>
         <!-- 菜单 -->
-        <Menu :data="menus"></Menu>
+        <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
+          :background-color="settings?.backgroundColor"></Menu>
       </el-scrollbar>
     </div>
     <!-- 右边 撑满右边的整个区域-->
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
-      <Header1 :username="username" :src="avatar" :data="avatarMenu" @settings-change="handleSettingsChange"></Header1>
+      <Header1 :username="username" :src="avatar" :data="avatarMenu" @settings-change="handleSettingsChange"
+        v-model:collapse="localSettings.collapse"></Header1>
       <router-view></router-view>
     </div>
   </div>
@@ -34,6 +38,7 @@ interface ThemeSettingOptions extends HeaderProps {
 
 const localSettings = reactive<ThemeSettingOptions>({
   username: 'toimc',
+  //菜单折叠
   collapse: false,
   avatar: '',
   avatarMenu: [{ key: 1, value: '退出登陆' }],

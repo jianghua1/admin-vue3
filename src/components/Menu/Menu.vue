@@ -1,6 +1,6 @@
 <template>
-  <el-menu v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" @select="handleSelect" @open="handleOpen"
-    @close="handleClose">
+  <el-menu v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" class="border-r-0!" @select="handleSelect"
+    @open="handleOpen" @close="handleClose">
     <slot name="icon"></slot>
     <div class="flex-grow" v-if="isDefined(slots['icon'])" />
     <sub-menu v-for="menu in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse" v-bind="subMenuProps">
@@ -28,6 +28,16 @@ const props = withDefaults(defineProps<MenuProps>(), {
   }),
   backgroundColor: 'bg-sky'
 })
+//当折叠时，iconProps中的样式要发生改变
+const iconProps = reactive(props.iconProps)
+
+watch(
+  () => props.collapse,
+  () => {
+    iconProps.class = props.collapse ? '' : 'mr-3'
+  }
+)
+
 //初始化根组件的iconProps（icon的样式）
 provide('iconProps', props.iconProps)
 
@@ -44,4 +54,8 @@ const menuProps = computed(() => {
   return restProps
 })
 </script>
-<style scoped></style>
+<style lang="scss" scoped>
+:deep(.el-sub-menu__title) {
+  padding-right: 0 !important;
+}
+</style>

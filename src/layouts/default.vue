@@ -75,7 +75,6 @@ function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
 const menus = computed(() => generateMenuData(routes))
 
 const settings = computed(() => localSettings.settings)
-console.log('setting', settings.value)
 
 const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
 

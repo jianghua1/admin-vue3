@@ -1,5 +1,6 @@
 <template>
-  <el-switch v-model="isDark" :active-icon="Moon" :inactive-icon="Sunny" />
+  <el-switch v-model="isDark" :active-action-icon="Moon" :inactive-action-icon="Sunny"
+    style="--el-switch-on-color:#333" />
 </template>
 
 <script setup lang='ts'>

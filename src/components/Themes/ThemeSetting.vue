@@ -1,13 +1,124 @@
 <template>
-  <Iconify icon="ri:brush-2-line" @click="drawer = true"></Iconify>
-  <el-drawer v-model="drawer" title="I am the title">
-    <span>Hi there!</span>
+  <Iconify icon="ri:brush-2-line" class="text-xl mr-2 cursor-pointer" @click="drawer = true"></Iconify>
+  <el-drawer v-model="drawer" title="主题设置">
+    <el-form :model="form">
+      <!-- 主题颜色 -->
+      <el-form-item label="主题颜色">
+        <el-color-picker v-model="form.theme"></el-color-picker>
+      </el-form-item>
+      <!-- 暗黑模式 -->
+      <el-form-item label="暗黑模式">
+        <el-switch v-model="form.darkMode" />
+      </el-form-item>
+      <!-- 导航模式-->
+      <el-form-item label="导航模式" class="flex-col nav">
+        <div class="flex justify-around flex-1">
+          <el-tooltip content="左侧菜单">
+            <div class="item">
+              <div class="bg-dark w-1/4 h-full left-0 top-0 absolute"></div>
+              <div class="w-3/4 h-full right-0 top-0 absolute">
+                <div class="bg-gray-100 w-full h-1/4"></div>
+                <div class="bg-gray w-full h-3/4"></div>
+              </div>
+            </div>
+          </el-tooltip>
+          <el-tooltip content="顶部左侧菜单混合">
+            <div class="item">
+              <!-- 上 -->
+              <div class="bg-dark w-full h-1/4 left-0 top-0 absolute"></div>
+              <!-- 下 -->
+              <div class="w-full h-3/4 left-0 bottom-0 absolute">
+                <!-- 左 -->
+                <div class="bg-gray-100 w-1/4 h-full float-left"></div>
+                <!-- 右 -->
+                <div class="bg-gray w-3/4 h-full float-left"></div>
+              </div>
+            </div>
+          </el-tooltip>
+          <el-tooltip content="顶部菜单">
+            <div class="item">
+              <!-- 上 -->
+              <div class="bg-dark w-full h-1/4 left-0 top-0 absolute"></div>
+              <!-- 下 -->
+              <div class="bg-gray w-full h-3/4 left-0 bottom-0 absolute"></div>
+            </div>
+          </el-tooltip>
+          <el-tooltip content="左侧菜单混合">
+            <div class="item"></div>
+          </el-tooltip>
+        </div>
+      </el-form-item>
+      <!-- 菜单背景 -->
+      <el-form-item label="菜单背景">
+      </el-form-item>
+      <!-- 菜单宽度 -->
+      <el-form-item label="菜单宽度">
+        <el-slider v-model="form.menuWidth" class="ml-3" show-input input-size="small" />
+      </el-form-item>
+      <!-- 显示Logo -->
+      <el-form-item label="显示Logo">
+        <el-switch v-model="form.showLogo" />
+      </el-form-item>
+      <!-- 切换动画 -->
+      <el-form-item label="切换动画">
+      </el-form-item>
+      <!-- 标签页 -->
+      <el-form-item label="标签页">
+        <el-switch v-model="form.showTabs" />
+      </el-form-item>
+      <!-- 头部固定 -->
+      <el-form-item label="头部固定">
+        <el-switch v-model="form.fixedHead" />
+      </el-form-item>
+      <!-- 面包屑 -->
+      <el-form-item label="显示 面包屑导航">
+        <el-switch v-model="form.showBreadcrumb" />
+      </el-form-item>
+    </el-form>
   </el-drawer>
 </template>
 
 <script setup lang='ts'>
 import Iconify from '../Icon/Iconify.vue'
 
+interface SettingsProps {
+  theme: string
+  darkMode: boolean
+  menuWidth?: number
+  showLogo: boolean
+  showTabs: boolean
+  fixedHead: boolean
+  showBreadcrumb: boolean
+  mode: 'siderbar' | 'mix' | 'top' | 'mixbar'
+}
+
 const drawer = ref(false)
+
+const form = reactive<SettingsProps>({
+  theme: '#409eff',
+  darkMode: false,
+  menuWidth: 100,
+  showLogo: true,
+  showTabs: true,
+  fixedHead: true,
+  showBreadcrumb: true,
+  mode: 'siderbar'
+})
 </script>
-<style scoped></style>
+<style lang="scss" scoped>
+:deep(.el-form-item__content) {
+  justify-content: flex-end
+}
+
+:deep(.nav .el-form-item__label) {
+  justify-content: flex-start
+}
+
+.item {
+  @apply bg-gray-100 rounded w-15 h-12 relative overflow-hidden shadow border border-gray-200 cursor-pointer;
+
+  &.active {
+    @apply border-blue-900 border-2;
+  }
+}
+</style>

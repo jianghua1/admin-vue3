@@ -3,7 +3,7 @@
     <Iconify :icon="collapse ? 'ep:expand' : 'ep:fold'" class="text-xl cursor-pointer"></Iconify>
     <div class="flex-grow"></div>
     <el-row class="items-center">
-      <!-- <ThemeSetting></ThemeSetting> -->
+      <ThemeSetting></ThemeSetting>
       <DarkModeToggle class="mr-3"></DarkModeToggle>
       <FullScreen></FullScreen>
       <!-- 用户头像下拉菜单 如果没有设置昵称或用户头像，那么就不展示了-->

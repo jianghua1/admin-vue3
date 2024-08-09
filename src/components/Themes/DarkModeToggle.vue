@@ -11,6 +11,8 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits(['change'])
+
 const Moon = () => h('i', {
   class: 'i-prime-moon'
 })
@@ -32,6 +34,7 @@ function toggleMode(flag: boolean) {
 watch(isDark, () => {
   nextTick(() => {
     toggleMode(isDark.value)
+    emits('change', isDark)
   })
 }, {
   immediate: true

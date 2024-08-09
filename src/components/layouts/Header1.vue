@@ -3,7 +3,8 @@
     <Iconify :icon="collapse ? 'ep:expand' : 'ep:fold'" class="text-xl cursor-pointer"></Iconify>
     <div class="flex-grow"></div>
     <el-row class="items-center">
-      <ThemeSetting></ThemeSetting>
+      <!-- 这个settings是从HeaderProps中来的 -->
+      <ThemeSetting v-bind="settings" @change="handleChange"></ThemeSetting>
       <DarkModeToggle class="mr-3"></DarkModeToggle>
       <FullScreen></FullScreen>
       <!-- 用户头像下拉菜单 如果没有设置昵称或用户头像，那么就不展示了-->
@@ -14,11 +15,9 @@
 
 <script setup lang='ts'>
 import Iconify from '../Icon/Iconify.vue'
-import type { AvatarMenuProps } from '../Avatar/types';
+import type { ThemeSettingsProps } from '../Themes/types';
+import type { HeaderProps } from './types';
 
-interface HeaderProps extends Partial<AvatarMenuProps> {
-  collapse: boolean
-}
 //初始化函数
 const props = withDefaults(defineProps<HeaderProps>(), {
   collapse: true
@@ -30,9 +29,12 @@ const avatarProps = computed(() => {
 })
 
 const emits = defineEmits<{
-  command: [arg: string | number | object]
+  menuChange: [command: string | number | object],
+  settingsChange: [settings: ThemeSettingsProps]
 }>()
 
-const handleCommand = (command: string | number | object) => emits('command', command)
+const handleCommand = (command: string | number | object) => emits('menuChange', command)
+//依然是声明不是实现
+const handleChange = (settings: ThemeSettingsProps) => emits('settingsChange', settings)
 </script>
 <style scoped></style>

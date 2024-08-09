@@ -1,6 +1,6 @@
 <template>
   <Iconify icon="ri:brush-2-line" class="text-xl mr-2 cursor-pointer" @click="drawer = true"></Iconify>
-  <el-drawer v-model="drawer" title="主题设置">
+  <el-drawer v-model="drawer" title="主题设置" @close="handlerClose">
     <el-form :model="form">
       <!-- 主题颜色 -->
       <el-form-item label="主题颜色">
@@ -50,10 +50,11 @@
       </el-form-item>
       <!-- 菜单背景 -->
       <el-form-item label="菜单背景">
+        <el-color-picker v-model="form.backgroundColor"></el-color-picker>
       </el-form-item>
       <!-- 菜单宽度 -->
       <el-form-item label="菜单宽度">
-        <el-slider v-model="form.menuWidth" class="ml-3" show-input input-size="small" />
+        <el-slider v-model="form.menuWidth" class="ml-3" :max="600" :min="240" show-input input-size="small" />
       </el-form-item>
       <!-- 显示Logo -->
       <el-form-item label="显示Logo">
@@ -80,30 +81,48 @@
 
 <script setup lang='ts'>
 import Iconify from '../Icon/Iconify.vue'
-
-interface SettingsProps {
-  theme: string
-  darkMode: boolean
-  menuWidth?: number
-  showLogo: boolean
-  showTabs: boolean
-  fixedHead: boolean
-  showBreadcrumb: boolean
-  mode: 'siderbar' | 'mix' | 'top' | 'mixbar'
-}
+import type { ThemeSettingsProps } from './types'
 
 const drawer = ref(false)
 
-const form = reactive<SettingsProps>({
+//初始化数据
+const props = withDefaults(defineProps<ThemeSettingsProps>(), {
   theme: '#409eff',
   darkMode: false,
-  menuWidth: 100,
-  showLogo: true,
-  showTabs: true,
-  fixedHead: true,
-  showBreadcrumb: true,
-  mode: 'siderbar'
+  menuWidth: 240,
+  showLogo: false,
+  showTabs: false,
+  fixedHead: false,
+  showBreadcrumb: false,
+  mode: 'siderbar',
+  backgroundColor: '#001529'
 })
+
+const emits = defineEmits<{
+  change: [settings: ThemeSettingsProps]
+}>()
+//将入参转换为响应式数据,供页面使用
+const form = reactive<ThemeSettingsProps>({
+  // theme: props.theme,
+  // darkMode: props.darkMode,
+  // menuWidth: props.menuWidth,
+  // showLogo: props.showLogo,
+  // showTabs: props.showTabs,
+  // fixedHead: props.fixedHead,
+  // showBreadcrumb: props.showBreadcrumb,
+  // mode: props.mode,
+  // backgroundColor: props.backgroundColor
+  ...props
+})
+
+//当响应式数据form初始化时就传递给父组件
+onMounted(() => {
+  emits('change', form)
+})
+//当关闭主题设置组件时,将change事件传递父组件,同时将响应式对象form上传给父组件
+const handlerClose = () => {
+  emits('change', form)
+}
 </script>
 <style lang="scss" scoped>
 :deep(.el-form-item__content) {

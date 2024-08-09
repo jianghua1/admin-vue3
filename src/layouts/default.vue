@@ -2,7 +2,7 @@
   <div class="w-full h-screen overflow-hidden flex">
     <!-- 左右布局 -->
     <!-- 左边 -->
-    <div :style="{ width: typeof menuWidth === 'number' ? `${menuWidth}px` : menuWidth }" class="h-full bg-sky">
+    <div :style="{ width: `${menuWidth}px`, backgroundColor: settings?.backgroundColor }" class="h-full">
       <el-scrollbar>
         <!-- 菜单 -->
         <Menu :data="menus"></Menu>
@@ -11,35 +11,40 @@
     <!-- 右边 撑满右边的整个区域-->
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
-      <Header1 :username="username" :src="avatar" :data="avatarMenu"></Header1>
+      <Header1 :username="username" :src="avatar" :data="avatarMenu" @settings-change="handleSettingsChange"></Header1>
       <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { AppRouteMenuItem } from '@/components/Menu/types';
 import type { RouteRecordRaw } from 'vue-router/auto';
-import { routes } from 'vue-router/auto/routes'
+import type { AppRouteMenuItem } from '../components/Menu/types';
 import type { DropDownMenuItem } from '../components/Avatar/types';
+import type { HeaderProps } from '../components/layouts/types';
+import type { ThemeSettingsProps } from '../components/Themes/types';
+import { routes } from 'vue-router/auto/routes'
 
 // console.log('routes', routes)
-interface ThemeSetting {
-  menuWidth: number | string
+interface ThemeSettingOptions extends HeaderProps {
   username: string,
   avatar: string,
   avatarMenu: DropDownMenuItem[]
 }
 
-//初始化函数
-withDefaults(defineProps<ThemeSetting>(), {
-  menuWidth: 240,
-  username: 'admin',
-  avatar: 'https://fastly.picsum.photos/id/820/200/200.jpg?hmac=dWVRjEMHD9jchbBs5tM-RR5xdXdBGAzIn1qI9WzpLs4',
-  avatarMenu: () => [
-    { key: 1, value: '退出登陆' }
-  ]
+const localSettings = reactive<ThemeSettingOptions>({
+  username: 'toimc',
+  collapse: false,
+  avatar: '',
+  avatarMenu: [{ key: 1, value: '退出登陆' }],
+  settings: {
+    menuWidth: 240,
+    backgroundColor: 'red'
+  } as ThemeSettingsProps
 })
+
+//对localSettings进行解构赋值
+const { username, avatar, avatarMenu } = toRefs(localSettings)
 
 function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
   /**
@@ -68,6 +73,15 @@ function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
 
 //生成菜单的逻辑
 const menus = computed(() => generateMenuData(routes))
+
+const settings = computed(() => localSettings.settings)
+console.log('setting', settings.value)
+
+const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
+
+const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
+  localSettings.settings = themeSettings
+}
 </script>
 
 <style scoped></style>

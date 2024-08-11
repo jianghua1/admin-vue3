@@ -7,10 +7,10 @@
       class="h-full transition-width" v-if="settings?.mode !== 'top'">
       <el-scrollbar>
         <!-- 一级菜单 -->
-        <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
-          :background-color="settings?.backgroundColor"></Menu>
+        <Menu v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="menus"
+          :collapse="localSettings.collapse" text-color="#b8b8b8" :background-color="settings?.backgroundColor"></Menu>
       </el-scrollbar>
-      <el-scrollbar v-if="settings?.mode === 'mix'">
+      <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'">
         <!-- 二级菜单 -->
         <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
           :background-color="settings?.backgroundColor"></Menu>

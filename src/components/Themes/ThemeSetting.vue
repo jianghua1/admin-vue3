@@ -43,7 +43,7 @@
               <div class="bg-gray w-full h-3/4 left-0 bottom-0 absolute"></div>
             </div>
           </el-tooltip>
-          <el-tooltip content="左侧菜单混合">
+          <el-tooltip content="左侧菜单混合" @click="() => (form.mode = 'mixbar')">
             <div class="item"></div>
           </el-tooltip>
         </div>

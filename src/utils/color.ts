@@ -28,7 +28,3 @@ function rgbToHex(rgb: any) {
     .toString(16)
     .padStart(2, '0')}`
 }
-
-// const color = '#ff0000' // red
-// const rate = 0.5 // darken by 50%
-// const newColor = darken(color, rate) // #800000

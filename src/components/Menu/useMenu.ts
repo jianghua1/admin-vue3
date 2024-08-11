@@ -1,4 +1,5 @@
 import type { AppRouteMenuItem } from './types'
+import path from 'path'
 
 export function useMenu() {
   function filterAndOrderMenus(menus: AppRouteMenuItem[]) {
@@ -48,8 +49,10 @@ export function useMenu() {
    */
   function getSubMenus(menus: AppRouteMenuItem[]) {
     //获取菜单的路由
+
     const route = useRoute()
-    const path = computed(() => route.path)
+    // const path = computed(() => route.path)
+    const path = ref('/components')
     const filteredMenus = filterAndOrderMenus(menus)
     return filteredMenus.find((menu) => menu.path === path.value)?.children || []
   }

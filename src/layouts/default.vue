@@ -2,11 +2,11 @@
   <div class="w-full h-screen overflow-hidden flex">
     <!-- 左右布局 -->
     <!-- 左边 -->
-    <div
-      :style="{ width: localSettings.collapse ? '64px' : `${menuWidth}px`, backgroundColor: settings?.backgroundColor }"
-      class="h-full transition-width" v-if="settings?.mode !== 'top'">
+    <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }" class="h-full transition-width"
+      v-if="settings?.mode !== 'top'">
       <el-row class="h-full">
-        <el-scrollbar :class="[settings?.mode !== 'mixbar' ? 'flex-1' : 'w-[64px] py-4']"
+        <el-scrollbar v-if="settings?.mode !== 'mix'"
+          :class="[settings?.mode !== 'mixbar' ? 'flex-1' : 'w-[64px] py-4']"
           :style="{ backgroundColor: settings?.mode === 'mixbar' ? darken(settings?.backgroundColor, 0.1) : settings?.backgroundColor }">
           <!-- 一级菜单 -->
           <Menu :class="[{ mixbar: settings?.mode === 'mixbar' }]"
@@ -27,8 +27,9 @@
       <!-- header：主题、按钮、暗黑模式等 -->
       <Header1 :username="username" :src="avatar" :data="avatarMenu" @settings-change="handleSettingsChange"
         v-model:collapse="localSettings.collapse">
-        <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" :data="menus" :collapse="false"
-          text-color="#b8b8b8" mode="horizontal">
+        <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'"
+          :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" text-color="#b8b8b8"
+          mode="horizontal">
         </Menu>
       </Header1>
       <router-view></router-view>
@@ -46,7 +47,7 @@ import { useMenu } from '../components/Menu/useMenu';
 import { darken } from '@/utils'
 import { routes } from 'vue-router/auto/routes'
 
-// console.log('routes', routes)
+console.log('routes', routes)
 interface ThemeSettingOptions extends HeaderProps {
   username: string,
   avatar: string,
@@ -101,6 +102,15 @@ const settings = computed(() => localSettings.settings)
 const mixMenus = computed(() => settings.value?.mode === 'mixbar' ? getTopMenus(menus.value) : menus.value)
 
 const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
+//判断二级菜单的顶级是否所有菜单项都设置了Icon
+const isFullIcon = computed(() => () => getSubMenus(menus.value).every((menu) => typeof menu.meta?.icon !== 'undefined' && menu.meta?.icon))
+//混合左侧双菜单模式下的菜单宽度
+const mixMenuWidth = computed(() => {
+  if (settings.value?.mode === 'mixbar' && isFullIcon)
+    return localSettings.collapse ? 'auto' : `${menuWidth}px`
+  else
+    return localSettings.collapse ? '64px' : `${menuWidth}px`
+})
 
 const { getTopMenus, getSubMenus } = useMenu()
 

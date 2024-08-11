@@ -14,7 +14,7 @@
       <el-form-item label="导航模式" class="flex-col nav">
         <div class="flex justify-around flex-1">
           <el-tooltip content="左侧菜单">
-            <div class="item">
+            <div class="item" @click="() => (form.mode = 'siderbar')">
               <div class="bg-dark w-1/4 h-full left-0 top-0 absolute"></div>
               <div class="w-3/4 h-full right-0 top-0 absolute">
                 <div class="bg-gray-100 w-full h-1/4"></div>
@@ -23,7 +23,7 @@
             </div>
           </el-tooltip>
           <el-tooltip content="顶部左侧菜单混合">
-            <div class="item">
+            <div class="item" @click="() => (form.mode = 'mix')">
               <!-- 上 -->
               <div class="bg-dark w-full h-1/4 left-0 top-0 absolute"></div>
               <!-- 下 -->
@@ -36,7 +36,7 @@
             </div>
           </el-tooltip>
           <el-tooltip content="顶部菜单">
-            <div class="item">
+            <div class="item" @click="() => (form.mode = 'top')">
               <!-- 上 -->
               <div class="bg-dark w-full h-1/4 left-0 top-0 absolute"></div>
               <!-- 下 -->

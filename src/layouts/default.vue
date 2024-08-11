@@ -4,9 +4,14 @@
     <!-- 左边 -->
     <div
       :style="{ width: localSettings.collapse ? '64px' : `${menuWidth}px`, backgroundColor: settings?.backgroundColor }"
-      class="h-full transition-width">
+      class="h-full transition-width" v-if="settings?.mode !== 'top'">
       <el-scrollbar>
-        <!-- 菜单 -->
+        <!-- 一级菜单 -->
+        <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
+          :background-color="settings?.backgroundColor"></Menu>
+      </el-scrollbar>
+      <el-scrollbar v-if="settings?.mode === 'mix'">
+        <!-- 二级菜单 -->
         <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
           :background-color="settings?.backgroundColor"></Menu>
       </el-scrollbar>
@@ -15,7 +20,11 @@
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
       <Header1 :username="username" :src="avatar" :data="avatarMenu" @settings-change="handleSettingsChange"
-        v-model:collapse="localSettings.collapse"></Header1>
+        v-model:collapse="localSettings.collapse">
+        <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" :data="menus" :collapse="false"
+          text-color="#b8b8b8" mode="horizontal">
+        </Menu>
+      </Header1>
       <router-view></router-view>
     </div>
   </div>

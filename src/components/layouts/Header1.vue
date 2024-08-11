@@ -2,7 +2,9 @@
   <el-row>
     <Iconify :icon="collapseModel ? 'ep:expand' : 'ep:fold'" class="text-xl cursor-pointer"
       @click="collapseModel = !collapseModel"></Iconify>
-    <div class="flex-grow"></div>
+    <div class="flex-grow">
+      <slot></slot>
+    </div>
     <el-row class="items-center">
       <!-- 这个settings是从HeaderProps中来的 -->
       <ThemeSetting v-bind="settings" @change="handleChange"></ThemeSetting>

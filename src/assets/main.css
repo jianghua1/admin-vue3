@@ -9,3 +9,16 @@ html {
 .el-menu--horizontal.el-menu {
   border-bottom: 0 !important;
 }
+
+.mixbar .el-menu-item {
+    height: auto !important;
+    line-height: unset !important;
+    flex-direction: column;
+    margin-bottom: 15px;
+    padding: 4px 0 !important;
+
+    svg {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+}

@@ -54,7 +54,7 @@
       </el-form-item>
       <!-- 菜单宽度 -->
       <el-form-item label="菜单宽度">
-        <el-slider v-model="form.menuWidth" class="ml-3" :max="600" :min="240" show-input input-size="small" />
+        <el-slider v-model="form.menuWidth" class="ml-3" :max="600" :min="280" show-input input-size="small" />
       </el-form-item>
       <!-- 显示Logo -->
       <el-form-item label="显示Logo">

@@ -5,16 +5,19 @@
     <div
       :style="{ width: localSettings.collapse ? '64px' : `${menuWidth}px`, backgroundColor: settings?.backgroundColor }"
       class="h-full transition-width" v-if="settings?.mode !== 'top'">
-      <el-row>
-        <el-scrollbar>
+      <el-row class="h-full">
+        <el-scrollbar :class="[settings?.mode !== 'mixbar' ? 'flex-1' : 'w-[64px] py-4']"
+          :style="{ backgroundColor: settings?.mode === 'mixbar' ? darken(settings?.backgroundColor, 0.1) : settings?.backgroundColor }">
           <!-- 一级菜单 -->
-          <Menu v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="menus"
-            :collapse="localSettings.collapse" text-color="#b8b8b8" :background-color="settings?.backgroundColor">
+          <Menu :class="[{ mixbar: settings?.mode === 'mixbar' }]"
+            v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="mixMenus"
+            :collapse="settings?.mode !== 'mixbar' && localSettings.collapse" text-color="#b8b8b8"
+            :background-color="settings?.mode === 'mixbar' ? 'transparent' : 'auto'">
           </Menu>
         </el-scrollbar>
-        <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'">
+        <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'" class="flex-1">
           <!-- 二级菜单 -->
-          <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
+          <Menu :data="getSubMenus(menus)" :collapse="localSettings.collapse" text-color="#b8b8b8"
             :background-color="settings?.backgroundColor"></Menu>
         </el-scrollbar>
       </el-row>
@@ -39,6 +42,8 @@ import type { AppRouteMenuItem } from '../components/Menu/types';
 import type { DropDownMenuItem } from '../components/Avatar/types';
 import type { HeaderProps } from '../components/layouts/types';
 import type { ThemeSettingsProps } from '../components/Themes/types';
+import { useMenu } from '../components/Menu/useMenu';
+import { darken } from '@/utils'
 import { routes } from 'vue-router/auto/routes'
 
 // console.log('routes', routes)
@@ -56,7 +61,7 @@ const localSettings = reactive<ThemeSettingOptions>({
   avatarMenu: [{ key: 1, value: '退出登陆' }],
   settings: {
     menuWidth: 280,
-    backgroundColor: 'red'
+    backgroundColor: '#FF0000'
   } as ThemeSettingsProps
 })
 
@@ -92,12 +97,17 @@ function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
 const menus = computed(() => generateMenuData(routes))
 
 const settings = computed(() => localSettings.settings)
+//根据导航模式切换一级菜单数据
+const mixMenus = computed(() => settings.value?.mode === 'mixbar' ? getTopMenus(menus.value) : menus.value)
 
-const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '280')
+const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
+
+const { getTopMenus, getSubMenus } = useMenu()
 
 const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
   localSettings.settings = themeSettings
 }
+
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

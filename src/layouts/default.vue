@@ -5,16 +5,19 @@
     <div
       :style="{ width: localSettings.collapse ? '64px' : `${menuWidth}px`, backgroundColor: settings?.backgroundColor }"
       class="h-full transition-width" v-if="settings?.mode !== 'top'">
-      <el-scrollbar>
-        <!-- 一级菜单 -->
-        <Menu v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="menus"
-          :collapse="localSettings.collapse" text-color="#b8b8b8" :background-color="settings?.backgroundColor"></Menu>
-      </el-scrollbar>
-      <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'">
-        <!-- 二级菜单 -->
-        <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
-          :background-color="settings?.backgroundColor"></Menu>
-      </el-scrollbar>
+      <el-row>
+        <el-scrollbar>
+          <!-- 一级菜单 -->
+          <Menu v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="menus"
+            :collapse="localSettings.collapse" text-color="#b8b8b8" :background-color="settings?.backgroundColor">
+          </Menu>
+        </el-scrollbar>
+        <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'">
+          <!-- 二级菜单 -->
+          <Menu :data="menus" :collapse="localSettings.collapse" text-color="#b8b8b8"
+            :background-color="settings?.backgroundColor"></Menu>
+        </el-scrollbar>
+      </el-row>
     </div>
     <!-- 右边 撑满右边的整个区域-->
     <div class="flex-1 h-full">
@@ -52,7 +55,7 @@ const localSettings = reactive<ThemeSettingOptions>({
   avatar: '',
   avatarMenu: [{ key: 1, value: '退出登陆' }],
   settings: {
-    menuWidth: 240,
+    menuWidth: 280,
     backgroundColor: 'red'
   } as ThemeSettingsProps
 })
@@ -90,7 +93,7 @@ const menus = computed(() => generateMenuData(routes))
 
 const settings = computed(() => localSettings.settings)
 
-const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
+const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '280')
 
 const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
   localSettings.settings = themeSettings

@@ -12,7 +12,7 @@
           <Menu :class="[{ mixbar: settings?.mode === 'mixbar' }]"
             v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="mixMenus"
             :collapse="settings?.mode !== 'mixbar' && localSettings.collapse" text-color="#b8b8b8"
-            :background-color="settings?.mode === 'mixbar' ? 'transparent' : 'auto'">
+            :background-color="settings?.mode === 'mixbar' ? 'transparent' : 'auto'" @select="handleSelect">
           </Menu>
         </el-scrollbar>
         <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'" class="flex-1">
@@ -25,11 +25,10 @@
     <!-- 右边 撑满右边的整个区域-->
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
-      <Header1 :username="username" :src="avatar" :data="avatarMenu" @settings-change="handleSettingsChange"
-        v-model:collapse="localSettings.collapse">
-        <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'"
-          :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" text-color="#b8b8b8"
-          mode="horizontal">
+      <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
+        @settings-change="handleSettingsChange" @select="handleSelect">
+        <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
+          :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
         </Menu>
       </Header1>
       <router-view></router-view>
@@ -39,13 +38,16 @@
 
 <script setup lang="ts">
 import type { RouteRecordRaw } from 'vue-router/auto';
-import type { AppRouteMenuItem } from '../components/Menu/types';
+import type { AppRouteMenuItem, EmitSelectType } from '../components/Menu/types';
 import type { DropDownMenuItem } from '../components/Avatar/types';
 import type { HeaderProps } from '../components/layouts/types';
 import type { ThemeSettingsProps } from '../components/Themes/types';
 import { useMenu } from '../components/Menu/useMenu';
 import { darken } from '@/utils'
 import { routes } from 'vue-router/auto/routes'
+import { useRouter } from 'vue-router';
+
+
 
 console.log('routes', routes)
 interface ThemeSettingOptions extends HeaderProps {
@@ -117,7 +119,12 @@ const { getTopMenus, getSubMenus } = useMenu()
 const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
   localSettings.settings = themeSettings
 }
-
+const router = useRouter()
+const handleSelect = (item: AppRouteMenuItem) => {
+  if (item && item.name) {
+    router.push(item.name as string)
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

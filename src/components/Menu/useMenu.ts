@@ -32,6 +32,23 @@ export function useMenu() {
     })
     return filteredMenus
   }
+
+  function getItem(menus: AppRouteMenuItem[], index: string) {
+    for (let i = 0; i < menus.length; i++) {
+      const menu = menus[i]
+      if (menu.meta?.key === index) {
+        return menu
+      } else {
+        if (menu.children && Array.isArray(menu.children) && menu.children.length > 0) {
+          const item = getItem(menu.children!, index) as AppRouteMenuItem | undefined
+          if (item) {
+            return item
+          }
+        }
+      }
+    }
+  }
+
   /**
    * 获取顶级菜单
    * @param menus
@@ -70,6 +87,7 @@ export function useMenu() {
     generateMenuKeys,
     getTopMenus,
     getSubMenus,
+    getItem,
     getIndex,
     menuHasChildren
   }

@@ -9,9 +9,10 @@
 </template>
 <script setup lang='ts'>
 import type { MenuProps as ElMenuProps, SubMenuProps } from 'element-plus'
-import type { AppRouteMenuItem, IconOptions } from './types'
-import { useMenu } from './useMenu'
+import type { AppRouteMenuItem, EmitSelectType, IconOptions, OpenCloseType } from './types'
+import type { NavigationFailure } from 'vue-router';
 
+import { useMenu } from './useMenu'
 import { isDefined } from '@vueuse/core'
 import { provide } from 'vue';
 
@@ -26,7 +27,7 @@ const props = withDefaults(defineProps<MenuProps>(), {
     style: { fontSize: '22px' },
     class: 'mr-3'
   }),
-  backgroundColor: 'bg-sky'
+  backgroundColor: 'transparent'
 })
 //当折叠时，iconProps中的样式要发生改变
 const iconProps = reactive(props.iconProps)
@@ -43,7 +44,7 @@ provide('iconProps', props.iconProps)
 
 const slots = useSlots()
 
-const { generateMenuKeys } = useMenu()
+const { generateMenuKeys, getItem } = useMenu()
 
 const fileredMenus = computed(() => {
   return generateMenuKeys(props.data)
@@ -53,6 +54,28 @@ const menuProps = computed(() => {
   const { subMenuProps, data, ...restProps } = props
   return restProps
 })
+
+const emits = defineEmits<{
+  select: [item: AppRouteMenuItem],
+  open: OpenCloseType,
+  close: OpenCloseType
+}>()
+
+const handleOpen = (...args: OpenCloseType) => {
+  emits('open', ...args)
+}
+
+const handleClose = (...args: OpenCloseType) => {
+  emits('close', ...args)
+}
+
+const handleSelect = (...args: EmitSelectType) => {
+  const [index] = args
+  const item = getItem(fileredMenus.value, index)
+  if (!item) return
+  emits('select', item)
+}
+
 </script>
 <style lang="scss" scoped>
 :deep(.el-sub-menu__title) {

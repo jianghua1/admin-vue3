@@ -33,20 +33,37 @@ export function useMenu() {
     return filteredMenus
   }
 
-  function getItem(menus: AppRouteMenuItem[], index: string) {
+  function getItemCondition(menus: AppRouteMenuItem[], fn: (ietm: AppRouteMenuItem) => boolean) {
     for (let i = 0; i < menus.length; i++) {
       const menu = menus[i]
-      if (menu.meta?.key === index) {
+      if (fn(menu)) {
         return menu
       } else {
         if (menu.children && Array.isArray(menu.children) && menu.children.length > 0) {
-          const item = getItem(menu.children!, index) as AppRouteMenuItem | undefined
+          const item = getItemCondition(menu.children!, fn) as AppRouteMenuItem | undefined
           if (item) {
             return item
           }
         }
       }
     }
+  }
+
+  function getItem(menus: AppRouteMenuItem[], index: string) {
+    // for (let i = 0; i < menus.length; i++) {
+    //   const menu = menus[i]
+    //   if (menu.meta?.key === index) {
+    //     return menu
+    //   } else {
+    //     if (menu.children && Array.isArray(menu.children) && menu.children.length > 0) {
+    //       const item = getItem(menu.children!, index) as AppRouteMenuItem | undefined
+    //       if (item) {
+    //         return item
+    //       }
+    //     }
+    //   }
+    // }
+    return getItemCondition(menus, (item) => item.meta?.key === index)
   }
 
   /**
@@ -66,12 +83,29 @@ export function useMenu() {
    */
   function getSubMenus(menus: AppRouteMenuItem[]) {
     //获取菜单的路由
-
     const route = useRoute()
-    // const path = computed(() => route.path)
-    const path = ref('/components')
+    const path = computed(() => {
+      if (route.path === '/') return '/'
+      const rootPath = route.path.split('/')[1] ?? '/'
+      return rootPath ? `/${rootPath}` : '/'
+    })
     const filteredMenus = filterAndOrderMenus(menus)
     return filteredMenus.find((menu) => menu.path === path.value)?.children || []
+  }
+  /**
+   * 获取当前菜单的父级菜单
+   * @param menus
+   */
+  function getParentMenu(menus: AppRouteMenuItem[]): AppRouteMenuItem | undefined {
+    //获取菜单的路由
+    const route = useRoute()
+    const path = computed(() => route.path)
+    return getItemCondition(menus, (item) => {
+      const arr = path.value.split('/')
+      if (arr.length < 3) return false
+      arr.pop()
+      return arr.join('/') === item.name
+    })
   }
 
   function getIndex(item: AppRouteMenuItem): string {
@@ -88,6 +122,7 @@ export function useMenu() {
     getTopMenus,
     getSubMenus,
     getItem,
+    getParentMenu,
     getIndex,
     menuHasChildren
   }

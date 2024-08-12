@@ -1,6 +1,6 @@
 <template>
-  <el-menu v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" class="border-r-0!" @select="handleSelect"
-    @open="handleOpen" @close="handleClose">
+  <el-menu ref="menuRef" v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" class="border-r-0!"
+    @select="handleSelect" @open="handleOpen" @close="handleClose">
     <slot name="icon"></slot>
     <div class="flex-grow" v-if="isDefined(slots['icon'])" />
     <sub-menu v-for="menu in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse" v-bind="subMenuProps">
@@ -31,6 +31,7 @@ const props = withDefaults(defineProps<MenuProps>(), {
 })
 //当折叠时，iconProps中的样式要发生改变
 const iconProps = reactive(props.iconProps)
+const menuRef = ref()
 
 watch(
   () => props.collapse,
@@ -44,7 +45,7 @@ provide('iconProps', props.iconProps)
 
 const slots = useSlots()
 
-const { generateMenuKeys, getItem } = useMenu()
+const { generateMenuKeys, getItem, getParentMenu } = useMenu()
 
 const fileredMenus = computed(() => {
   return generateMenuKeys(props.data)
@@ -53,6 +54,16 @@ const fileredMenus = computed(() => {
 const menuProps = computed(() => {
   const { subMenuProps, data, ...restProps } = props
   return restProps
+})
+
+onMounted(() => {
+  //获取父亲的菜单数据模型
+  const item = getParentMenu(fileredMenus.value)
+  if (item && item.meta && item.meta.key) {
+    if (menuRef.value && menuRef.value.open) {
+      menuRef.value.open(item.meta.key)
+    }
+  }
 })
 
 const emits = defineEmits<{

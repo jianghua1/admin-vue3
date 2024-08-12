@@ -18,7 +18,7 @@
         <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'" class="flex-1">
           <!-- 二级菜单 -->
           <Menu :data="getSubMenus(menus)" :collapse="localSettings.collapse" text-color="#b8b8b8"
-            :background-color="settings?.backgroundColor"></Menu>
+            :background-color="settings?.backgroundColor" @select="handleSelect"></Menu>
         </el-scrollbar>
       </el-row>
     </div>
@@ -26,7 +26,7 @@
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
       <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
-        @settings-change="handleSettingsChange" @select="handleSelect">
+        @settings-change="handleSettingsChange">
         <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
           :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
         </Menu>

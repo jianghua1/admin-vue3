@@ -26,7 +26,7 @@
     <div class="flex-1 h-full">
       <!-- header：主题、按钮、暗黑模式等 -->
       <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
-        @settings-change="handleSettingsChange">
+        :settings="settings" @settings-change="handleSettingsChange">
         <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
           :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
         </Menu>
@@ -49,7 +49,7 @@ import { useRouter } from 'vue-router';
 
 
 
-console.log('routes', routes)
+// console.log('routes', routes)
 interface ThemeSettingOptions extends HeaderProps {
   username: string,
   avatar: string,
@@ -64,7 +64,7 @@ const localSettings = reactive<ThemeSettingOptions>({
   avatarMenu: [{ key: 1, value: '退出登陆' }],
   settings: {
     menuWidth: 280,
-    backgroundColor: '#FF0000'
+    backgroundColor: 'skyblue',
   } as ThemeSettingsProps
 })
 
@@ -104,14 +104,15 @@ const settings = computed(() => localSettings.settings)
 const mixMenus = computed(() => settings.value?.mode === 'mixbar' ? getTopMenus(menus.value) : menus.value)
 
 const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
+
 //判断二级菜单的顶级是否所有菜单项都设置了Icon
 const isFullIcon = computed(() => () => getSubMenus(menus.value).every((menu) => typeof menu.meta?.icon !== 'undefined' && menu.meta?.icon))
 //混合左侧双菜单模式下的菜单宽度
 const mixMenuWidth = computed(() => {
   if (settings.value?.mode === 'mixbar' && isFullIcon)
-    return localSettings.collapse ? 'auto' : `${menuWidth}px`
+    return localSettings.collapse ? 'auto' : `${menuWidth.value}px`
   else
-    return localSettings.collapse ? '64px' : `${menuWidth}px`
+    return localSettings.collapse ? '64px' : `${menuWidth.value}px`
 })
 
 const { getTopMenus, getSubMenus } = useMenu()

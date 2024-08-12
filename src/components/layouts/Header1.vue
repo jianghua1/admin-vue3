@@ -23,7 +23,6 @@ import type { HeaderProps } from './types';
 
 //初始化函数
 const props = withDefaults(defineProps<HeaderProps>(), {
-  collapse: true
 })
 const collapseModel = defineModel('collapse', {
   default: false,
@@ -37,7 +36,6 @@ const avatarProps = computed(() => {
   const { collapse, ...restProps } = props;
   return restProps;
 })
-
 const emits = defineEmits<{
   menuChange: [command: string | number | object],
   settingsChange: [settings: ThemeSettingsProps]

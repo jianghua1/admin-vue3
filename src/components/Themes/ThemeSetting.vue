@@ -89,7 +89,7 @@ const drawer = ref(false)
 const props = withDefaults(defineProps<ThemeSettingsProps>(), {
   theme: '#409eff',
   darkMode: false,
-  // menuWidth: 280,
+  menuWidth: 280,
   showLogo: false,
   showTabs: false,
   fixedHead: false,

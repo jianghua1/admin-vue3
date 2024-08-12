@@ -64,7 +64,7 @@ const localSettings = reactive<ThemeSettingOptions>({
   avatarMenu: [{ key: 1, value: '退出登陆' }],
   settings: {
     menuWidth: 280,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#FF0000',
   } as ThemeSettingsProps
 })
 

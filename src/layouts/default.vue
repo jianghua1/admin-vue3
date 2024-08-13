@@ -1,7 +1,6 @@
 <template>
   <div class="w-full h-screen overflow-hidden flex">
     <!-- 左右布局 -->
-    <!-- 左边 -->
     <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }" class="h-full transition-width"
       v-if="settings?.mode !== 'top'">
       <el-row class="h-full">
@@ -22,9 +21,8 @@
         </el-scrollbar>
       </el-row>
     </div>
-    <!-- 右边 撑满右边的整个区域-->
-    <div class="flex-1 h-full">
-      <!-- header：主题、按钮、暗黑模式等 -->
+    <!-- 右边-->
+    <div class="w-full h-full">
       <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
         :settings="settings" @settings-change="handleSettingsChange">
         <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"

@@ -1,11 +1,11 @@
 <template>
-  <el-row>
-    <Iconify :icon="collapseModel ? 'ep:expand' : 'ep:fold'" class="text-xl cursor-pointer"
-      @click="collapseModel = !collapseModel"></Iconify>
-    <div class="flex-grow">
+  <el-row class="items-center flex-nowrap w-full w-[50px]">
+    <Iconify v-if="settings?.mode !== 'top'" :icon="collapseModel ? 'ep:expand' : 'ep:fold'"
+      class="text-xl cursor-pointer" @click="collapseModel = !collapseModel"></Iconify>
+    <div class="relative overflow-x-hidden w-full">
       <slot></slot>
     </div>
-    <el-row class="items-center">
+    <el-row class="items-center flex-nowrap">
       <!-- 这个settings是从HeaderProps中来的 -->
       <ThemeSetting v-bind="settings" @change="handleChange"></ThemeSetting>
       <DarkModeToggle :dark="settings?.darkMode" @change="handleDarkModeToggle" class="mr-3"></DarkModeToggle>

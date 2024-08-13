@@ -1,9 +1,9 @@
 <template>
-  <!-- 没有ICON显示这个 -->
+  <!-- 没有ICON显示 -->
   <el-menu-item :index="getIndex(data)" :disabled="data.meta?.disabled" v-if="!data.meta?.icon">
     {{ data.meta?.title }}
   </el-menu-item>
-  <!-- 有ICON显示这个 -->
+  <!-- 有ICON显示 -->
   <template v-else>
     <!-- 折叠 -->
     <el-menu-item :index="getIndex(data)" :disabled="data.meta?.disabled" v-if="collapse">

@@ -27,7 +27,8 @@ const props = withDefaults(defineProps<MenuProps>(), {
     style: { fontSize: '22px' },
     class: 'mr-3'
   }),
-  backgroundColor: 'transparent'
+  backgroundColor: 'transparent',
+  ellipsis: true
 })
 //当折叠时，iconProps中的样式要发生改变
 const iconProps = reactive(props.iconProps)

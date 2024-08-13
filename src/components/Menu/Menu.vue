@@ -62,7 +62,7 @@ onMounted(() => {
   const item = getParentMenu(fileredMenus.value)
   if (item && item.meta && item.meta.key) {
     if (menuRef.value && menuRef.value.open) {
-      menuRef.value.open(item.meta.key)
+      !props.collapse && menuRef.value.open(item.meta.key)
     }
   }
 })

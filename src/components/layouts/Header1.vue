@@ -1,8 +1,8 @@
 <template>
-  <el-row class="items-center flex-nowrap w-full w-[50px]">
+  <el-row class="items-center flex-nowrap w-full h-[50px]">
     <Iconify v-if="settings?.mode !== 'top'" :icon="collapseModel ? 'ep:expand' : 'ep:fold'"
       class="text-xl cursor-pointer" @click="collapseModel = !collapseModel"></Iconify>
-    <div class="relative overflow-x-hidden w-full">
+    <div class="relative overflow-x-hidden flex-grow">
       <slot></slot>
     </div>
     <el-row class="items-center flex-nowrap">

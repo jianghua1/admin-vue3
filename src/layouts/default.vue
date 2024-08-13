@@ -1,8 +1,8 @@
 <template>
   <div class="w-full h-screen overflow-hidden flex">
     <!-- 左右布局 -->
-    <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }" class="h-full transition-width"
-      v-if="settings?.mode !== 'top'">
+    <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }"
+      class="h-full transition-width shrink-0" v-if="settings?.mode !== 'top'">
       <el-row class="h-full">
         <el-scrollbar v-if="settings?.mode !== 'mix'"
           :class="[settings?.mode !== 'mixbar' ? 'flex-1' : 'w-[64px] py-4']"
@@ -31,6 +31,12 @@
       </Header1>
       <router-view></router-view>
     </div>
+    <!-- 左侧菜单按钮抽屉组件 -->
+    <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"
+      :style="{ backgroundColor: settings?.backgroundColor }" @close="localSettings.collapse = true">
+      <Menu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect">
+      </Menu>
+    </el-drawer>
   </div>
 </template>
 
@@ -107,6 +113,8 @@ const menuWidth = computed(() => localSettings.settings ? localSettings.settings
 const isFullIcon = computed(() => () => getSubMenus(menus.value).every((menu) => typeof menu.meta?.icon !== 'undefined' && menu.meta?.icon))
 //混合左侧双菜单模式下的菜单宽度
 const mixMenuWidth = computed(() => {
+  if (isMobile.value)
+    return 0
   if (settings.value?.mode === 'mixbar' && isFullIcon)
     return localSettings.collapse ? 'auto' : `${menuWidth.value}px`
   else
@@ -115,6 +123,47 @@ const mixMenuWidth = computed(() => {
 
 const { getTopMenus, getSubMenus } = useMenu()
 
+const temWidth = ref(0)
+const changeWidthFlag = ref(false);
+const isMobile = ref(false);
+
+useResizeObserver(document.body, (entries) => {
+  const { width } = entries[0].contentRect
+  //当中间变量宽度为0时，初始化宽度数据
+  if (temWidth.value === 0)
+    temWidth.value = width
+
+
+  if (width > temWidth.value)
+    //屏幕变大时
+    //当屏幕还很小，我们不去折叠它已经展开的菜单
+    changeWidthFlag.value = width < 640
+  else
+    //屏幕变小时
+    //当屏幕还很大，我们不去打开它已经折叠起来的菜单
+    changeWidthFlag.value = width > 1200
+
+  if (width < 640 && !changeWidthFlag.value)
+    localSettings.collapse = true
+  if (width > 1200 && !changeWidthFlag.value)
+    localSettings.collapse = false
+  //若是移动端隐藏菜单
+  isMobile.value = width < 440
+
+  temWidth.value = width
+})
+
+onBeforeMount(() => {
+  const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (mobile) {
+    isMobile.value = true
+    /**
+     * isMobile是计算属性，所以当前函数逻辑是慢于常规菜单组件的展示速度的，
+     * 所以移动端会出现黑色瞬间的遮罩，为了解决这个问题强制折叠按钮为true
+     */
+    localSettings.collapse = true
+  }
+})
 const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
   localSettings.settings = themeSettings
 }
@@ -122,6 +171,8 @@ const router = useRouter()
 const handleSelect = (item: AppRouteMenuItem) => {
   if (item && item.name) {
     router.push(item.name as string)
+    if (isMobile.value)
+      localSettings.collapse = true
   }
 }
 </script>

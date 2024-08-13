@@ -35,7 +35,7 @@
 
 <script setup lang='ts'>
 import { Icon } from '@iconify/vue';
-import type { IconPickerSubmitDataType } from '../types';
+import type { IconPickerSubmitDataType } from './types';
 
 defineProps({
   width: {

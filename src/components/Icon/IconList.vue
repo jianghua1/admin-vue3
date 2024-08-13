@@ -12,7 +12,7 @@
 
 import data from './icon-ep.json';
 import { loadIcons, Icon } from '@iconify/vue';
-import { IconListType } from '../types';
+import type { IconListType } from './types';
 
 // import json from '@iconify/json/json/ep.json';
 // console.log(Object.keys(json))

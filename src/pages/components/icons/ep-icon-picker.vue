@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang='ts'>
-import type { IconPickerSubmitDataType } from '@/components/types';
+import type { IconPickerSubmitDataType } from '@/components/Icon/types';
 definePage({
   meta: {
     title: '通知选择器',

@@ -1,6 +1,6 @@
 <template>
   <Iconify icon="ri:brush-2-line" class="text-xl mr-2 cursor-pointer" @click="drawer = true"></Iconify>
-  <el-drawer v-model="drawer" title="主题设置" @close="handlerClose">
+  <el-drawer v-model="drawer" title="主题设置" class="min-w-[330px] lt-sm:w-full!" @close="handlerClose">
     <el-form :model="form">
       <!-- 主题颜色 -->
       <el-form-item label="主题颜色">
@@ -140,4 +140,7 @@ const handlerClose = () => {
     @apply border-blue-900 border-2;
   }
 }
-</style>
+
+// :deep(.el-drawer) {
+//   min-width: 330px;
+// }</style>

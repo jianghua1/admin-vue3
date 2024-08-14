@@ -42,6 +42,7 @@ declare module 'vue' {
     Iconify: typeof import('./src/components/Icon/Iconify.vue')['default']
     IconList: typeof import('./src/components/Icon/IconList.vue')['default']
     IconPicker: typeof import('./src/components/Icon/IconPicker.vue')['default']
+    LoginForm: typeof import('./src/components/Form/LoginForm.vue')['default']
     Menu: typeof import('./src/components/Menu/Menu.vue')['default']
     MenuItem: typeof import('./src/components/Menu/MenuItem.vue')['default']
     NetIcon: typeof import('./src/components/Icon/NetIcon.vue')['default']

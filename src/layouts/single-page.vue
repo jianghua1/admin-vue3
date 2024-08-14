@@ -5,7 +5,7 @@
       :style="bgStyle" ref="bgRef">
     </div>
     <div class="flex flex-col items-center justify-center h-screen mx-60" :style="marginStyle">
-      <div :class="['self-center bg-white p-4 rounded', formClass]" ref="formRef">
+      <div :class="['bg-white p-4 rounded', formClass]" ref="formRef">
         <!-- <div class="text-2xl mb-10">{{ settings.title }}</div> -->
         <router-view></router-view>
       </div>
@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang='ts'>
-
 const settings = reactive({
   bg: '',
   title: '欢迎登录',
@@ -24,18 +23,17 @@ const settings = reactive({
 const route = useRoute()
 
 onBeforeMount(() => {
-  console.log('route', route)
   settings.bg = route.meta.backgroundImage as string
   settings.title = route.meta.title as string
   settings.position = route.meta.position as string
-  console.log('settings', settings)
 })
 
+const marginStyle = computed(() => { })
 
 const bgStyle = computed(() => ({
   backgroundImage: `url(${settings.bg})`
 }))
-console.log('bgStyle', bgStyle)
+
 const bgRef = ref()
 const formRef = ref()
 const margin = ref()
@@ -50,20 +48,18 @@ useResizeObserver(bgRef, (entries) => {
   margin.value = (document.body.clientWidth - width - changeWidth) / 2
 })
 
-
-
 const formClass = computed(() => {
   let cls = ''
   if (settings.position === 'center') {
-    // cls = 'center'
+    cls = 'self-center'
   }
   if (settings.position === 'left') {
-    // cls = 'center'
+    cls = 'self-start'
   }
   if (settings.position === 'right') {
-    // cls = 'center'
+    cls = 'self-end'
   }
-
+  return cls
 })
 </script>
 <style scoped></style>

@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-col items-center justify-center h-screen mx-60" :style="marginStyle">
       <div :class="['bg-white p-4 rounded', formClass]" ref="formRef">
-        <!-- <div class="text-2xl mb-10">{{ settings.title }}</div> -->
+        <div class="text-2xl mb-10">{{ settings.title }}</div>
         <router-view></router-view>
       </div>
     </div>
@@ -17,7 +17,7 @@
 const settings = reactive({
   bg: '',
   title: '欢迎登录',
-  position: 'right',
+  position: 'center',
   imageWidth: ''
 })
 const route = useRoute()

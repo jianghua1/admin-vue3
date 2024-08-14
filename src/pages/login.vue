@@ -12,8 +12,6 @@ definePage({
     backgroundImage: 'https://media.istockphoto.com/id/1700548351/photo/businessman-and-businesswoman-in-the-office.jpg?s=2048x2048&w=is&k=20&c=q0GEioLtJtELq01mTxhl-P2_6lnKrwhsimVf3GDS_t4='
   }
 })
-
-
 const loginItems = [
   {
     icon: 'ic:baseline-wechat',
@@ -37,8 +35,4 @@ const handleSubmit = (from: any) => {
 }
 
 </script>
-<style scoped>
-:deep(.el-form-item__content) {
-  margin-left: 0px !important;
-}
-</style>
+<style scoped></style>

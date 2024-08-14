@@ -16,3 +16,13 @@ export interface LoginFormProps {
   title?: string
   loginItems?: LoginItem[]
 }
+
+export interface LoginFormInterface {
+  username: string
+  password: string
+  repassword: string
+  phone: string
+  email: string
+  code: string
+  remeber: boolean
+}

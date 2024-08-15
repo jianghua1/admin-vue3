@@ -3,6 +3,17 @@ import { defineConfig, transformerDirectives, presetWind, presetIcons } from 'un
 // import presetWind from '@unocss/preset-wind'
 
 export default defineConfig({
+  // rules: [
+  //   [
+  //     'm-safe',
+  //     {
+  //       'margin-top': 'env(safe-area-inset-top)',
+  //       'margin-right': 'env(safe-area-inset-right)',
+  //       'margin-bottom': 'env(safe-area-inset-bottom)',
+  //       'margin-left': 'env(safe-area-inset-left)'
+  //     }
+  //   ]
+  // ],
   presets: [
     presetWind(),
     presetIcons({

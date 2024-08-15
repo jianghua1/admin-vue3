@@ -29,7 +29,9 @@
           :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
         </Menu>
       </Header1>
-      <router-view></router-view>
+      <el-scrollbar>
+        <router-view></router-view>
+      </el-scrollbar>
     </div>
     <!-- 左侧菜单按钮抽屉组件 -->
     <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"

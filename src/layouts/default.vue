@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen overflow-hidden flex">
+  <div class="position-absolute left-0 top-0 w-full h-full overflow-hidden flex">
     <!-- 左右布局 -->
     <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }"
       class="h-full transition-width shrink-0" v-if="settings?.mode !== 'top'">
@@ -22,16 +22,16 @@
       </el-row>
     </div>
     <!-- 右边-->
-    <div class="w-full h-full">
+    <div class="w-full h-full flex-1 overflow-hidden">
       <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
         :settings="settings" @settings-change="handleSettingsChange">
         <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
           :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
         </Menu>
       </Header1>
-      <el-scrollbar>
+      <div class="h-full overflow-y-auto">
         <router-view></router-view>
-      </el-scrollbar>
+      </div>
     </div>
     <!-- 左侧菜单按钮抽屉组件 -->
     <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"

@@ -1,5 +1,6 @@
 <template>
-  <el-row class="items-center flex-nowrap w-full h-[50px]">
+  <el-row
+    :class="['items-center flex-nowrap h-[50px] z-100 bg-white dark:bg-dark', settings?.fixedHead ? 'position-absolute left-0 top-0 right-0' : 'w-full']">
     <Iconify v-if="settings?.mode !== 'top'" :icon="collapseModel ? 'ep:expand' : 'ep:fold'"
       class="text-xl cursor-pointer" @click="collapseModel = !collapseModel"></Iconify>
     <div class="relative overflow-x-hidden flex-grow">

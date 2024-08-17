@@ -22,16 +22,20 @@
       </el-row>
     </div>
     <!-- 右边-->
-    <div class="w-full h-full flex-1 overflow-hidden">
-      <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
-        :settings="settings" @settings-change="handleSettingsChange">
-        <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
-          :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
-        </Menu>
-      </Header1>
-      <div class="h-full overflow-y-auto">
-        <router-view></router-view>
-      </div>
+    <div :class="['relative w-full h-full flex-1 overflow-hidden']">
+      <keep-alive>
+        <component :is="contentWrapperComponent">
+          <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
+            :settings="settings" @settings-change="handleSettingsChange">
+            <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
+              :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
+            </Menu>
+          </Header1>
+          <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
+            <router-view></router-view>
+          </div>
+        </component>
+      </keep-alive>
     </div>
     <!-- 左侧菜单按钮抽屉组件 -->
     <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"
@@ -52,6 +56,7 @@ import { useMenu } from '../components/Menu/useMenu';
 import { darken } from '@/utils'
 import { routes } from 'vue-router/auto/routes'
 import { useRouter } from 'vue-router';
+import { ElScrollbar } from 'element-plus'
 
 
 
@@ -124,6 +129,13 @@ const mixMenuWidth = computed(() => {
 })
 
 const { getTopMenus, getSubMenus } = useMenu()
+
+const contentWrapperComponent = computed(() => settings.value?.fixedHead
+  ? ElScrollbar
+  : h('div', {
+    class: 'h-full overflow-y-auto'
+  })
+)
 
 const temWidth = ref(0)
 const changeWidthFlag = ref(false);

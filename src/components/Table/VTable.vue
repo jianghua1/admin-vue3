@@ -16,16 +16,6 @@ import Column from './VTableColumn.vue';
 import { forwardEventsUtils } from '@/utils'
 
 const props = withDefaults(defineProps<VTableProps>(), {
-  pagination: () => ({
-    align: 'center',
-    small: false,
-    background: false,
-    layout: 'total, prev, pager, next, jumper',
-    pagerCount: 7,
-    pageSizeOptions: [10, 20, 30, 40, 50],
-    modelValue: 10,
-    total: 300
-  }),
   stripe: false,
   border: false,
   fit: true,

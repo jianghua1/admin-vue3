@@ -8,7 +8,6 @@ export interface TableColumnType extends TableColumnCtx<any> {
 
 export interface PaginationType extends Partial<PaginationProps> {
   align?: 'center' | 'left' | 'right'
-  total: number
 }
 
 export interface VTableProps extends TableProps<any> {

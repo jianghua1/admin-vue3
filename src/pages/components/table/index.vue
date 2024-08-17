@@ -1,51 +1,60 @@
 <template>
   <div>
-    <p>基础示例</p>
-    <VTable :columns="columns" :data="tableData"></VTable>
-    <p>带斑马纹表格</p>
-    <VTable :columns="columns" :data="tableData" stripe></VTable>
-    <p>带边框表格</p>
-    <VTable :columns="columns" :data="tableData" border></VTable>
-    <!-- <p>带状态表格</p> -->
-    <!-- <VTable :columns="columns" :data="tableData" :row-class-name="tableRowClassName"></VTable> -->
-    <p>固定表头</p>
-    <VTable :columns="columns" :data="tableData" :height="500"></VTable>
-    <p>固定列</p>
-    <VTable :columns="fixedTableColumns" :data="fixedTableData">
-      <!-- <el-table-column fixed="right" label="Operations" width="120">
+    <el-tabs v-model="activeName" class="demo-tabs">
+      <el-tab-pane label="基础示例" name="1">
+        <VTable :columns="columns" :data="tableData" :pagination="pagination"></VTable>
+      </el-tab-pane>
+      <el-tab-pane label="带斑马纹表格" name="2">
+        <VTable :columns="columns" :data="tableData" stripe></VTable>
+      </el-tab-pane>
+      <el-tab-pane label="带边框表格" name="3">
+        <VTable :columns="columns" :data="tableData" border></VTable>
+      </el-tab-pane>
+      <!-- <p>带状态表格</p> -->
+      <!-- <VTable :columns="columns" :data="tableData" :row-class-name="tableRowClassName"></VTable> -->
+      <el-tab-pane label="固定表头" name="4">
+        <VTable :columns="columns" :data="tableData" :height="500"></VTable>
+      </el-tab-pane>
+      <el-tab-pane label="固定列" name="5">
+        <VTable :columns="fixedTableColumns" :data="fixedTableData">
+          <!-- <el-table-column fixed="right" label="Operations" width="120">
         <template #default="{ row, column, $index }">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleClick(scope)">Detail</el-button>
           <el-button link type="primary" size="small">Edit</el-button>
         </template>
 </el-table-column> -->
-    </VTable>
-    <p>固定列和表头</p>
-    <VTable :columns="fixedTableColumns" :data="fixedTableData" :height="250"></VTable>
-    <p>流体高度</p>
-    <VTable :columns="flowTableColumns" :data="flowTableData" :max-height="400">
-      <el-table-column fixed="right" label="Operations" min-width="120">
-        <template #default="scope">
-          <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)">
-            Remove
-          </el-button>
-        </template>
-      </el-table-column>
-    </VTable>
-    <el-button class="mt-4" style="width: 100%" @click="onAddItem">
-      Add Item
-    </el-button>
+        </VTable>
+      </el-tab-pane>
 
-    <p>多级表头</p>
-    <VTable :columns="multiLevelTableColumns" :data="fixedTableData"></VTable>
-    <p>单选</p>
-    <VTable @row-click="handleRowClick" :columns="flowTableColumns" :data="fixedTableData" highlight-current-row>
-    </VTable>
+      <el-tab-pane label="固定列和表头" name="6">
+        <VTable :columns="fixedTableColumns" :data="fixedTableData" :height="250"></VTable>
+      </el-tab-pane>
+
+      <el-tab-pane label="流体高度" name="7">
+        <VTable :columns="flowTableColumns" :data="flowTableData" :max-height="400">
+          <el-table-column fixed="right" label="Operations" min-width="120">
+            <template #default="scope">
+              <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)">
+                Remove
+              </el-button>
+            </template>
+          </el-table-column>
+        </VTable>
+        <el-button class="mt-4" style="width: 100%" @click="onAddItem">
+          Add Item
+        </el-button>
+      </el-tab-pane>
+
+      <el-tab-pane label="多级表头" name="8">
+        <VTable :columns="multiLevelTableColumns" :data="fixedTableData"></VTable>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script setup lang='tsx'>
-import type { TableColumnType } from '@/components/Table/types';
+import type { PaginationType, TableColumnType } from '@/components/Table/types';
 import dayjs from 'dayjs'
 
 definePage({
@@ -55,8 +64,22 @@ definePage({
   }
 })
 
-const handleClick = (scope) => {
-  console.log("handleClick", scope)
+const activeName = ref('1')
+
+const pagination = ref({
+  align: 'center',
+  small: false,
+  background: false,
+  layout: 'total, prev, pager, next, jumper',
+  pagerCount: 7,
+  pageSizeOptions: [10, 20, 30, 40, 50],
+  modelValue: 10,
+  total: 300
+}) as PaginationType
+
+const handleClick = (scope, opt: string) => {
+  console.log("opt", opt)
+  console.log("scope", scope)
 }
 
 const columns = [
@@ -109,8 +132,18 @@ const fixedTableColumns = [
     label: '操作', prop: 'operation', width: '120', fixed: 'right',
     defaultSlot: (_props) => (
       <>
-        <el-button link type="primary" size="small" onClick={() => handleClick(_props)}>Detail</el-button>
-        <el-button link type="primary" size="small" >Edit</el-button>
+        <el-button link type="primary" size="small" onClick={(e) => {
+          e.stopPropagation();
+          handleClick(_props, 'detail')
+        }}>
+          Detail
+        </el-button>
+        <el-button link type="primary" size="small" onClick={(e) => {
+          e.stopPropagation();
+          handleClick(_props, 'edit')
+        }}>
+          Edit
+        </el-button>
       </>
     )
   }
@@ -276,9 +309,6 @@ const multiLevelTableColumns =
     }
   ]
 
-//单选的回调 三个参数： row，column，event
-const handleRowClick = (...args: any) => {
-  console.log("handleRowClick", args)
-}
+
 </script>
 <style scoped></style>

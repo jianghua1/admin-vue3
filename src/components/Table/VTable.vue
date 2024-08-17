@@ -1,14 +1,7 @@
 <template>
   <el-table v-bind="props" style="width: 100%">
-    <el-table-column v-for="(column, index) in columns" :key="index" v-bind="column">
-      <template #default="scope" v-if="column.defaultSlot">
-        <component :is="column.defaultSlot" v-bind="scope"></component>
-      </template>
-      <!-- 这是个表头 -->
-      <template #header="scope" v-if="column.headerSlot">
-        <component :is="column.headerSlot" v-bind="scope"></component>
-      </template>
-    </el-table-column>
+    <Column v-for="(column, index) in columns" :key="index" v-bind="column">
+    </Column>
     <slot></slot>
   </el-table>
   <div v-if="isDefined(pagination)" :class="['p-2 flex', paginationClass]">
@@ -19,6 +12,7 @@
 <script lang="ts" setup>
 import type { VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
+import Column from './VTableColumn.vue';
 
 const props = withDefaults(defineProps<VTableProps>(), {
   pagination: () => ({

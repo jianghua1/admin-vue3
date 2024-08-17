@@ -35,6 +35,9 @@
     <el-button class="mt-4" style="width: 100%" @click="onAddItem">
       Add Item
     </el-button>
+
+    <p>多级表头</p>
+    <VTable :columns="multiLevelTableColumns" :data="fixedTableData"></VTable>
   </div>
 </template>
 
@@ -225,5 +228,50 @@ const onAddItem = () => {
     tag: 'Office'
   })
 }
+
+//多级表头
+const multiLevelTableColumns =
+[
+  {
+    prop: "date",
+    label: "Date",
+    width: 150
+  },
+  {
+    label: "Delivery Info",
+    children: [
+      {
+        prop: "name",
+        label: "Name",
+        width: 120
+      },
+      {
+        label: "Address Info",
+        children: [
+          {
+            prop: "state",
+            label: "State",
+            width: 120
+          },
+          {
+            prop: "city",
+            label: "City",
+            width: 120
+          },
+          {
+            prop: "address",
+            label: "Address"
+          },
+          {
+            prop: "zip",
+            label: "Zip",
+            width: 120
+          }
+        ]
+      }
+    ]
+  }
+]
+
 </script>
 <style scoped></style>

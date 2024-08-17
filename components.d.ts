@@ -61,5 +61,6 @@ declare module 'vue' {
     SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
     ThemeSetting: typeof import('./src/components/Themes/ThemeSetting.vue')['default']
     VTable: typeof import('./src/components/Table/VTable.vue')['default']
+    VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
   }
 }

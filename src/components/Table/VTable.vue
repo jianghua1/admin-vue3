@@ -9,7 +9,7 @@
         <component :is="column.headerSlot" v-bind="scope"></component>
       </template>
     </el-table-column>
-    <!-- <slot></slot> -->
+    <slot></slot>
   </el-table>
   <div v-if="isDefined(pagination)" :class="['p-2 flex', paginationClass]">
     <el-pagination v-bind="pagination" />
@@ -61,5 +61,3 @@ const paginationClass = computed(() => {
 })
 
 </script>
-
-

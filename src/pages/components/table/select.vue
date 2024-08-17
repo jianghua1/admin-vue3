@@ -4,6 +4,10 @@
       <el-tab-pane label="单选" name="1">
         <VTable @row-click="handleRowClick" :columns="fixedTableColumns" :data="fixedTableData" highlight-current-row>
         </VTable>
+        <p>行点击回调内容</p>
+        <p>{{rowClickRef}}</p>
+        <p>菜单点击回调内容</p>
+        <p>{{menuClickRef}}</p>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -11,7 +15,7 @@
 
 <script setup lang='tsx'>
 
-import { TableColumnType } from "../../../components/Table/types"
+import type { TableColumnType } from "@/components/Table/types"
 
 definePage({
   meta: {
@@ -21,14 +25,16 @@ definePage({
 })
 
 const activeName = ref('1')
+
+const rowClickRef = ref()
+const menuClickRef = ref()
 //单选的回调 三个参数： row，column，event
 const handleRowClick = (...args: any) => {
-  console.log("handleRowClick", args)
+  rowClickRef.value = args
 }
 
 const handleClick = (scope, opt: string) => {
-  console.log("opt", opt)
-  console.log("scope", scope)
+  menuClickRef.value = scope.row+scope.column+opt
 }
 
 const fixedTableColumns = [

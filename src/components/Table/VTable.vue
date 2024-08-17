@@ -13,7 +13,7 @@
 import type { TableEventsType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
-import { convertDashToCamelCase } from '@/utils'
+import { forwardEventsUtils } from '@/utils'
 
 const props = withDefaults(defineProps<VTableProps>(), {
   pagination: () => ({
@@ -64,17 +64,7 @@ const eventsName: (keyof TableEventsType)[] = [
   'header-dragend',
   'expand-change',
 ];
-//使用事件名称和参数动态生成emits事件
-function forwardEventsUtils(emits: any, arr: string[]) {
-  const forwardEvents: Record<string, (...args: any[]) => void> = {}
-  arr.forEach((eventName) => {
-    const name = convertDashToCamelCase(eventName)
-    forwardEvents[name] = (...args: any[]) => {
-      emits(eventName, ...args)
-    }
-  })
-  return forwardEvents
-}
+
 
 const events = forwardEventsUtils(emits, eventsName)
 

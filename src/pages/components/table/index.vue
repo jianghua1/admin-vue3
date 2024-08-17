@@ -38,6 +38,9 @@
 
     <p>多级表头</p>
     <VTable :columns="multiLevelTableColumns" :data="fixedTableData"></VTable>
+    <p>单选</p>
+    <VTable @row-click="handleRowClick" :columns="flowTableColumns" :data="fixedTableData" highlight-current-row>
+    </VTable>
   </div>
 </template>
 
@@ -231,47 +234,51 @@ const onAddItem = () => {
 
 //多级表头
 const multiLevelTableColumns =
-[
-  {
-    prop: "date",
-    label: "Date",
-    width: 150
-  },
-  {
-    label: "Delivery Info",
-    children: [
-      {
-        prop: "name",
-        label: "Name",
-        width: 120
-      },
-      {
-        label: "Address Info",
-        children: [
-          {
-            prop: "state",
-            label: "State",
-            width: 120
-          },
-          {
-            prop: "city",
-            label: "City",
-            width: 120
-          },
-          {
-            prop: "address",
-            label: "Address"
-          },
-          {
-            prop: "zip",
-            label: "Zip",
-            width: 120
-          }
-        ]
-      }
-    ]
-  }
-]
+  [
+    {
+      prop: "date",
+      label: "Date",
+      width: 150
+    },
+    {
+      label: "Delivery Info",
+      children: [
+        {
+          prop: "name",
+          label: "Name",
+          width: 120
+        },
+        {
+          label: "Address Info",
+          children: [
+            {
+              prop: "state",
+              label: "State",
+              width: 120
+            },
+            {
+              prop: "city",
+              label: "City",
+              width: 120
+            },
+            {
+              prop: "address",
+              label: "Address"
+            },
+            {
+              prop: "zip",
+              label: "Zip",
+              width: 120
+            }
+          ]
+        }
+      ]
+    }
+  ]
 
+//单选的回调 三个参数： row，column，event
+const handleRowClick = (...args: any) => {
+  console.log("handleRowClick", args)
+}
 </script>
 <style scoped></style>

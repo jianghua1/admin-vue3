@@ -1,5 +1,5 @@
 <template>
-  <el-table v-bind="props" style="width: 100%">
+  <el-table v-bind="props" v-on="events" style="width: 100%">
     <Column v-for="(column, index) in columns" :key="index" v-bind="column">
     </Column>
     <slot></slot>
@@ -10,9 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { VTableProps } from './types';
+import type { TableEventsType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
+import { convertDashToCamelCase } from '@/utils'
 
 const props = withDefaults(defineProps<VTableProps>(), {
   pagination: () => ({
@@ -40,6 +41,42 @@ const props = withDefaults(defineProps<VTableProps>(), {
   tableLayout: 'fixed',
   scrollbarAlwaysOn: true
 })
+//集中定义table组件的emits
+const emits = defineEmits<TableEventsType>()
+//emits的事件名称虽然是驼峰，这里是-，但是在内部vue是有这个处理能力的，所以这里不处理是可以的
+const eventsName: (keyof TableEventsType)[] = [
+  'select',
+  'select-all',
+  'selection-change',
+  'cell-mouse-enter',
+  'cell-mouse-leave',
+  'cell-click',
+  'cell-dblclick',
+  'cell-contextmenu',
+  'row-click',
+  'row-contextmenu',
+  'row-dblclick',
+  'header-click',
+  'header-contextmenu',
+  'sort-change',
+  'filter-change',
+  'current-change',
+  'header-dragend',
+  'expand-change',
+];
+//使用事件名称和参数动态生成emits事件
+function forwardEventsUtils(emits: any, arr: string[]) {
+  const forwardEvents: Record<string, (...args: any[]) => void> = {}
+  arr.forEach((eventName) => {
+    const name = convertDashToCamelCase(eventName)
+    forwardEvents[name] = (...args: any[]) => {
+      emits(eventName, ...args)
+    }
+  })
+  return forwardEvents
+}
+
+const events = forwardEventsUtils(emits, eventsName)
 
 const paginationClass = computed(() => {
   let defaultClass = 'justify-center'

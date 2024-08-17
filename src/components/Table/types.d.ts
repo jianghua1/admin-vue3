@@ -1,6 +1,6 @@
 import type { PaginationProps, TableColumnCtx, TableProps } from 'element-plus'
 
-export interface TableColumnType extends TableColumnCtx<any> {
+export interface TableColumnType extends Partial<TableColumnCtx<any>> {
   defaultSlot?: typeof Component
   headerSlot?: typeof Component
   children?: TableColumnType[]

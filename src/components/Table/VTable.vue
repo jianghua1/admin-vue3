@@ -1,5 +1,5 @@
 <template>
-  <el-table v-bind="props" v-on="events" style="width: 100%">
+  <el-table v-bind="props" v-on="events" style="width: 100%" ref="tableRef">
     <Column v-for="(column, index) in columns" :key="index" v-bind="column">
     </Column>
     <slot></slot>
@@ -13,7 +13,7 @@
 import type { TableEventsType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
-import { forwardEventsUtils } from '@/utils'
+import { forwardEventsUtils, exposeEventUtils } from '@/utils'
 
 const props = withDefaults(defineProps<VTableProps>(), {
   stripe: false,
@@ -55,8 +55,35 @@ const eventsName: (keyof TableEventsType)[] = [
   'expand-change',
 ];
 
+const tableRef = ref()
+const exposeEventNames = [
+  "clearSelection",
+  "getSelectionRows",
+  "toggleRowSelection",
+  "toggleAllSelection",
+  "toggleRowExpansion",
+  "setCurrentRow",
+  "clearSort",
+  "clearFilter",
+  "doLayout",
+  "sort",
+  "scrollTo",
+  "setScrollTop",
+  "setScrollLeft",
+  "columns"
+]
 
 const events = forwardEventsUtils(emits, eventsName)
+const exposes = exposeEventUtils(tableRef, exposeEventNames)
+
+defineExpose({
+  ...exposes
+})
+/**
+ * element plus表格组件的Table Exposes都是针对el-table标签的，但是由于组件封装所有的Exposes
+ * 都要写到VTable上，为了能让Exposes穿过VTable作用到el-table上，所以在这里动态生成一组Exposes
+ */
+
 
 const paginationClass = computed(() => {
   let defaultClass = 'justify-center'

@@ -5,9 +5,20 @@
         <VTable @row-click="handleRowClick" :columns="fixedTableColumns" :data="fixedTableData" highlight-current-row>
         </VTable>
         <p>行点击回调内容</p>
-        <p>{{rowClickRef}}</p>
+        <p>{{ rowClickRef }}</p>
         <p>菜单点击回调内容</p>
-        <p>{{menuClickRef}}</p>
+        <p>{{ menuClickRef }}</p>
+      </el-tab-pane>
+      <el-tab-pane label="多选" name="2">
+        <VTable ref="multipleTableRef" :columns="selectColumns" :data="tableData" highlight-current-row
+          @selection-change="handleSelectionChange">
+        </VTable>
+        <div style="margin-top: 20px">
+          <el-button @click="toggleSelection([tableData[1], tableData[2]])">
+            Toggle selection status of second and third rows
+          </el-button>
+          <el-button @click="toggleSelection()">Clear selection</el-button>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -16,6 +27,7 @@
 <script setup lang='tsx'>
 
 import type { TableColumnType } from "@/components/Table/types"
+import type { ElTable } from "element-plus";
 
 definePage({
   meta: {
@@ -25,7 +37,6 @@ definePage({
 })
 
 const activeName = ref('1')
-
 const rowClickRef = ref()
 const menuClickRef = ref()
 //单选的回调 三个参数： row，column，event
@@ -34,7 +45,7 @@ const handleRowClick = (...args: any) => {
 }
 
 const handleClick = (scope, opt: string) => {
-  menuClickRef.value = scope.row+scope.column+opt
+  menuClickRef.value = scope.row + scope.column + opt
 }
 
 const fixedTableColumns = [
@@ -105,5 +116,74 @@ const fixedTableData = [
     tag: 'Office',
   },
 ]
+
+//多选
+interface User {
+  date: string
+  name: string
+  address: string
+}
+
+const tableData: User[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-08',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-06',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-07',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
+
+const selectColumns = [
+  { type: 'selection', width: '55' },
+  { label: '日期', prop: 'date' },
+  { label: '姓名', prop: 'name' },
+  { label: '地址', prop: 'address' },
+] as TableColumnType
+
+const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+const multipleSelection = ref<User[]>([])
+const toggleSelection = (rows?: User[]) => {
+  if (rows) {
+    rows.forEach((row) => {
+      multipleTableRef.value!.toggleRowSelection(row, undefined)
+    })
+  } else {
+    multipleTableRef.value!.clearSelection()
+  }
+}
+const handleSelectionChange = (val: User[]) => {
+  multipleSelection.value = val
+}
+
+
 </script>
 <style scoped></style>

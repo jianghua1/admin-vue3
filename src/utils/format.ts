@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 export function convertDashToCamelCase(str: string): string {
   return str
     .split('-')
@@ -20,4 +21,17 @@ export function forwardEventsUtils(emits: any, arr: string[]) {
     }
   })
   return forwardEvents
+}
+
+export function exposeEventUtils(ref: Ref<any>, arr: string[]) {
+  const exposeMethods: Record<string, Function> = {}
+  arr.forEach((exposeName) => {
+    exposeMethods[exposeName] = (...args: any[]) => {
+      if (ref.value && typeof ref.value[exposeName] === 'function') {
+        //设置对应名称函数的回调
+        return ref.value[exposeName](...args)
+      }
+    }
+  })
+  return exposeMethods
 }

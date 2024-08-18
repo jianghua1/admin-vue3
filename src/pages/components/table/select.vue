@@ -20,6 +20,18 @@
           <el-button @click="toggleSelection()">Clear selection</el-button>
         </div>
       </el-tab-pane>
+      <el-tab-pane label="排序" name="3">
+        <VTable :columns="orderColumns" :data="tableData" :default-sort="{ prop: 'date', order: 'descending' }">
+        </VTable>
+      </el-tab-pane>
+      <el-tab-pane label="过滤" name="4">
+        <VTable :columns="filterColumns" :data="filterTableData" ref="filterTableRef">
+        </VTable>
+        <div>
+          <el-button @click="resetDateFilter">reset date filter</el-button>
+          <el-button @click="clearFilter">reset all filters</el-button>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -77,7 +89,6 @@ const fixedTableColumns = [
   }
 ] as TableColumnType[]
 
-
 const fixedTableData = [
   {
     date: '2016-05-03',
@@ -116,12 +127,12 @@ const fixedTableData = [
     tag: 'Office',
   },
 ]
-
 //多选
 interface User {
   date: string
   name: string
   address: string
+  tag?: string
 }
 
 const tableData: User[] = [
@@ -159,7 +170,7 @@ const tableData: User[] = [
     date: '2016-05-07',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
-  },
+  }
 ]
 
 const selectColumns = [
@@ -171,6 +182,8 @@ const selectColumns = [
 
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<User[]>([])
+
+
 const toggleSelection = (rows?: User[]) => {
   if (rows) {
     rows.forEach((row) => {
@@ -183,7 +196,87 @@ const toggleSelection = (rows?: User[]) => {
 const handleSelectionChange = (val: User[]) => {
   multipleSelection.value = val
 }
+//排序
+const orderColumns = [
+  { label: '日期', prop: 'date', sortOrders: true },
+  { label: '姓名', prop: 'name' },
+  { label: '地址', prop: 'address' },
+]
+//过滤
+const filterHandler = (
+  value: string,
+  row: User,
+  column: TableColumnType
+) => {
+  const property = column['property']
+  return row[property as string] === value
+}
 
+const filterColumns = [
+  {
+    label: '日期', prop: 'date', filters: [
+      { text: '2016-05-01', value: '2016-05-01' },
+      { text: '2016-05-02', value: '2016-05-02' },
+      { text: '2016-05-03', value: '2016-05-03' },
+      { text: '2016-05-04', value: '2016-05-04' },
+    ],
+    'filterMethod': filterHandler,
+    columnKey: 'date',
+    sortable: true
+  },
+  { label: '姓名', prop: 'name' },
+  { label: '地址', prop: 'address' },
+  {
+    label: '标签', prop: 'tag', filterMethod: (value, row) => {
+      return row.tag === value
+    }, filters: [
+      { text: 'old', value: 'old' }, { text: 'new', value: 'new' }
+    ]
+  }
+]
+
+const filterTableData: User[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'new' // add a new property called 'tag'
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'old'
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'old'
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'old'
+  },
+  {
+    date: '2016-05-08',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'old'
+  }
+]
+
+const filterTableRef = ref()
+
+const resetDateFilter = () => {
+  filterTableRef.value!.clearFilter(['date'])
+}
+
+const clearFilter = () => {
+  filterTableRef.value!.clearFilter()
+}
 
 </script>
 <style scoped></style>

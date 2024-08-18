@@ -1,6 +1,6 @@
 <template>
   <el-table v-bind="props" v-on="events" style="width: 100%" ref="tableRef">
-    <Column v-for="(column, index) in columns" :key="index" v-bind="column">
+    <Column v-for="(column, index) in columns" :key="index" v-bind="setColumnDefaults(column)">
     </Column>
     <slot></slot>
   </el-table>
@@ -84,7 +84,6 @@ defineExpose({
  * 都要写到VTable上，为了能让Exposes穿过VTable作用到el-table上，所以在这里动态生成一组Exposes
  */
 
-
 const paginationClass = computed(() => {
   let defaultClass = 'justify-center'
   if (props.pagination && props.pagination.align) {
@@ -98,4 +97,17 @@ const paginationClass = computed(() => {
   return defaultClass
 })
 
+const columnDefault = {
+  sortable: false,
+  sortBy: '',
+  'sort-orders': [null, 'ascending', 'descending'],
+  resizable: true,
+  align: 'left',
+  'reserve-selection': false,
+  'filter-multiple': true
+}
+
+function setColumnDefaults(column: object) {
+  return { ...columnDefault, ...column }
+}
 </script>

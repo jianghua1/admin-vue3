@@ -31,7 +31,7 @@
   </el-divider>
   <div class="flex justify-around">
     <Iconify :icon="item.icon" class="cursor-pointer text-2xl text-gray-200 hover:text-sky-500"
-      v-for="(item, index) in loginItems" :key="index" @click="handleClickItem(item.url)"></Iconify>
+      v-for="(item, index) in loginItems" :key="index" @click="handleClickItem(item)"></Iconify>
   </div>
   <!-- </div> -->
 </template>

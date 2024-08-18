@@ -25,8 +25,8 @@
     <div :class="['relative w-full h-full flex-1 overflow-hidden']">
       <keep-alive>
         <component :is="contentWrapperComponent">
-          <Header1 v-model:collapse="localSettings.collapse" :username="username" :src="avatar" :data="avatarMenu"
-            :settings="settings" @settings-change="handleSettingsChange">
+          <Header1 v-model:collapse="localSettings.collapse" :username="username" :avatarSize="avatarSize" :src="avatar"
+            :data="avatarMenu" :settings="settings" @settings-change="handleSettingsChange">
             <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
               :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
             </Menu>
@@ -64,6 +64,7 @@ import { ElScrollbar } from 'element-plus'
 interface ThemeSettingOptions extends HeaderProps {
   username: string,
   avatar: string,
+  avatarSize: number | 'large' | 'default' | 'small',
   avatarMenu: DropDownMenuItem[]
 }
 
@@ -72,6 +73,7 @@ const localSettings = reactive<ThemeSettingOptions>({
   //菜单折叠
   collapse: false,
   avatar: '',
+  avatarSize: 16,
   avatarMenu: [{ key: 1, value: '退出登陆' }],
   settings: {
     menuWidth: 280,
@@ -80,7 +82,7 @@ const localSettings = reactive<ThemeSettingOptions>({
 })
 
 //对localSettings进行解构赋值
-const { username, avatar, avatarMenu } = toRefs(localSettings)
+const { username, avatarSize, avatar, avatarMenu } = toRefs(localSettings)
 
 function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
   /**

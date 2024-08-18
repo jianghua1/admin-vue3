@@ -68,6 +68,7 @@ definePage({
 
 const activeName = ref('1')
 
+// @ts-ignore const
 const pagination = ref({
   align: 'center',
   small: false,

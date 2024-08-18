@@ -27,11 +27,11 @@ export interface NoticeMessageListOptions {
 
 //每条通知消息
 export interface MessageListItem {
-  avatar?: AvatarProps
+  avatar?: Partial<AvatarProps>
   title: string
   content?: string
   time?: string
-  TagProps?: Partial<TagProps>
+  tagProps?: Partial<TagProps>
   tag?: string
 }
 //操作按钮的图标和文字

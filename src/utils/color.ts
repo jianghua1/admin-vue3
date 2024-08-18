@@ -1,12 +1,14 @@
 export function darken(color: string, rate: number) {
   const rgb = hexToRgb(color)
+  if (!rgb) {
+    throw new Error(`无效的颜色：${color}`)
+  }
   const newRgb = {
     r: Math.max(0, Math.min(255, Math.round(rgb.r - rgb.r * rate))),
     g: Math.max(0, Math.min(255, Math.round(rgb.g - rgb.g * rate))),
     b: Math.max(0, Math.min(255, Math.round(rgb.b - rgb.b * rate)))
   }
   const adjustedColor = rgbToHex(newRgb)
-  console.log('adjustedColor', adjustedColor)
   return adjustedColor
 }
 

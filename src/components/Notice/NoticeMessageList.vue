@@ -6,7 +6,8 @@
       <ul v-if="tab.contents && tab.contents.length">
         <li v-for="(content, index2) in tab.contents" :key="index2">
           <el-row justify="center" align="middle" class="hover:bg-blue-200 py-2">
-            <el-col :span="4" align="middle" @click="() => handleClickAvatar(content.avatar!)" v-if="content.avatar">
+            <el-col :span="4" align="middle" @click="() => handleClickAvatar(content.avatar! as AvatarProps)"
+              v-if="content.avatar">
               <!-- 头像 -->
               <el-avatar v-bind="Object.assign({ size: 'small' }, content.avatar)" />
             </el-col>
@@ -17,7 +18,7 @@
                 <div class="text-base line-clamp-1">
                   {{ content.title }}
                 </div>
-                <el-tag v-if="content.tag" type="danger" size="small" class="ml-2" v-bind="content.TagProps">{{
+                <el-tag v-if="content.tag" type="danger" size="small" class="ml-2" v-bind="content.tagProps">{{
                   content.tag }}</el-tag>
               </el-row>
               <el-row v-if="content.content">
@@ -46,10 +47,10 @@
   </div>
 </template>
 <script setup lang='ts'>
-import { TabsPaneContext } from 'element-plus'
+import type { TabsPaneContext } from 'element-plus'
 
 import type { AvatarProps } from 'element-plus'
-import { MessageListItem, NoticeMessageListProps } from './types'
+import type { MessageListItem, NoticeMessageListProps } from './types'
 // import { Iconify } from '../Icon/Iconify.vue';
 
 

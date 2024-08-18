@@ -24,6 +24,8 @@ import type { HeaderProps } from './types';
 
 //初始化函数
 const props = withDefaults(defineProps<HeaderProps>(), {
+  //防止报错
+  avatarSize: 'default'
 })
 const collapseModel = defineModel('collapse', {
   default: false,
@@ -37,6 +39,7 @@ const avatarProps = computed(() => {
   const { collapse, ...restProps } = props;
   return restProps;
 })
+
 const emits = defineEmits<{
   menuChange: [command: string | number | object],
   settingsChange: [settings: ThemeSettingsProps]

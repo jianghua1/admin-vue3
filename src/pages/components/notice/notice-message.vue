@@ -6,8 +6,7 @@
 </template>
 
 <script setup lang='ts'>
-import { NoticeActionsItem, NoticeMessageListOptions } from "@components/Notice/types";
-import TagProps from 'element-plus';
+import type { NoticeActionsItem, NoticeMessageListOptions } from "@/components/Notice/types";
 
 // 路由组件的一部分
 definePage({
@@ -25,15 +24,15 @@ const lists = ref<NoticeMessageListOptions[]>([
   {
     title: '通知1',
     contents: [
-      { title: '通知标题', content: '通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文', time: '2022-12-12 12:12:12', tag: '紧急', tagProps: { type: 'danger' }, avatar: { url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' } },
-      { title: '通知标题2', content: '通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文', time: '2022-12-12 12:12:12', tagProps: { type: 'danger' }, avatar: { url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' } }
+      { title: '通知标题', content: '通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文', time: '2022-12-12 12:12:12', tag: '紧急', tagProps: { type: 'danger' }, avatar: { src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' } },
+      { title: '通知标题2', content: '通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文', time: '2022-12-12 12:12:12', tagProps: { type: 'danger' }, avatar: { src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' } }
     ]
   }, {
     title: '通知2',
     contents: [
       {
         title: '通知标题2', content: '通知正文2', time: '2022-12-12 12:12:12', tag: '重要', tagProps: { type: 'warning' }, avatar: {
-          url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
         }
       }
     ]

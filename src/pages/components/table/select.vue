@@ -35,8 +35,8 @@
       <el-tab-pane label="插槽" name="5">
         <VTable :columns="customColumns" :data="customTableData">
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            <el-button size="small" @click="handleEdit(scope)">Edit</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope)">Delete</el-button>
           </template>
         </VTable>
       </el-tab-pane>
@@ -203,7 +203,7 @@ const selectColumns = [
   { label: '日期', prop: 'date' },
   { label: '姓名', prop: 'name' },
   { label: '地址', prop: 'address' },
-] as TableColumnType
+] as TableColumnType[]
 
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<User[]>([])
@@ -212,7 +212,7 @@ const multipleSelection = ref<User[]>([])
 const toggleSelection = (rows?: User[]) => {
   if (rows) {
     rows.forEach((row) => {
-      multipleTableRef.value!.toggleRowSelection(row, undefined)
+      multipleTableRef.value!.toggleRowSelection(row, undefined as any)
     })
   } else {
     multipleTableRef.value!.clearSelection()
@@ -226,7 +226,7 @@ const orderColumns = [
   { label: '日期', prop: 'date', sortOrders: true },
   { label: '姓名', prop: 'name' },
   { label: '地址', prop: 'address' },
-]
+] as TableColumnType[]
 //过滤
 const filterHandler = (
   value: string,
@@ -356,11 +356,11 @@ const customTableData: User[] = [
     address: 'No. 189, Grove St, Los Angeles'
   }
 ]
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+const handleEdit = (scope) => {
+  console.log(scope.$index, scope.row)
 }
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+const handleDelete = (scope) => {
+  console.log(scope.$index, scope.row)
 }
 // 树形菜单
 const treeTableData: User[] = [

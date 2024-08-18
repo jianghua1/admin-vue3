@@ -12,12 +12,12 @@ export function convertDashToCamelCase(str: string): string {
 }
 
 //使用事件名称和参数动态生成emits事件
-export function forwardEventsUtils(emits: any, arr: string[]) {
+export function forwardEventsUtils(emits: any, arr: string[], prefix: string = '') {
   const forwardEvents: Record<string, (...args: any[]) => void> = {}
   arr.forEach((eventName) => {
     const name = convertDashToCamelCase(eventName)
     forwardEvents[name] = (...args: any[]) => {
-      emits(eventName, ...args)
+      emits(prefix + eventName, ...args)
     }
   })
   return forwardEvents

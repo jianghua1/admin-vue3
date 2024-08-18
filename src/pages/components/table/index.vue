@@ -2,7 +2,9 @@
   <div>
     <el-tabs v-model="activeName" class="demo-tabs">
       <el-tab-pane label="基础示例" name="1">
-        <VTable :columns="columns" :data="tableData" :pagination="pagination"></VTable>
+        <VTable :columns="columns" :data="tableData" :pagination="pagination" @page-current-change="handlePageChange"
+          @page-next-click="handlePageChange2" @page-prev-click="handlePageChange3"
+          @page-size-change="handlePageChange4"></VTable>
       </el-tab-pane>
       <el-tab-pane label="带斑马纹表格" name="2">
         <VTable :columns="columns" :data="tableData" stripe></VTable>
@@ -309,6 +311,17 @@ const multiLevelTableColumns =
     }
   ]
 
-
+const handlePageChange = () => {
+  console.log(1)
+}
+const handlePageChange2 = () => {
+  console.log(2)
+}
+const handlePageChange3 = () => {
+  console.log(3)
+}
+const handlePageChange4 = () => {
+  console.log(4)
+}
 </script>
 <style scoped></style>

@@ -5,12 +5,16 @@
     <slot></slot>
   </el-table>
   <div v-if="isDefined(pagination)" :class="['p-2 flex', paginationClass]">
-    <el-pagination v-bind="pagination" />
+    <el-pagination v-bind="pagination" v-on="pageEvents">
+      <template #default="scope" v-if="pagination.defaultSlot">
+        <component :is="pagination.defaultSlot" v-bind="scope"></component>
+      </template>
+    </el-pagination>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { TableEventsType, VTableProps } from './types';
+import type { TableEmitsType, TableEventsType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
 import { forwardEventsUtils, exposeEventUtils } from '@/utils'
@@ -32,7 +36,7 @@ const props = withDefaults(defineProps<VTableProps>(), {
   scrollbarAlwaysOn: true
 })
 //集中定义table组件的emits
-const emits = defineEmits<TableEventsType>()
+const emits = defineEmits<TableEmitsType>()
 //emits的事件名称虽然是驼峰，这里是-，但是在内部vue是有这个处理能力的，所以这里不处理是可以的
 const eventsName: (keyof TableEventsType)[] = [
   'select',
@@ -55,6 +59,13 @@ const eventsName: (keyof TableEventsType)[] = [
   'expand-change',
 ];
 
+const pageEventName = [
+  'size-change',
+  'current-change',
+  'prev-click',
+  'next-click'
+]
+
 const tableRef = ref()
 const exposeEventNames = [
   "clearSelection",
@@ -72,7 +83,7 @@ const exposeEventNames = [
   "setScrollLeft",
   "columns"
 ]
-
+const pageEvents = forwardEventsUtils(emits, pageEventName, 'page-')
 const events = forwardEventsUtils(emits, eventsName)
 const exposes = exposeEventUtils(tableRef, exposeEventNames)
 

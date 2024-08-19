@@ -15,6 +15,8 @@ export interface PaginationType extends Partial<PaginationProps> {
 export interface VTableProps extends TableProps<any> {
   columns: TableColumnType[]
   pagination?: PaginationType
+  adaptive?: boolean | number
+  loading?: boolean
 }
 
 export type TableEventsType = {

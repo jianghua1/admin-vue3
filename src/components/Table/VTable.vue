@@ -1,16 +1,18 @@
 <template>
-  <el-table v-bind="props" v-on="events" style="width: 100%" ref="tableRef">
+  <el-table v-loading="loading" v-bind="props" v-on="events" style="width: 100%" ref="tableRef">
     <Column v-for="(column, index) in columns" :key="index" v-bind="setColumnDefaults(column)">
     </Column>
     <slot></slot>
   </el-table>
-  <div v-if="isDefined(pagination)" :class="['p-2 flex', paginationClass]">
-    <el-pagination v-bind="pagination" v-on="pageEvents">
-      <template #default="scope" v-if="pagination.defaultSlot">
-        <component :is="pagination.defaultSlot" v-bind="scope"></component>
-      </template>
-    </el-pagination>
-  </div>
+  <slot name="footer">
+    <div v-if="isDefined(pagination)" :class="['p-2 flex', paginationClass]">
+      <el-pagination v-bind="pagination" v-on="pageEvents">
+        <template #default="scope" v-if="pagination.defaultSlot">
+          <component :is="pagination.defaultSlot" v-bind="scope"></component>
+        </template>
+      </el-pagination>
+    </div>
+  </slot>
 </template>
 
 <script lang="ts" setup>
@@ -18,6 +20,7 @@ import type { TableEmitsType, TableEventsType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
 import { forwardEventsUtils, exposeEventUtils } from '@/utils'
+import { nextTick } from 'vue';
 
 const props = withDefaults(defineProps<VTableProps>(), {
   stripe: false,
@@ -33,7 +36,9 @@ const props = withDefaults(defineProps<VTableProps>(), {
   selectOnIndeterminate: true,
   indent: 16,
   tableLayout: 'fixed',
-  scrollbarAlwaysOn: true
+  scrollbarAlwaysOn: true,
+  adaptive: false,
+  loading: false
 })
 //集中定义table组件的emits
 const emits = defineEmits<TableEmitsType>()
@@ -106,6 +111,32 @@ const paginationClass = computed(() => {
     }
   }
   return defaultClass
+})
+//自适应高度
+async function setAdaptive() {
+  //等待下次dom的刷新
+  await nextTick()
+  if (props.adaptive) {
+    let offset = 50
+    if (typeof props.adaptive === 'number') {
+      offset = props.adaptive
+    }
+    //窗口高度-table距离顶部的高度-table距离底部的高度
+    const height = window.innerHeight -
+      tableRef.value.$el.getBoundingClientRect().top - offset
+    tableRef.value.style.height = height + 'px'
+  }
+}
+//防抖动
+const fn = useDebounceFn(setAdaptive, 200)
+//监视高度变化
+useResizeObserver(tableRef, fn)
+
+//首次自适应
+onMounted(() => {
+  if (props.adaptive) {
+    setAdaptive()
+  }
 })
 
 const columnDefault = {

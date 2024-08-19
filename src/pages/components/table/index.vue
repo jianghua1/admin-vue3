@@ -73,12 +73,11 @@ const pagination = ref({
   align: 'center',
   small: false,
   background: false,
-  layout: 'total, prev, pager, next, jumper',
+  layout: 'total, sizes,prev, pager, next, jumper',
   pagerCount: 7,
-  pageSizeOptions: [10, 20, 30, 40, 50],
-  modelValue: 10,
+  pageSizes: [10, 20, 30, 40, 50],
   total: 300
-}) as PaginationType
+} as PaginationType)
 
 const handleClick = (scope, opt: string) => {
   console.log("opt", opt)
@@ -120,7 +119,7 @@ const tableData = [
     date: '2016-05-01',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
-  },
+  }
 ]
 
 const fixedTableColumns = [

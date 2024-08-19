@@ -1,6 +1,6 @@
 <template>
   <el-table v-loading="loading" v-bind="props" v-on="events" style="width: 100%" ref="tableRef">
-    <Column v-for="(column, index) in columns" :key="index" v-bind="setColumnDefaults(column)">
+    <Column v-for="(column, index) in columns" :key="column.id || index" v-bind="setColumnDefaults(column)">
     </Column>
     <slot></slot>
   </el-table>
@@ -16,11 +16,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { TableEmitsType, TableEventsType, VTableProps } from './types';
+import type { TableEmitsType, TableEventsType, TableColumnType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
 import { forwardEventsUtils, exposeEventUtils } from '@/utils'
 import { nextTick } from 'vue';
+import Sortable from 'sortablejs';
 
 const props = withDefaults(defineProps<VTableProps>(), {
   stripe: false,
@@ -38,7 +39,9 @@ const props = withDefaults(defineProps<VTableProps>(), {
   tableLayout: 'fixed',
   scrollbarAlwaysOn: true,
   adaptive: false,
-  loading: false
+  loading: false,
+  draggableCol: false,
+  draggableRow: false
 })
 //集中定义table组件的emits
 const emits = defineEmits<TableEmitsType>()
@@ -91,6 +94,7 @@ const exposeEventNames = [
 const pageEvents = forwardEventsUtils(emits, pageEventName, 'page-')
 const events = forwardEventsUtils(emits, eventsName)
 const exposes = exposeEventUtils(tableRef, exposeEventNames)
+const localCols = ref(props.columns as TableColumnType[])
 
 defineExpose({
   ...exposes
@@ -132,10 +136,39 @@ const fn = useDebounceFn(setAdaptive, 200)
 //监视高度变化
 useResizeObserver(tableRef, fn)
 
-//首次自适应
+function columnDrop() {
+  nextTick(() => {
+    //从当前表格对象开始，然后使用对应选择器找dom元素
+    const el = tableRef.value.$el.
+      querySelector('.el-table__header-wrapper tr')
+    Sortable.create(el, {
+      delay: 0,
+      animation: 300,
+      onEnd: ({ oldIndex, newIndex }) => {
+        //调整元素的位置
+        const draggedItem = localCols.value.splice(oldIndex, 1)[0]
+        localCols.value.splice(newIndex, 0, draggedItem)
+      }
+    })
+  })
+}
+
+onBeforeMount(() => {
+  localCols.value = addId(props.draggableCol, props.columns)
+})
+
 onMounted(() => {
+  //自适应高度
   if (props.adaptive) {
     setAdaptive()
+  }
+  //列拖拽
+  if (props.draggableCol) {
+    columnDrop()
+  }
+  //行拖拽
+  if (props.draggableRow) {
+
   }
 })
 
@@ -151,5 +184,14 @@ const columnDefault = {
 
 function setColumnDefaults(column: object) {
   return { ...columnDefault, ...column }
+}
+
+function addId(flag: boolean, arr: any[]) {
+  if (flag && arr.length && !arr[0].id) {
+    arr.forEach((item, index) => {
+      item.id = index
+    })
+  }
+  return arr
 }
 </script>

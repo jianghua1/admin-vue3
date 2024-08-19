@@ -1,7 +1,11 @@
 <template>
   <el-tabs v-model="activeName">
-    <el-tab-pane label="自适应高度" name="1">
-      <VTable :data="tableData" :columns="columns" highlight-current-row :pagination="pagination" adaptive loading>
+    <!-- <el-tab-pane label="自适应高度" name="1">
+      <VTable :data="tableData" :columns="columns" highlight-current-row :pagination="pagination" adaptive>
+      </VTable>
+    </el-tab-pane> -->
+    <el-tab-pane label="列拖拽" name="2">
+      <VTable :data="tableData" :columns="columns" highlight-current-row :pagination="pagination" adaptive draggableCol>
       </VTable>
     </el-tab-pane>
   </el-tabs>

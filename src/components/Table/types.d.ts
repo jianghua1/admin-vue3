@@ -1,6 +1,7 @@
 import type { PaginationProps, TableColumnCtx, TableProps } from 'element-plus'
 
 export interface TableColumnType extends Partial<TableColumnCtx<any>> {
+  id?: string | number
   defaultSlot?: typeof Component
   headerSlot?: typeof Component
   children?: TableColumnType[]
@@ -17,6 +18,10 @@ export interface VTableProps extends TableProps<any> {
   pagination?: PaginationType
   adaptive?: boolean | number
   loading?: boolean
+  //列拖拽开关
+  draggableCol?: boolean
+  //行拖拽开关
+  draggableRow?: boolean
 }
 
 export type TableEventsType = {

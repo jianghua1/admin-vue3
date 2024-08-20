@@ -28,5 +28,9 @@ const props = withDefaults(defineProps<FormItemProp>(), {
 
 const modelValue = defineModel()
 
+onBeforeMount(() => {
+  modelValue.value = props.value
+})
+
 </script>
 <style scoped></style>

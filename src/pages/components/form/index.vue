@@ -1,9 +1,8 @@
 <template>
-  <VForm :model="form" :schema="schema"></VForm>
+  <VForm v-model="form" :schema="schema"></VForm>
 </template>
 
 <script setup lang='ts'>
-import { colProps, type ColProps } from 'element-plus';
 
 definePage({
   meta: {
@@ -13,10 +12,19 @@ definePage({
   }
 })
 
-const schema = [
-  { type: 'input', label: 'Activity name', prop: 'name' },
+const schema = ref([
   {
-    type: 'select', label: 'Activity zone', prop: '', children: [
+    type: 'input',
+    label: 'Activity name',
+    prop: 'name',
+    value: ''
+  },
+  {
+    type: 'select',
+    label: 'Activity zone',
+    prop: 'region',
+    value: '',
+    children: [
       {
         label: 'Zone one',
         value: 'shanghai'
@@ -28,30 +36,50 @@ const schema = [
     ]
   },
   {
-    type: 'date-picker', label: 'Activity time', prop: '', attrs: {
+    type: 'date-picker',
+    label: 'Activity time',
+    prop: 'date1',
+    value: '',
+    attrs: {
       placeholder: 'Pick a date',
       style: 'width: 100%'
     },
     colProps: {
       span: 11
-    } as ColProps
+    }
   },
   {
-    prop: 'name', label: 'Activity Name', schema: [
+    prop: 'name',
+    label: 'Activity Name',
+    schema: [
       {
-        span: 11, prop: 'date1', type: 'date-picker', label: 'Pick a date', attrs: {
+        span: 11,
+        prop: 'date1',
+        value: '',
+        type: 'date-picker',
+        label: 'Pick a date',
+        attrs: {
           type: 'date',
           placeholder: 'Pick a date',
           style: {
             width: '100%'
           }
         }
-      }, {
-        span: 2, value: '-', attrs: {
+      },
+      {
+        span: 2,
+        value: '-',
+        attrs: {
           class: 'text-center w-full'
         }
-      }, {
-        span: 11, type: 'time-picker', label: 'Pick a date', attrs: {
+      },
+      {
+        span: 11,
+        type: 'time-picker',
+        prop: 'date2',
+        value: '',
+        label: 'Pick a time',
+        attrs: {
           type: 'date',
           placeholder: 'Pick a time',
           style: {
@@ -61,35 +89,60 @@ const schema = [
       }
     ]
   },
-  { type: 'switch', label: 'Instant delivery', prop: 'name' },
   {
-    type: 'checkbox', label: 'Activity type', prop: 'name', children: [
+    type: 'switch',
+    prop: 'delivery',
+    value: false,
+    label: 'Instant delivery'
+  },
+  {
+    type: 'checkbox',
+    label: 'Activity type',
+    prop: 'type',
+    value: [],
+    children: [
       {
         label: 'Online activities',
         name: 'type'
-      }, {
+      },
+      {
         label: 'Promotion activities',
         name: 'type'
-      }, {
+      },
+      {
         label: 'Offline activities',
         name: 'type'
-      }, {
+      },
+      {
         label: 'Simple brand activities',
         name: 'type'
       }
     ]
   },
   {
-    type: 'radio', label: 'Resources', prop: '', children: [
+    type: 'radio',
+    prop: 'resource',
+    value: '',
+    label: 'Resources',
+    children: [
       {
         label: 'Sponsor'
-      }, {
+      },
+      {
         label: 'Venue'
       }
     ]
   },
-  { type: 'input', label: 'Activity form', prop: '', attrs: { type: 'textarea' } },
-]
+  {
+    type: 'input',
+    value: '',
+    label: 'Activity form',
+    prop: 'desc',
+    attrs: {
+      type: 'textarea'
+    }
+  }
+])
 
 const form = reactive({
   name: '',
@@ -101,5 +154,7 @@ const form = reactive({
   resource: '',
   desc: '',
 })
+
+const modelValue = defineModel()
 </script>
 <style scoped lang="scss"></style>

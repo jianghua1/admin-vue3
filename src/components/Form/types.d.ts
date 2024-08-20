@@ -38,7 +38,7 @@ export interface FormItemProp extends Partial<FormItemProps> {
   attrs?: any
   span?: number
   colProps?: ColProps
-  value?: string
+  value?: any
   children?: any[]
   schema?: FormSchema
 }

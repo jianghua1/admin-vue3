@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AvatarMenu: typeof import('./src/components/Avatar/AvatarMenu.vue')['default']
+    Col: typeof import('./src/components/Form/Col.vue')['default']
     DarkModeToggle: typeof import('./src/components/Themes/DarkModeToggle.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
@@ -68,6 +69,7 @@ declare module 'vue' {
     ThemeSetting: typeof import('./src/components/Themes/ThemeSetting.vue')['default']
     VForm: typeof import('./src/components/Form/VForm.vue')['default']
     VFormItem: typeof import('./src/components/Form/VFormItem.vue')['default']
+    VFormLayout: typeof import('./src/components/Form/VFormLayout.vue')['default']
     VTable: typeof import('./src/components/Table/VTable.vue')['default']
     VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
   }

@@ -2,7 +2,7 @@
   <el-form v-bind="props">
     <slot name="default">
       <template v-if="schema && schema.length">
-        <VFormItem v-for="(item, index) in schema" :key="index" v-bind="item"></VFormItem>
+        <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item"></VFormLayout>
       </template>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Create</el-button>

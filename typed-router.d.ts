@@ -43,6 +43,8 @@ declare module 'vue-router/auto/routes' {
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/components': RouteRecordInfo<'/components', '/components', Record<never, never>, Record<never, never>>,
+    '/components/form': RouteRecordInfo<'/components/form', '/components/form', Record<never, never>, Record<never, never>>,
+    '/components/form/': RouteRecordInfo<'/components/form/', '/components/form', Record<never, never>, Record<never, never>>,
     '/components/icons': RouteRecordInfo<'/components/icons', '/components/icons', Record<never, never>, Record<never, never>>,
     '/components/icons/ep-icon-list': RouteRecordInfo<'/components/icons/ep-icon-list', '/components/icons/ep-icon-list', Record<never, never>, Record<never, never>>,
     '/components/icons/ep-icon-picker': RouteRecordInfo<'/components/icons/ep-icon-picker', '/components/icons/ep-icon-picker', Record<never, never>, Record<never, never>>,

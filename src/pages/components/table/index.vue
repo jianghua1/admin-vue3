@@ -62,7 +62,8 @@ import dayjs from 'dayjs'
 definePage({
   meta: {
     title: '基础表格',
-    icon: 'mdi:message'
+    icon: 'mdi:message',
+    order: 100
   }
 })
 

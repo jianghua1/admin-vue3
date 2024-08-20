@@ -8,23 +8,15 @@
       <el-tag>{{ row.name }}</el-tag>
     </template>
 </el-popover> -->
-  <el-popover v-if="row && Object.keys(row).length" effect="light" trigger="hover" placement="top" width="auto">
-    <template #default="scope">
-      <div>name: {{ row.name }}</div>
-      <div>address: {{ row.address }}</div>
-    </template>
-    <template #reference>
-      <el-tag>Hover me</el-tag>
-    </template>
-  </el-popover>
+
 </template>
 
 <script setup lang='ts'>
-defineProps({
-  row: {
-    type: Object,
-    default: () => ({})
-  }
-})
+// defineProps({
+//   row: {
+//     type: Object,
+//     default: () => ({})
+//   }
+// })
 </script>
 <style scoped></style>

@@ -1,9 +1,9 @@
 <template>
   <el-tabs v-model="activeName">
-    <!-- <el-tab-pane label="自适应高度" name="1">
+    <el-tab-pane label="自适应高度" name="1">
       <VTable :data="tableData" :columns="columns" highlight-current-row :pagination="pagination" adaptive>
       </VTable>
-    </el-tab-pane> -->
+    </el-tab-pane>
     <el-tab-pane label="列拖拽" name="2">
       <VTable :data="tableData" :columns="columns" highlight-current-row :pagination="pagination" adaptive draggableCol>
       </VTable>
@@ -17,7 +17,8 @@ import type { PaginationType, TableColumnType } from '@/components/Table/types';
 definePage({
   meta: {
     title: '高级表格',
-    icon: 'fluent:select-all-on-24-regular'
+    icon: 'fluent:select-all-on-24-regular',
+    order: 120
   }
 })
 

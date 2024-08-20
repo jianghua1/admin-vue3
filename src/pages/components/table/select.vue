@@ -67,7 +67,8 @@ import type { ElTable } from "element-plus"
 definePage({
   meta: {
     title: '单选表格',
-    icon: 'mdi:message'
+    icon: 'mdi:message',
+    order: 140
   }
 })
 

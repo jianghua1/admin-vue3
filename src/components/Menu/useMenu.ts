@@ -3,6 +3,16 @@ import path from 'path'
 
 export function useMenu() {
   function filterAndOrderMenus(menus: AppRouteMenuItem[]) {
+    menus.forEach((item) => {
+      if (item.children && Array.isArray(item.children) && item.children.length > 0) {
+        item.children = filterAndOrderMenus(item.children)
+      }
+      item.meta = {
+        ...item.meta,
+        order: item.meta?.order ?? 100
+      }
+    })
+
     return menus
       .filter((m) => !m.meta?.hideMenu)
       .sort((a, b) => {

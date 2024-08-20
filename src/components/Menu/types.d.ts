@@ -16,13 +16,14 @@ export interface AppRouteMenuItem {
 }
 
 export interface RouteMeta extends Record<string | number | symbol, unknown> {
-  layout?: string
   // 菜单的组件名
   title?: string
+  layout?: string
   // 菜单排序
   order?: number
   icon?: string | IconifyIcon
   hideMenu?: boolean
+  //禁用
   disabled?: boolean
   // key: string
 }

@@ -36,20 +36,7 @@ const schema = ref([
     ]
   },
   {
-    type: 'date-picker',
-    label: 'Activity time',
-    prop: 'date1',
-    value: '',
-    attrs: {
-      placeholder: 'Pick a date',
-      style: 'width: 100%'
-    },
-    colProps: {
-      span: 11
-    }
-  },
-  {
-    prop: 'name',
+    prop: '',
     label: 'Activity Name',
     schema: [
       {

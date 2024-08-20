@@ -1,6 +1,6 @@
 import Iconify from '@/components/Icon/Iconify.vue'
 import type { IconifyIcon } from '@iconify/vue'
-
+import type { FormProps, FormMetaProps, FormItemProps } from 'element-plus'
 /**
  * 适用于第三方登录
  */
@@ -25,4 +25,21 @@ export interface LoginFormInterface {
   email: string
   code: string
   remeber: boolean
+}
+
+export type NewFormProps = FormMetaProps & FormProps
+
+export interface FormItemProp extends Partial<FormItemProps> {
+  prop?: string
+  type: string
+  //事件
+  events?: any
+  //扩展属性
+  attrs?: any
+}
+
+export type FormSchema = FormItemProp[]
+
+export interface VFromProps extends Partial<NewFormProps> {
+  schema?: FormSchema
 }

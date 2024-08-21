@@ -1,8 +1,10 @@
 <template>
-  <VForm v-model="form" :schema="schema"></VForm>
+  <VForm v-model="form" :schema="schema" @update:model-value="onUpdate"></VForm>
+  {{ formValue }}
 </template>
 
 <script setup lang='ts'>
+import { flatObj } from "@/components/Form/useForm"
 
 definePage({
   meta: {
@@ -12,18 +14,49 @@ definePage({
   }
 })
 
+const rules = reactive<FormRules>({
+
+
+
+
+
+  desc: [
+    { required: true, message: 'Please input activity form', trigger: 'blur' },
+  ]
+})
+
 const schema = ref([
   {
     type: 'input',
     label: 'Activity name',
     prop: 'name',
-    value: ''
+    value: '',
+    rules: [
+      {
+        required: true,
+        trigger: 'blur',
+      },
+      {
+        min: 3,
+        max: 5,
+        message: 'Length should be 3 to 5',
+        trigger: 'blur',
+        informType: 'warning',
+      },
+    ]
   },
   {
     type: 'select',
     label: 'Activity zone',
     prop: 'region',
     value: '',
+    rules: [
+      {
+        required: true,
+        message: 'Please select Activity zone',
+        trigger: 'change',
+      }
+    ],
     children: [
       {
         label: 'Zone one',
@@ -51,7 +84,15 @@ const schema = ref([
           style: {
             width: '100%'
           }
-        }
+        },
+        rules: [
+          {
+            type: 'date',
+            required: true,
+            message: 'Please pick a date',
+            trigger: 'change',
+          }
+        ]
       },
       {
         span: 2,
@@ -72,7 +113,15 @@ const schema = ref([
           style: {
             width: '100%'
           }
-        }
+        },
+        rules: [
+          {
+            type: 'date',
+            required: true,
+            message: 'Please pick a time',
+            trigger: 'change',
+          }
+        ]
       }
     ]
   },
@@ -104,6 +153,14 @@ const schema = ref([
         label: 'Simple brand activities',
         name: 'type'
       }
+    ],
+    rules: [
+      {
+        type: 'array',
+        required: true,
+        message: 'Please select at least one activity type',
+        trigger: 'change',
+      }
     ]
   },
   {
@@ -118,30 +175,39 @@ const schema = ref([
       {
         label: 'Venue'
       }
+    ],
+    rules: [
+      {
+        required: true,
+        message: 'Please select activity resource',
+        trigger: 'change',
+      }
     ]
   },
   {
-    type: 'input',
+    type: 'textarea',
     value: '',
     label: 'Activity form',
     prop: 'desc',
     attrs: {
       type: 'textarea'
-    }
+    },
+    rules: [
+      { required: true, message: 'Please input activity form', trigger: 'blur' }
+    ]
   }
 ])
 
+const formValue = computed(() => flatObj(form))
+
+
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+
 })
 
-const modelValue = defineModel()
+const onUpdate = (model: any) => {
+  Object.assign(form, model)
+}
+// const modelValue = defineModel()
 </script>
 <style scoped lang="scss"></style>

@@ -2,7 +2,7 @@
   <el-form v-bind="props">
     <slot name="default">
       <template v-if="schema && schema.length">
-        <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="form[item.prop as string]">
+        <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="model[item.prop as string]">
         </VFormLayout>
       </template>
       <el-form-item>
@@ -15,7 +15,7 @@
 
 <script setup lang='ts'>
 import type { VFromProps } from './types';
-
+import { initForm } from './useForm'
 
 const props = withDefaults(defineProps<VFromProps>(), {
   inline: false,
@@ -29,33 +29,17 @@ const props = withDefaults(defineProps<VFromProps>(), {
   'scroll-to-error': false
 })
 
-const form = ref<any>()
+const model = ref<any>()
 
 const emits = defineEmits(['update:modelValue'])
 
 onBeforeMount(() => {
-  form.value = setForm(props?.schema || [])
+  model.value = initForm(props)
 })
 
-function setForm(arr: any[], level = 0) {
-  const obj = {}
-  let i = 0
-  arr.forEach(item => {
-    if (!item.prop)
-      item.prop = `form${level}-${i}`
-    if (item.value)
-      obj[item.prop] = item.value
-    else if (item.schema && item.schema.length) {
-      obj[item.prop] = setForm(item.schema, level + 1)
-      i++
-    } else
-      obj[item.prop] = undefined
-  })
-  return obj
-}
 
-watch(form, () => {
-  emits('update:modelValue', form.value)
+watch(model, () => {
+  emits('update:modelValue', model.value)
 }, {
   deep: true
 })

@@ -1,6 +1,6 @@
 import Iconify from '@/components/Icon/Iconify.vue'
 import type { IconifyIcon } from '@iconify/vue'
-import type { FormProps, FormMetaProps, FormItemProps, ColProps } from 'element-plus'
+import type { FormProps, FormMetaProps, FormItemProps, ColProps, FormItemRule } from 'element-plus'
 /**
  * 适用于第三方登录
  */
@@ -41,6 +41,7 @@ export interface FormItemProp extends Partial<FormItemProps> {
   value?: any
   children?: any[]
   schema?: FormSchema
+  rules?: FormItemRule[]
 }
 
 export type FormSchema = FormItemProp[]

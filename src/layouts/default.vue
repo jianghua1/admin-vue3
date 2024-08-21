@@ -1,5 +1,6 @@
 <template>
-  <div class="position-absolute left-0 top-0 w-full h-full overflow-hidden flex">
+  <div class="position-absolute left-0 top-0 w-full h-full overflow-hidden flex"
+    :style="{ '--el-color-primary': settings?.theme }">
     <!-- 左右布局 -->
     <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }"
       class="h-full transition-width shrink-0" v-if="settings?.mode !== 'top'">
@@ -11,13 +12,15 @@
           <Menu :class="[{ mixbar: settings?.mode === 'mixbar' }]"
             v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="mixMenus"
             :collapse="settings?.mode !== 'mixbar' && localSettings.collapse" text-color="#b8b8b8"
-            :background-color="settings?.mode === 'mixbar' ? 'transparent' : 'auto'" @select="handleSelect">
+            :background-color="settings?.mode === 'mixbar' ? 'transparent' : 'auto'" @select="handleSelect"
+            :active-text-color="settings?.theme">
           </Menu>
         </el-scrollbar>
         <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'" class="flex-1">
           <!-- 二级菜单 -->
           <Menu :data="getSubMenus(menus)" :collapse="localSettings.collapse" text-color="#b8b8b8"
-            :background-color="settings?.backgroundColor" @select="handleSelect"></Menu>
+            :background-color="settings?.backgroundColor" @select="handleSelect" :active-text-color="settings?.theme">
+          </Menu>
         </el-scrollbar>
       </el-row>
     </div>
@@ -28,7 +31,8 @@
           <Header1 v-model:collapse="localSettings.collapse" :username="username" :avatarSize="avatarSize" :src="avatar"
             :data="avatarMenu" :settings="settings" @settings-change="handleSettingsChange">
             <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
-              :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect">
+              :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect"
+              :active-text-color="settings?.theme">
             </Menu>
           </Header1>
           <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
@@ -40,7 +44,8 @@
     <!-- 左侧菜单按钮抽屉组件 -->
     <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"
       :style="{ backgroundColor: settings?.backgroundColor }" @close="localSettings.collapse = true">
-      <Menu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect">
+      <Menu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect"
+        :active-text-color="settings?.theme">
       </Menu>
     </el-drawer>
   </div>

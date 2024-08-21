@@ -3,7 +3,7 @@
     settings?.fixedHead ? 'position-absolute left-0 top-0 right-0' : 'w-full']">
     <Iconify v-if="settings?.mode !== 'top'" :icon="collapseModel ? 'ep:expand' : 'ep:fold'"
       class="text-xl cursor-pointer" @click="collapseModel = !collapseModel"></Iconify>
-    <Breadcrumb></Breadcrumb>
+    <Breadcrumb v-if="!['mix', 'top'].includes(settings?.mode || '')"></Breadcrumb>
     <div class="relative overflow-x-hidden flex-grow">
       <slot></slot>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <el-menu ref="menuRef" v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" class="border-r-0!"
-    @select="handleSelect" @open="handleOpen" @close="handleClose">
+    @select="handleSelect" @open="handleOpen" @close="handleClose" :default-active="getDefaultActive($route)">
     <slot name="icon"></slot>
     <div class="flex-grow" v-if="isDefined(slots['icon'])" />
     <sub-menu v-for="menu in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse" v-bind="subMenuProps">
@@ -86,6 +86,19 @@ const handleSelect = (...args: EmitSelectType) => {
   const item = getItem(fileredMenus.value, index)
   if (!item) return
   emits('select', item)
+}
+
+const getDefaultActive = (route: AppRouteMenuItem) => {
+  let key = ''
+
+  const findKey = (menus: AppRouteMenuItem[]) => {
+    menus.forEach((item) => {
+      if (item.name == route.name) key = item.meta?.key as string
+      if (item.children) findKey(item.children)
+    })
+  }
+  findKey(fileredMenus.value)
+  return key
 }
 
 </script>

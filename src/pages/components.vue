@@ -9,7 +9,8 @@ definePage({
   meta: {
     title: '组件示例',
     icon: 'mdi:apps'
-  }
+  },
+  redirect: '/components/icons/ep-icon-list'
 })
 </script>
 <style scoped></style>

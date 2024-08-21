@@ -1,19 +1,19 @@
-<!-- <template>
-  <el-breadcrumb>
-    <el-breadcrumb-item :to="{ path: '/' }" v-for="(item, index) in breadcrumnData" :key="item.fullPath">
+<template>
+  <el-breadcrumb :separator-icon="ArrowRight" class="ml-4">
+    <el-breadcrumb-item :to="{ path: item.name }" v-for="(item, index) in breadcrumnData" :key="item.fullPath">
       <span>
         {{ item.meta?.title }}
       </span>
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
-
-<script setup lang='ts'>
-import { useRoute, useRouter } from 'vue-router/auto'
+x
+<script setup lang='tsx'>
+import { useRoute } from 'vue-router/auto'
 //获取页面路由
 const route = useRoute()
-//控制页面路由
-const router = useRouter()
+//右箭头
+const ArrowRight = () => <i class="i-ep:arrow-right"></i>
 
 const breadcrumnData = ref<any>([])
 
@@ -25,4 +25,4 @@ watch(route, () => {
   getBreadcrumnData()
 }, { immediate: true })
 </script>
-<style scoped></style> -->
+<style scoped></style>

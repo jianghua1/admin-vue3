@@ -14,16 +14,6 @@ definePage({
   }
 })
 
-const rules = reactive<FormRules>({
-
-
-
-
-
-  desc: [
-    { required: true, message: 'Please input activity form', trigger: 'blur' },
-  ]
-})
 
 const schema = ref([
   {

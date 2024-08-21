@@ -1,5 +1,5 @@
 <template>
-  <el-form v-bind="props">
+  <el-form v-bind="props" ref="tableRef">
     <slot name="default">
       <template v-if="schema && schema.length">
         <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="model[item.prop as string]">
@@ -14,29 +14,35 @@
 </template>
 
 <script setup lang='ts'>
+import type { FormInstance } from 'element-plus'
 import type { VFromProps } from './types';
-import { initForm } from './useForm'
+
+import { initForm, initRules } from './useForm'
 
 const props = withDefaults(defineProps<VFromProps>(), {
   inline: false,
-  'label-position': 'right',
-  'hide-required-asterisk': false,
-  'show-message': true,
-  'inline-message': false,
-  'status-icon': false,
-  'validate-on-rule-change': true,
+  labelPosition: 'right',
+  hideRequiredAsterisk: false,
+  showMessage: true,
+  inlineMessage: false,
+  statusIcon: false,
+  validateOnRuleChange: true,
   disabled: false,
-  'scroll-to-error': false
+  scrollToError: false
 })
 
+const tableRef = ref<FormInstance>()
+
 const model = ref<any>()
+const rules = ref<any>()
 
 const emits = defineEmits(['update:modelValue'])
 
 onBeforeMount(() => {
   model.value = initForm(props)
+  console.log('model', model.value)
+  rules.value = initRules(props)
 })
-
 
 watch(model, () => {
   emits('update:modelValue', model.value)
@@ -45,7 +51,7 @@ watch(model, () => {
 })
 
 const onSubmit = () => {
-  console.log('submit!')
+  tableRef.value?.validate()
 }
 </script>
 <style scoped></style>

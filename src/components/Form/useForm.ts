@@ -1,4 +1,6 @@
+//方法调用前要声明 const model = ref<any>()
 export function setForm(arr: any[], level = 0): any {
+  console.log('arr', arr)
   const obj = {}
   let i = 0
   arr.forEach((item) => {
@@ -10,6 +12,20 @@ export function setForm(arr: any[], level = 0): any {
     } else obj[item.prop] = undefined
   })
   return obj
+}
+
+//方法调用前要声明 const rules = ref<any>()
+export function setRules(arr: any[]): any {
+  let formRules = {}
+  arr.forEach((item) => {
+    if (item.prop && item.rules) {
+      formRules[item.prop] = item.rules
+    }
+    if (item.schema && item.schema.length) {
+      formRules = { ...formRules, ...setRules(item.schema) }
+    }
+  })
+  return formRules
 }
 
 export function flatObj(obj) {
@@ -30,4 +46,8 @@ export function flatObj(obj) {
 
 export function initForm(props: any): any {
   return setForm(props?.schema || [])
+}
+
+export function initRules(props: any): any {
+  return setRules(props?.schema || [])
 }

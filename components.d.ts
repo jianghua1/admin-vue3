@@ -8,9 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AvatarMenu: typeof import('./src/components/Avatar/AvatarMenu.vue')['default']
+    Breadcrumb: typeof import('./src/components/Themes/Breadcrumb.vue')['default']
     DarkModeToggle: typeof import('./src/components/Themes/DarkModeToggle.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']

@@ -12,7 +12,7 @@
         v-bind="item" />
     </el-checkbox-group>
     <el-radio-group v-else-if="type === 'radio'" v-model="modelValue" v-bind="attrs">
-      <el-radio :label="item.value" v-for="(item, index) in children" :key="index" v-bind="item">{{ item.label
+      <el-radio :value="item.value" v-for="(item, index) in children" :key="index" v-bind="item">{{ item.label
         }}</el-radio>
     </el-radio-group>
     <span v-else class="text-gray-500" v-bind="attrs">{{ value }}</span>
@@ -23,14 +23,22 @@
 import type { FormItemProp } from "./types"
 
 const props = withDefaults(defineProps<FormItemProp>(), {
-
+  showMessage: true,
+  labelWidth: '',
+  inlineMessage: '',
+  required: undefined
 })
 
 const modelValue = defineModel()
 
 onBeforeMount(() => {
-  modelValue.value = props.value
+  if ((props.type === 'select' || props.type === 'radio') && props.value === '') {
+    modelValue.value = undefined
+  } else {
+    modelValue.value = props.value
+  }
 })
+
 
 </script>
 <style scoped></style>

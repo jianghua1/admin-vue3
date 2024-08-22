@@ -35,7 +35,7 @@
               :active-text-color="settings?.theme">
             </Menu>
           </Header1>
-          <HeaderTabs :data="tabsStore.tabs"></HeaderTabs>
+          <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" v-model="tabsStore.current"></HeaderTabs>
           <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
             <router-view></router-view>
           </div>
@@ -193,7 +193,7 @@ onBeforeMount(() => {
 watch(route, () => {
   tabsStore.addRoute(route)
   tabsStore.current = route.name as string
-})
+}, { immediate: true })
 
 const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
   localSettings.settings = themeSettings
@@ -205,6 +205,12 @@ const handleSelect = (item: AppRouteMenuItem) => {
     if (isMobile.value)
       localSettings.collapse = true
   }
+}
+
+const handleTabClick = (tab) => {
+  const { index } = tab
+  const route = tabsStore.tabs[index]
+  router.push(route.name as string)
 }
 </script>
 

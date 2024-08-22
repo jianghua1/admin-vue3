@@ -69,7 +69,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SubMenu: typeof import('./src/components/Menu/SubMenu.vue')['default']
     SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
-    Tabs: typeof import('./src/components/layouts/Tabs.vue')['default']
+    Tabs: typeof import('./src/components/layouts/HeaderTabs.vue')['default']
     ThemeSetting: typeof import('./src/components/Themes/ThemeSetting.vue')['default']
     VForm: typeof import('./src/components/Form/VForm.vue')['default']
     VFormItem: typeof import('./src/components/Form/VFormItem.vue')['default']

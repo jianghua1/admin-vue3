@@ -16,6 +16,9 @@ export const useTabsStore = defineStore('tabs', {
     addRoute(route: AppRouteMenuItem) {
       if (this.tabs.some((item) => item.name === route.name)) return
       this.tabs.push({ ...route })
+    },
+    removeRoute(path: string) {
+      this.tabs = this.tabs.filter((item) => item.path !== path)
     }
   },
   persist: true

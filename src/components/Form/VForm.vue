@@ -40,7 +40,6 @@ const emits = defineEmits(['update:modelValue'])
 
 onBeforeMount(() => {
   model.value = initForm(props)
-  console.log('model', model.value)
   rules.value = initRules(props)
 })
 

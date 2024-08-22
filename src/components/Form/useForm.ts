@@ -1,6 +1,5 @@
 //方法调用前要声明 const model = ref<any>()
 export function setForm(arr: any[], level = 0): any {
-  console.log('arr', arr)
   const obj = {}
   let i = 0
   arr.forEach((item) => {

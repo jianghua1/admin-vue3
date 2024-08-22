@@ -77,7 +77,6 @@ const rowClickRef = ref()
 const menuClickRef = ref()
 //单选的回调 三个参数： row，column，event
 const handleRowClick = (...args: any) => {
-  console.log("handleRowClick", args)
 }
 
 const handleClick = (scope, opt: string) => {

@@ -13,7 +13,6 @@ definePage({
   }
 })
 const handleSubmit = (data: IconPickerSubmitDataType) => {
-  console.log("111")
 }
 </script>
 <style scoped></style>

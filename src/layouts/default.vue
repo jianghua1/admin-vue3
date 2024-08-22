@@ -35,7 +35,8 @@
               :active-text-color="settings?.theme">
             </Menu>
           </Header1>
-          <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" v-model="tabsStore.current"></HeaderTabs>
+          <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" @tab-remove="handleTabRemove"
+            v-model="tabsStore.current"></HeaderTabs>
           <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
             <router-view></router-view>
           </div>
@@ -211,6 +212,22 @@ const handleTabClick = (tab) => {
   const { index } = tab
   const route = tabsStore.tabs[index]
   router.push(route.name as string)
+}
+
+const handleTabRemove = (tab) => {
+  tabsStore.removeRoute(tab as string)
+  //若删除的标签页就是当前正在展示的，那么还要给一个默认展示的
+  if (tabsStore.current === tab) {
+    if (tabsStore.tabs.length !== 0) {
+      tabsStore.current = tabsStore.tabs[0].name as string
+    }
+    else {
+      const temRoute = menus.value.filter((menu) => menu.path === '/')[0]
+      tabsStore.addRoute(temRoute)
+      tabsStore.current = temRoute.name as string
+    }
+    router.push(tabsStore.current)
+  }
 }
 </script>
 

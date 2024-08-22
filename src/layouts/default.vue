@@ -36,7 +36,7 @@
             </Menu>
           </Header1>
           <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" @tab-remove="handleTabRemove"
-            v-model="tabsStore.current"></HeaderTabs>
+            @tab-menu-click="handleTabMenuClick" v-model="tabsStore.current"></HeaderTabs>
           <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
             <router-view></router-view>
           </div>
@@ -58,6 +58,7 @@ import type { RouteRecordRaw } from 'vue-router/auto';
 import type { AppRouteMenuItem, EmitSelectType } from '../components/Menu/types';
 import type { DropDownMenuItem } from '../components/Avatar/types';
 import type { HeaderProps } from '../components/layouts/types';
+import { TabActions } from '@/components/layouts/types.d.ts';
 import type { ThemeSettingsProps } from '../components/Themes/types';
 import { useMenu } from '../components/Menu/useMenu';
 import { darken } from '@/utils'
@@ -228,6 +229,28 @@ const handleTabRemove = (tab) => {
     }
     router.push(tabsStore.current)
   }
+}
+
+const handleTabMenuClick = (action: TabActions) => {
+  //当前页面的index属性
+  const index = tabsStore.tabs.findIndex((item) => item.name === tabsStore.current)
+  console.log(action)
+  if (action === TabActions.closeAll) {
+    tabsStore.tabs = []
+    const temRoute = menus.value.filter((menu) => menu.path === '/')[0]
+    tabsStore.addRoute(temRoute)
+    tabsStore.current = temRoute.name as string
+  }
+  else if (action === TabActions.closeLeft) {
+    tabsStore.tabs = tabsStore.tabs.slice(index, tabsStore.tabs.length - 1)
+  }
+  else if (action === TabActions.closeRight) {
+    tabsStore.tabs = tabsStore.tabs.slice(0, index + 1)
+  }
+  else if (action === TabActions.closeOthers) {
+    tabsStore.tabs = [tabsStore.tabs[index]]
+  }
+  router.push(tabsStore.current)
 }
 </script>
 

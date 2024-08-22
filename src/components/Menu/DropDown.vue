@@ -5,12 +5,12 @@
     </slot>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item v-for="(item, index) in items" :key="index" :commond="{ item, index }"
+        <el-dropdown-item v-for="(item, index) in items" :key="index" :command="{ item, index }"
           :class="{ active: index === currentIndex }">
           <div class="flex items-center">
             <Iconify v-if="item.icon" :icon="item.icon" v-bind="iconProps" class="mr-2" :class="iconClass">
             </Iconify>
-            <slot :item="item"></slot>
+            <slot :item="item" name="item"></slot>
           </div>
         </el-dropdown-item>
       </el-dropdown-menu>

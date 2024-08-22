@@ -10,6 +10,7 @@ declare module 'vue' {
     AvatarMenu: typeof import('./src/components/Avatar/AvatarMenu.vue')['default']
     Breadcrumb: typeof import('./src/components/Themes/Breadcrumb.vue')['default']
     DarkModeToggle: typeof import('./src/components/Themes/DarkModeToggle.vue')['default']
+    DropDown: typeof import('./src/components/Menu/DropDown.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

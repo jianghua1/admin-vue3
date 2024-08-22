@@ -35,6 +35,7 @@
               :active-text-color="settings?.theme">
             </Menu>
           </Header1>
+          <HeaderTabs :data="tabsStore.tabs"></HeaderTabs>
           <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
             <router-view></router-view>
           </div>
@@ -62,6 +63,7 @@ import { darken } from '@/utils'
 import { routes } from 'vue-router/auto/routes'
 import { useRouter } from 'vue-router';
 import { ElScrollbar } from 'element-plus'
+import { useTabsStore } from '@/store/tabs';
 
 
 
@@ -145,8 +147,10 @@ const contentWrapperComponent = computed(() => settings.value?.fixedHead
 )
 
 const temWidth = ref(0)
-const changeWidthFlag = ref(false);
-const isMobile = ref(false);
+const changeWidthFlag = ref(false)
+const isMobile = ref(false)
+const route = useRoute()
+const tabsStore = useTabsStore()
 
 useResizeObserver(document.body, (entries) => {
   const { width } = entries[0].contentRect
@@ -185,6 +189,12 @@ onBeforeMount(() => {
     localSettings.collapse = true
   }
 })
+
+watch(route, () => {
+  tabsStore.addRoute(route)
+  tabsStore.current = route.name as string
+})
+
 const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
   localSettings.settings = themeSettings
 }

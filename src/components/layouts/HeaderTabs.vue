@@ -78,7 +78,6 @@ const items = ref([
 ])
 
 const handleClick = (item: any) => {
-  console.log('item', item)
   emits('tabMenuClick', item.action)
 }
 </script>

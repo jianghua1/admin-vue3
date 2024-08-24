@@ -37,7 +37,7 @@
           </Header1>
           <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" @tab-remove="handleTabRemove"
             @tab-menu-click="handleTabMenuClick" v-model="tabsStore.current"></HeaderTabs>
-          <div :class="settings?.fixedHead ? 'pt-[50px]' : ''">
+          <div :class="[settings?.fixedHead ? 'pt-[50px]' : '', 'p-2 bg']">
             <router-view></router-view>
           </div>
         </component>
@@ -254,4 +254,8 @@ const handleTabMenuClick = (action: TabActions) => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bg {
+  background-color: var(--el-fill-color-light)
+}
+</style>

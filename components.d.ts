@@ -77,6 +77,7 @@ declare module 'vue' {
     VFormLayout: typeof import('./src/components/Form/VFormLayout.vue')['default']
     VTable: typeof import('./src/components/Table/VTable.vue')['default']
     VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
+    VueEcharts: typeof import('./src/components/Charts/VueEcharts.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

@@ -48,4 +48,6 @@ export interface VueEchartsProps extends Partial<VEchartsProps> {
   theme?: 'dark' | 'default' | string
   style?: CSSProperties
   height?: string | number
+  charts: string
+  components?: string[]
 }

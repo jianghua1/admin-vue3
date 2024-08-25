@@ -6,6 +6,8 @@
       </template>
     </Menu>
     <VueEcharts :option="option" theme="#12ffff" :height="600"></VueEcharts>
+    <Editor :options="{}" v-model="value"></Editor>
+    <el-button @click="value = '123'">changeEditorValue</el-button>
   </div>
 </template>
 
@@ -21,6 +23,8 @@ definePage({
     icon: 'mdi:home'
   }
 })
+
+const value = ref('')
 
 const option = ref({
   title: {

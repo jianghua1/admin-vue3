@@ -23,6 +23,9 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'path'
 
 import Icons from 'unplugin-icons/vite'
+
+import { visualizer } from 'rollup-plugin-visualizer'
+import { cdn } from 'vite-plugin-cdn2'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -111,6 +114,22 @@ export default defineConfig({
           }
         ]
       }
+    }),
+    visualizer({
+      open: true
+    }),
+    cdn({
+      modules: [
+        'vue',
+        'vue-demi',
+        'pinia',
+        'vue-router',
+        'element-plus',
+        {
+          name: 'echarts',
+          aliases: ['core', 'renderers', 'components', 'features', 'charts']
+        }
+      ]
     })
   ],
   resolve: {

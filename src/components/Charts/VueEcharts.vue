@@ -3,11 +3,11 @@
 </template>
 
 <script setup lang="ts">
-import { use } from "echarts/core"
-import { CanvasRenderer } from "echarts/renderers"
-import * as Charts from "echarts/charts"
-import * as ChartsComponents from "echarts/components"
-import * as ChartsFeatures from "echarts/features"
+import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import * as Charts from 'echarts/charts'
+import * as ChartsComponents from 'echarts/components'
+import * as ChartsFeatures from 'echarts/features'
 import VChart from "vue-echarts"
 import type { VueEchartsProps } from "./types"
 import { CHARTS_MAP, COMPONENTS_MAP } from "./const"
@@ -17,14 +17,14 @@ import { CHARTS_MAP, COMPONENTS_MAP } from "./const"
 const props = withDefaults(defineProps<VueEchartsProps>(), {
   autoresize: true,
   theme: 'default',
-  height: '400px',
-  components: () => [
-    'TitleComponent',
-    'TooltipComponent',
-    'LegendComponent',
-    'AriaComponent',
-    'GridComponent'
-  ]
+  height: '400px'
+  // components: () => [
+  //   'TitleComponent',
+  //   'TooltipComponent',
+  //   'LegendComponent',
+  //   'AriaComponent',
+  //   'GridComponent'
+  // ]
 })
 
 const computedStyle = computed(() => {
@@ -36,36 +36,38 @@ const computedStyle = computed(() => {
   return { ...style, ...props.style }
 })
 
-onBeforeMount(() => {
-  let deps: string[] = []
-  if (props.option) {
-    Object.keys(props.option).forEach(key => {
-      if (COMPONENTS_MAP[key]) {
-        deps.push(COMPONENTS_MAP[key]);
-      }
-    })
-  }
+if (import.meta.env.MODE !== 'production') {
+  onBeforeMount(() => {
+    let deps: string[] = []
+    if (props.option) {
+      Object.keys(props.option).forEach(key => {
+        if (COMPONENTS_MAP[key]) {
+          deps.push(COMPONENTS_MAP[key]);
+        }
+      })
+    }
 
-  if (props.components) {
-    deps = props.components.map((o) => ChartsComponents[o])
-  }
+    if (props.components) {
+      deps = props.components
+    }
 
-  let type = 'pie'
-  let series = Array.isArray(props.option.series) ? props.option.series[0] : props.option.series
-  type = series.type
+    let type = 'pie'
+    let series = Array.isArray(props.option.series) ? props.option.series[0] : props.option.series
+    type = series.type
 
-  let features: string[] = []
-  if (series.labelLayout) {
-    features.push('labelLayout')
-  }
-  if (series.universalTransition) {
-    features.push('UniversalTransition')
-  }
-  use([
-    CanvasRenderer,
-    Charts[CHARTS_MAP[type]], ...deps, ...features.map(f => ChartsFeatures[f])
-  ])
-})
+    let features: string[] = []
+    if (series.labelLayout) {
+      features.push('labelLayout')
+    }
+    if (series.universalTransition) {
+      features.push('UniversalTransition')
+    }
+    use([
+      CanvasRenderer,
+      Charts[CHARTS_MAP[type]], ...deps.map((o) => ChartsComponents[o]), ...features.map(f => ChartsFeatures[f])
+    ])
+  })
+}
 
 </script>
 

@@ -120,16 +120,28 @@ export default defineConfig({
     }),
     cdn({
       modules: [
-        'vue',
+        { name: 'vue', relativeModule: './dist/vue.global.prod.js' },
         'vue-demi',
-        'pinia',
-        'vue-router',
-        'element-plus',
+        { name: 'pinia', relativeModule: './dist/pinia.iife.prod.js' },
+        // { name: 'vue-router', relativeModule: './dist/vue-router.global.prod.js' },
+        { name: 'element-plus', aliases: ['es', 'lib'] },
         {
           name: 'echarts',
           aliases: ['core', 'renderers', 'components', 'features', 'charts']
         }
-      ]
+      ],
+      transform: () => {
+        return {
+          script: (scriptNode) => {
+            const { tag, name } = scriptNode
+            if (tag === 'script') {
+              if (name === 'echarts') {
+                scrIptNode.defer = true
+              }
+            }
+          }
+        }
+      }
     })
   ],
   resolve: {

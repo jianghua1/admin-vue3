@@ -50,6 +50,9 @@ importers:
       vue-echarts:
         specifier: ^7.0.3
         version: 7.0.3(@vue/runtime-core@3.3.4)(echarts@5.5.1)(vue@3.3.4)
+      vue-popover:
+        specifier: ^1.6.2
+        version: 1.6.2(vue@3.3.4)
       vue-router:
         specifier: ^4.2.2
         version: 4.2.2(vue@3.3.4)
@@ -5084,6 +5087,12 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
+  vue-popover@1.6.2:
+    resolution: {integrity: sha512-ZfiKAo73V1/elhrELyQIyvgggxsuf0tv97cc9EajQ9ic/AKl/DVTd5tourEeunabAl5fwULRKJqi1kOJ4TJzQg==}
+    engines: {node: '>=7.0.0'}
+    peerDependencies:
+      vue: ^2.2.4
+
   vue-router@4.2.2:
     resolution: {integrity: sha512-cChBPPmAflgBGmy3tBsjeoe3f3VOSG6naKyY5pjtrqLGbNEXdzCigFUHgBvp9e3ysAtFtEx7OLqcSDh/1Cq2TQ==}
     peerDependencies:
@@ -5455,7 +5464,7 @@ snapshots:
       '@babel/core': 7.25.2
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.21.5
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6
       lodash.debounce: 4.0.8
       resolve: 1.22.2
       semver: 6.3.1
@@ -11123,6 +11132,10 @@ snapshots:
       semver: 7.5.0
     transitivePeerDependencies:
       - supports-color
+
+  vue-popover@1.6.2(vue@3.3.4):
+    dependencies:
+      vue: 3.3.4
 
   vue-router@4.2.2(vue@3.3.4):
     dependencies:

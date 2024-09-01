@@ -34,10 +34,12 @@
       </el-tab-pane>
       <el-tab-pane label="插槽" name="5">
         <VTable :columns="customColumns" :data="customTableData">
-          <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope)">Edit</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope)">Delete</el-button>
-          </template>
+          <el-table-column label="Operations">
+            <template #default="scope">
+              <el-button size="small" @click="handleEdit(scope)">Edit</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope)">Delete</el-button>
+            </template>
+          </el-table-column>
         </VTable>
       </el-tab-pane>
       <el-tab-pane label="树形结构" name="8">
@@ -302,29 +304,29 @@ const resetDateFilter = () => {
 const clearFilter = () => {
   filterTableRef.value!.clearFilter()
 }
-import Popover from "./components/Popover.vue"
+import PopOver from "./components/Popover.vue";
 import { Timer } from '@element-plus/icons-vue';
 import { Clock } from '@element-plus/icons-vue';
 // 自定义列模板
 const customColumns = [
   {
     label: 'date',
+    // prop: 'date'
     defaultSlot: (scope: any) => (
-      <>
-        <div style="display: flex; align-items: center">
-          <el-icon><timer /></el-icon>
-          <span style="margin-left:5px">{scope.row.date}</span>
-        </div>
-      </>
+      <div style="display: flex; align-items: center">
+        <el-icon><Timer /></el-icon>
+        <span style="margin-left: 5px">{scope.row.date}</span>
+      </div>
     )
   },
   {
     label: 'name',
+    // prop: 'name'
     defaultSlot: (scope: any) => {
-      const { row } = scope
-      return h(Popover, {
-        props: row
-      })
+      const { row } = scope;
+      return h(PopOver, {
+        row: row
+      });
     }
   }
 ] as TableColumnType[]

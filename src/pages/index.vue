@@ -11,8 +11,6 @@
 
 
 <script setup lang="ts">
-import { registerSW } from 'virtual:pwa-register'
-
 import type { AppRouteMenuItem } from '@/components/Menu/types'
 
 definePage({
@@ -126,18 +124,6 @@ const data: AppRouteMenuItem[] = [
     ]
   }
 ]
-
-onMounted(() => {
-  registerSW({
-    immediate: true,
-    onRegisteredSW(_url, registration) {
-      setInterval(() => {
-        registration && registration.update()
-      }, 3600000)
-    }
-  })
-})
-
 import {
   Document,
   Menu as IconMenu,

@@ -26,6 +26,28 @@ import Icons from 'unplugin-icons/vite'
 
 import { visualizer } from 'rollup-plugin-visualizer'
 import { cdn } from 'vite-plugin-cdn2'
+import electron from 'vite-plugin-electron'
+//开头需要配置：
+// export default defineConfig(({ command, mode }) => {
+//   const isProd = mode === 'production'
+//   const base = isProd ? process.env.BASE_PATH || '/' : './'
+
+//   const isAnalysis = process.env.ANALYSIS === 'true'
+//   const isSourceMap = process.env.SOURCE_MAP === 'true'
+
+//   const isElectron = process.env.ELECTRON === 'true'
+//   const isBuild = command === 'build'
+//   const isServe = command === 'serve'
+
+//   const sourceMap = isServe || !!process.env.VSCODE_DEBUG
+
+//   return {
+//     base,
+//     build: {
+//       sourcemap: isSourceMap
+//     }
+//   }
+// })
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -44,6 +66,9 @@ export default defineConfig({
     //   }
     // }),
     UnoCSS(),
+    electron({
+      entry: 'electron/main.ts'
+    }),
     Icons({
       // 配置选项
     }),
@@ -148,5 +173,10 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  optimizeDeps: {
+    // TODO: 等环境变量都能使用后修改这里的逻辑
+    include: false ? [] : ['element-plus', 'dayjs', 'element-plus/es/components/**/style/css']
+  },
+  logLevel: 'info'
 })

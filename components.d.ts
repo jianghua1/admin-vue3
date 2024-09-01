@@ -66,6 +66,7 @@ declare module 'vue' {
     Notice: typeof import('./src/components/Notice/Notice.vue')['default']
     NoticeMessageList: typeof import('./src/components/Notice/NoticeMessageList.vue')['default']
     Notification: typeof import('./src/components/Notice/Notification.vue')['default']
+    Popover: typeof import('./src/components/Table/Popover.vue')['default']
     ReloadPrompt: typeof import('./src/components/other/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

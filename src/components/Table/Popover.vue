@@ -18,5 +18,13 @@ defineProps({
     default: () => ({})
   }
 })
+definePage({
+  meta: {
+    title: '高级表格222',
+    icon: 'fluent:select-all-on-24-regular',
+    order: 120
+  }
+})
+
 </script>
 <style scoped></style>

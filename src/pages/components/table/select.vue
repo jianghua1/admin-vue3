@@ -64,7 +64,8 @@
 
 import type { TableColumnType } from "@/components/Table/types"
 import type { ElTable } from "element-plus"
-
+import PopOver from "@/components/Table/Popover.vue"
+import { Timer } from '@element-plus/icons-vue';
 
 definePage({
   meta: {
@@ -304,9 +305,7 @@ const resetDateFilter = () => {
 const clearFilter = () => {
   filterTableRef.value!.clearFilter()
 }
-import PopOver from "./components/Popover.vue";
-import { Timer } from '@element-plus/icons-vue';
-import { Clock } from '@element-plus/icons-vue';
+
 // 自定义列模板
 const customColumns = [
   {

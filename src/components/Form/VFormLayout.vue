@@ -2,7 +2,8 @@
   <template v-if="schema && schema.length">
     <el-form-item v-bind="props">
       <el-col v-bind="item.colProps" :span="item.span" v-for="(item, index) in schema" :key="index">
-        <VFormItem v-bind="item" v-model="modelValue[item?.prop as string]"></VFormItem>
+        <!--  v-model="modelValue[item?.prop as string]" -->
+        <VFormItem v-bind="item" v-model="modelValue[item.prop as string]"></VFormItem>
       </el-col>
     </el-form-item>
   </template>
@@ -27,6 +28,19 @@ const props = withDefaults(defineProps<FormItemProp>(), {
 })
 
 const modelValue = defineModel()
+//初始化modelValue
+
+onBeforeMount(() => {
+  // modelValue.value = props.value
+  //遍历schema
+  // const arr = [1, 2, 3, 4, 5];
+
+  // arr.forEach((item, index) => {
+  //   console.log(item);
+  // });
+  //若对象中不存在prop属性，或者prop不是string，就打印出来
+
+})
 
 </script>
 <style scoped></style>

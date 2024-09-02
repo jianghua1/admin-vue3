@@ -31,14 +31,16 @@ export type NewFormProps = FormMetaProps & FormProps
 
 export interface FormItemProp extends Partial<FormItemProps> {
   prop?: string
-  type: string
+  type?: string
   //事件
   events?: any
   //扩展属性
   attrs?: any
+  // span和colProps属性是二选一的，它们都和栅格布局有关系
   span?: number
   colProps?: ColProps
   value?: any
+  //多选组件的子选项 redio、checkbox
   children?: any[]
   schema?: FormSchema
   rules?: FormItemRule[]

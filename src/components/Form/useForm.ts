@@ -4,11 +4,14 @@ export function setForm(arr: any[], level = 0): any {
   let i = 0
   arr.forEach((item) => {
     if (!item.prop) item.prop = `form${level}-${i}`
-    if (item.value) obj[item.prop] = item.value
-    else if (item.schema && item.schema.length) {
+    if (item.value || item.value === '' || item.value === false) {
+      obj[item.prop] = item.value
+    } else if (item.schema && item.schema.length) {
       obj[item.prop] = setForm(item.schema, level + 1)
       i++
-    } else obj[item.prop] = undefined
+    } else {
+      obj[item.prop] = undefined
+    }
   })
   return obj
 }

@@ -25,7 +25,7 @@ const schema = ref([
     value: '',
     rules: [
       {
-        required: false,
+        required: true,
         trigger: 'blur'
       },
       {
@@ -194,8 +194,6 @@ const schema = ref([
 ] as FormSchema)
 
 const { model, formValue } = useForm(schema.value)
-
-console.log('mode', model)
 
 const onUpdate = (model: any) => {
   // Object.assign(form, model)

@@ -17,7 +17,7 @@
 import type { FormInstance } from 'element-plus'
 import type { VFromProps } from './types';
 
-import { useForm } from './useForm2';
+import { useForm } from './useForm';
 
 const props = withDefaults(defineProps<VFromProps>(), {
   inline: false,

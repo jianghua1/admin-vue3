@@ -5,8 +5,7 @@
 
 <script setup lang='ts'>
 import type { FormSchema } from "@/components/Form/types";
-import { flatObj } from "@/components/Form/useForm"
-import { useForm } from "@/components/Form/useForm2";
+import { useForm } from "@/components/Form/useForm";
 import type { ColProps } from 'element-plus';
 
 definePage({
@@ -80,7 +79,7 @@ const schema = ref([
         rules: [
           {
             type: 'date',
-            required: true,
+            required: false,
             message: 'Please pick a date',
             trigger: 'change'
           }
@@ -108,7 +107,7 @@ const schema = ref([
         rules: [
           {
             type: 'date',
-            required: true,
+            required: false,
             message: 'Please pick a date',
             trigger: 'change'
           }

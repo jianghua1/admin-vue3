@@ -2,9 +2,11 @@ import type { FormSchema } from './types'
 
 export function useForm(schema: FormSchema) {
   const model = ref<any>()
+  const rules = ref<any>()
 
   onBeforeMount(() => {
     model.value = setForm(schema || [])
+    rules.value = setRules(schema || [])
   })
 
   function setForm(arr: any[], level = 0): any {
@@ -24,8 +26,39 @@ export function useForm(schema: FormSchema) {
     return obj
   }
 
+  function setRules(arr: any[]): any {
+    let formRules = {}
+    arr.forEach((item) => {
+      if (item.prop && item.rules) {
+        formRules[item.prop] = item.rules
+      }
+      if (item.schema && item.schema.length) {
+        formRules = { ...formRules, ...setRules(item.schema) }
+      }
+    })
+    return formRules
+  }
+
+  function flatObj(obj) {
+    let result = {}
+    if (typeof obj !== 'object') return result
+
+    for (let key in obj) {
+      if (typeof obj[key] === 'object' && !Array.isArray(obj[key]) && Object.keys(obj[key]).length)
+        result = { ...result, ...flatObj(obj[key]) }
+      else {
+        if (!key.startsWith('form')) {
+          result[key] = obj[key]
+        }
+      }
+    }
+    return result
+  }
+
   return {
     model,
-    setForm
+    rules,
+    setForm,
+    formValue: computed(() => flatObj(model.value))
   }
 }

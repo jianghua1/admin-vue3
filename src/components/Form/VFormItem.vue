@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<FormItemProp>(), {
 const modelValue = defineModel()
 
 onBeforeMount(() => {
-  if ((props.type === 'select' || props.type === 'radio') && props.value === '') {
+  if (props.type === 'select' && props.value === '') {
     modelValue.value = undefined
   } else {
     modelValue.value = props.value

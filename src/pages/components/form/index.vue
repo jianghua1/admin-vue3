@@ -1,11 +1,12 @@
 <template>
-  <VForm v-model="form" :schema="schema" @update:model-value="onUpdate"></VForm>
+  <VForm v-model="model" :schema="schema" @update:model-value="onUpdate"></VForm>
   {{ formValue }}
 </template>
 
 <script setup lang='ts'>
-import type { FormItemProp } from "@/components/Form/types";
+import type { FormSchema } from "@/components/Form/types";
 import { flatObj } from "@/components/Form/useForm"
+import { useForm } from "@/components/Form/useForm2";
 import type { ColProps } from 'element-plus';
 
 definePage({
@@ -24,7 +25,7 @@ const schema = ref([
     value: '',
     rules: [
       {
-        required: true,
+        required: false,
         trigger: 'blur'
       },
       {
@@ -40,7 +41,7 @@ const schema = ref([
     prop: 'region',
     label: 'Activity zone',
     type: 'select',
-    value: '',
+    value: undefined,
     rules: [
       {
         required: true,
@@ -104,6 +105,14 @@ const schema = ref([
             width: '100%'
           }
         },
+        rules: [
+          {
+            type: 'date',
+            required: true,
+            message: 'Please pick a date',
+            trigger: 'change'
+          }
+        ]
       }
     ]
   },
@@ -149,7 +158,7 @@ const schema = ref([
     prop: 'resource',
     label: 'Resources',
     type: 'radio',
-    value: '',
+    value: [],
     children: [
       {
         label: 'Sponsor'
@@ -168,7 +177,7 @@ const schema = ref([
   },
   {
     prop: 'desc',
-    label: 'Activity form',
+    label: '',
     type: 'input',
     value: '',
     attrs: {
@@ -182,25 +191,14 @@ const schema = ref([
       }
     ]
   }
-] as FormItemProp[])
+] as FormSchema)
 
-const formValue = computed(() => flatObj(form))
+const { model, formValue } = useForm(schema.value)
 
-
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: ''
-})
+console.log('mode', model)
 
 const onUpdate = (model: any) => {
-  Object.assign(form, model)
+  // Object.assign(form, model)
 }
-// const modelValue = defineModel()
 </script>
 <style scoped lang="scss"></style>

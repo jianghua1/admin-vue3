@@ -1,9 +1,8 @@
 <template>
-  <el-form v-bind="props" ref="tableRef">
+  <el-form v-bind="props" :model="model" :rules="rules" ref="tableRef">
     <slot name="default">
       <template v-if="schema && schema.length">
-
-        <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="form[item?.prop as string]">
+        <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="model[item?.prop as string]">
         </VFormLayout>
       </template>
       <el-form-item>
@@ -18,7 +17,6 @@
 import type { FormInstance } from 'element-plus'
 import type { VFromProps } from './types';
 
-import { initForm, initRules } from './useForm'
 import { useForm } from './useForm2';
 
 const props = withDefaults(defineProps<VFromProps>(), {
@@ -35,21 +33,12 @@ const props = withDefaults(defineProps<VFromProps>(), {
 
 const tableRef = ref<FormInstance>()
 
-const rules = ref<any>()
-
 const emits = defineEmits(['update:modelValue'])
-const form = ref({
-  aaaaa: ''
-})
 
-const { model } = useForm(props.schema || [])
-onBeforeMount(() => {
-  form.value = initForm(props)
-  // rules.value = initRules(props)
-})
+const { model, rules } = useForm(props.schema ?? [])
 
-watch(form, () => {
-  emits('update:modelValue', form.value)
+watch(model, () => {
+  emits('update:modelValue', model.value)
 }, {
   deep: true
 })

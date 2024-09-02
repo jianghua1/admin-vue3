@@ -2,8 +2,7 @@
   <template v-if="schema && schema.length">
     <el-form-item v-bind="props">
       <el-col v-bind="item.colProps" :span="item.span" v-for="(item, index) in schema" :key="index">
-        <!--  v-model="modelValue[item?.prop as string]" -->
-        <VFormItem v-bind="item" v-model="modelValue[item.prop as string]"></VFormItem>
+        <VFormItem v-bind="item" v-model="modelValue[item?.prop as string]"></VFormItem>
       </el-col>
     </el-form-item>
   </template>

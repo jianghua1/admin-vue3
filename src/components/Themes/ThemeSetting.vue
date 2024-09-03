@@ -62,6 +62,10 @@
       </el-form-item>
       <!-- 切换动画 -->
       <el-form-item label="切换动画">
+        <el-select v-model="form.transition" placeholder="请选择">
+          <el-option v-for="item in TRANSITION_NAMES" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
       </el-form-item>
       <!-- 标签页 -->
       <el-form-item label="标签页">
@@ -82,6 +86,7 @@
 <script setup lang='ts'>
 import Iconify from '../Icon/Iconify.vue'
 import type { ThemeSettingsProps } from './types'
+import { TransitionNameEnum, TRANSITION_NAMES } from './const'
 
 const drawer = ref(false)
 
@@ -95,7 +100,8 @@ const props = withDefaults(defineProps<ThemeSettingsProps>(), {
   fixedHead: false,
   showBreadcrumb: false,
   mode: 'siderbar',
-  backgroundColor: '#001529'
+  backgroundColor: '#001529',
+  transition: TransitionNameEnum.Fade
 })
 
 const emits = defineEmits<{

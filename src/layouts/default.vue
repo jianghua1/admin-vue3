@@ -37,8 +37,12 @@
           </Header1>
           <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" @tab-remove="handleTabRemove"
             @tab-menu-click="handleTabMenuClick" v-model="tabsStore.current"></HeaderTabs>
-          <div :class="[settings?.fixedHead ? 'pt-[50px]' : '', 'p-2 bg']">
-            <router-view></router-view>
+          <div :class="[settings?.fixedHead ? 'pt-[50px]' : '']">
+            <router-view v-slot="{ Component }">
+              <Transition :name="camelToHyphen(settings?.transition || 'fade') + '-transition'" mode="out-in">
+                <component :is="Component" :key="$route.fullPath"></component>
+              </Transition>
+            </router-view>
           </div>
         </component>
       </keep-alive>
@@ -61,13 +65,11 @@ import type { HeaderProps } from '../components/layouts/types';
 import { TabActions } from '@/components/layouts/types.d.ts';
 import type { ThemeSettingsProps } from '../components/Themes/types';
 import { useMenu } from '../components/Menu/useMenu';
-import { darken } from '@/utils'
+import { darken, camelToHyphen } from '@/utils'
 import { routes } from 'vue-router/auto/routes'
 import { useRouter } from 'vue-router';
 import { ElScrollbar } from 'element-plus'
-import { useTabsStore } from '@/store/tabs';
-
-
+import { useTabsStore } from '@/store/tabs'
 
 // console.log('routes', routes)
 interface ThemeSettingOptions extends HeaderProps {

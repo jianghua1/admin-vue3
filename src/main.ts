@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-import './assets/main.css'
+import './assets/main.scss'
 // import 'reset-css'
 // import '@unocss/reset/normalize.css'
 // import '@unocss/reset/tailwind.css'

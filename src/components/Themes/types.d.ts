@@ -1,5 +1,7 @@
+import { TransitionNameEnum } from './const'
 export interface ThemeSettingsProps {
   theme: string
+  backgroundColor: string
   darkMode: boolean
   menuWidth?: number
   showLogo: boolean
@@ -7,5 +9,6 @@ export interface ThemeSettingsProps {
   fixedHead: boolean
   showBreadcrumb: boolean
   mode: 'siderbar' | 'mix' | 'top' | 'mixbar'
-  backgroundColor: string
+  //动画过渡效果
+  transition: TransitionNameEnum
 }

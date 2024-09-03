@@ -11,6 +11,10 @@ export function convertDashToCamelCase(str: string): string {
     .join('')
 }
 
+export function camelToHyphen(name: string) {
+  return name.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+}
+
 //使用事件名称和参数动态生成emits事件
 export function forwardEventsUtils(emits: any, arr: string[], prefix: string = '') {
   const forwardEvents: Record<string, (...args: any[]) => void> = {}

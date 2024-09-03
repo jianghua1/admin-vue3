@@ -1,12 +1,19 @@
 <template>
-  <VForm v-model="model" :schema="schema" @update:model-value="onUpdate"></VForm>
+  <VForm v-model="model" :schema="schema" ref="formRef">
+    <template #actions>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">Create</el-button>
+        <el-button @click="onCancel">Cancel</el-button>
+      </el-form-item>
+    </template>
+  </VForm>
   {{ formValue }}
 </template>
 
 <script setup lang='ts'>
 import type { FormSchema } from "@/components/Form/types";
 import { useForm } from "@/components/Form/useForm";
-import type { ColProps } from 'element-plus';
+import type { FormInstance, FormItemInstance } from 'element-plus';
 
 definePage({
   meta: {
@@ -15,6 +22,9 @@ definePage({
     order: 110
   }
 })
+
+const formRef = ref<FormInstance>()
+const formItemRef = ref<FormItemInstance>()
 
 const schema = ref([
   {
@@ -34,7 +44,10 @@ const schema = ref([
         trigger: 'blur',
         informType: 'warning'
       }
-    ]
+    ],
+    itemRef: (ref: FormItemInstance) => {
+      formItemRef.value = ref
+    }
   },
   {
     prop: 'region',
@@ -196,6 +209,14 @@ const { model, formValue } = useForm(schema.value)
 
 const onUpdate = (model: any) => {
   // Object.assign(form, model)
+}
+
+const onSubmit = () => {
+  formRef.value?.validate()
+}
+
+const onCancel = () => {
+  formItemRef.value?.clearValidate()
 }
 </script>
 <style scoped lang="scss"></style>

@@ -19,7 +19,7 @@
 import type { TableEmitsType, TableEventsType, TableColumnType, VTableProps } from './types';
 import { isDefined } from '@vueuse/core';
 import Column from './VTableColumn.vue';
-import { forwardEventsUtils, exposeEventUtils } from '@/utils'
+import { forwardEventsUtils, exposeEventsUtils } from '@/utils'
 import { nextTick } from 'vue';
 import Sortable from 'sortablejs';
 
@@ -93,7 +93,7 @@ const exposeEventNames = [
 ]
 const pageEvents = forwardEventsUtils(emits, pageEventName, 'page-')
 const events = forwardEventsUtils(emits, eventsName)
-const exposes = exposeEventUtils(tableRef, exposeEventNames)
+const exposes = exposeEventsUtils(tableRef, exposeEventNames)
 const localCols = ref(props.columns as TableColumnType[])
 
 defineExpose({

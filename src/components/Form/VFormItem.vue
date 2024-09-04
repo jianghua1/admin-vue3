@@ -5,6 +5,7 @@
     </template>
     <template #default v-else>
       <el-input v-if="type === 'input'" v-model="modelValue" v-bind="attrs" />
+      <el-input-number v-if="type === 'input-number'" v-model="modelValue" v-bind="attrs" />
       <el-date-picker v-else-if="type === 'date-picker'" v-model="modelValue" v-bind="attrs" />
       <el-time-picker v-else-if="type === 'time-picker'" v-model="modelValue" v-bind="attrs" />
       <el-switch v-else-if="type === 'switch'" v-model="modelValue" />
@@ -12,14 +13,20 @@
         <el-option :label="item.label" :value="item.value" v-for="(item, index) in children" :key="index"
           v-bind="item" />
       </el-select>
-      <el-checkbox-group v-else-if="type === 'checkbox'" v-model="modelValue" v-bind="attrs">
-        <el-checkbox :label="item.label" :value="item.value" v-for="(item, index) in children" :key="index"
-          v-bind="item" />
+      <el-checkbox-group v-else-if="type === 'checkbox' || type === 'checkbox-group'" v-model="modelValue"
+        v-bind="attrs">
+        <template v-for="(item, index) in children" :key="index">
+          <el-checkbox v-if="item.type === 'checkbox'" :label="item.label" :value="item.value" v-bind="item" />
+          <el-checkbox-button v-if="item.type === 'checkbox-button'" :label="item.label" :value="item.value"
+            v-bind="item" />
+        </template>
       </el-checkbox-group>
-      <el-radio-group v-else-if="type === 'radio'" v-model="modelValue" v-bind="attrs">
-        <!-- 这里要注意radio的value是对象模型的laber属性， -->
-        <el-radio :label="item.value" v-for="(item, index) in children" :key="index" v-bind="item">{{ item.label
-          }}</el-radio>
+      <el-radio-group v-else-if="type === 'radio' || type === 'radio-group'" v-model="modelValue" v-bind="attrs">
+        <template v-for="(item, index) in children" :key="index">
+          <el-radio v-bind="item" v-if="item.type === 'radio'" :label="item.value">{{ item.label }}</el-radio>
+          <el-radio-button v-bind="item" v-else-if="item.type === 'radio-button'" :label="item.value">{{ item.label
+            }}</el-radio-button>
+        </template>
       </el-radio-group>
       <span v-else class="text-gray-500" v-bind="attrs">{{ value }}</span>
     </template>

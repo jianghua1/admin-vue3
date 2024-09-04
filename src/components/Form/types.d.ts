@@ -8,6 +8,7 @@ import type {
   FormItemRule,
   FormItemInstance
 } from 'element-plus'
+import type { CSSProperties } from 'vue'
 /**
  * 适用于第三方登录
  */
@@ -36,9 +37,50 @@ export interface LoginFormInterface {
 
 export type NewFormProps = FormMetaProps & FormProps
 
+export type ComponentType =
+  | 'input'
+  | 'button'
+  | 'input-number'
+  | 'select'
+  | 'option'
+  | 'text'
+  | 'link'
+  | 'rate'
+  | 'slider'
+  | 'switch'
+  | 'checkbox'
+  | 'checkbox-group'
+  | 'radio'
+  | 'radio-button'
+  | 'radio-group'
+  | 'cascader'
+  | 'color-picker'
+  | 'time-picker'
+  | 'time-select'
+  | 'date-picker'
+  | 'transfer'
+  | 'avatar'
+  | 'image'
+  | 'progress'
+  | 'tag'
+  | 'timeline'
+  | 'tree'
+  | 'steps'
+  | 'step'
+  | 'upload'
+  | ''
+  | undefined
+
+type FormItemChild = {
+  type?: ComponentType
+  label?: string
+  value?: any
+  [key: string]: any
+}
+
 export interface FormItemProp extends Partial<FormItemProps> {
   prop?: string
-  type?: string
+  type?: ComponentType
   //事件
   events?: any
   //扩展属性
@@ -48,7 +90,7 @@ export interface FormItemProp extends Partial<FormItemProps> {
   colProps?: ColProps
   value?: any
   //多选组件的子选项 redio、checkbox
-  children?: any[]
+  children?: FormItemChild[]
   schema?: FormSchema
   rules?: FormItemRule[]
   defaultSlot?: typeof Component
@@ -61,4 +103,6 @@ export type FormSchema = FormItemProp[]
 
 export interface VFromProps extends Partial<NewFormProps> {
   schema?: FormSchema
+  rowClass?: string
+  rowStyle?: CSSProperties
 }

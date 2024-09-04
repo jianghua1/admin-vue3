@@ -1,10 +1,12 @@
 <template>
   <el-form v-bind="props" :model="model" :rules="rules" ref="formRef">
     <slot name="default">
-      <template v-if="schema && schema.length">
-        <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="model[item?.prop as string]">
-        </VFormLayout>
-      </template>
+      <el-row :class="rowClass" :style="rowStyle">
+        <template v-if="schema && schema.length">
+          <VFormLayout v-for="(item, index) in schema" :key="index" v-bind="item" v-model="model[item?.prop as string]">
+          </VFormLayout>
+        </template>
+      </el-row>
     </slot>
     <slot name="actions">
     </slot>

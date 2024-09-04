@@ -2,39 +2,35 @@
   <div ref="editorRef"></div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
+import('vditor/dist/index.css')
+import { ref, onMounted } from 'vue'
 import Vditor from 'vditor'
-import type { EditorProps, VditorOptions } from './types.d'
-import 'vditor/dist/index.css'
+import type { EditorProps, EditorOptions } from './types'
 
-const defaultOptions: IOptions = {
-  rtl: false,//从左往右还是从右往左
+const defaultOptions: EditorOptions = {
+  rtl: false,
   mode: 'ir',
   value: '',
   debugger: false,
-  typewriterMode: true,
+  typewriterMode: false,
   height: 'auto',
   minHeight: 400,
   width: 'auto',
   placeholder: '',
-  fullscreen: {
-    index: 90
-  },
+  fullscreen: { index: 90 },
   counter: {
-    enable: false,
-    type: 'markdown',
+    enable: false, // 默认值: false
+    type: 'markdown' // 默认值: 'markdown'
   },
   link: {
-    isOpen: true
+    isOpen: true // 默认值: true
   },
   image: {
-    isPreview: true
+    isPreview: true // 默认值: true
   },
+  cache: { enable: true, id: Math.random().toString(16).slice(2) },
   lang: 'zh_CN',
-  cache: {
-    id: Math.random().toString(36).slice(2),
-    enable: true
-  },
   theme: 'classic',
   icon: 'ant',
   cdn: 'https://unpkg.com/vditor@3.9.6'
@@ -55,31 +51,46 @@ watch(modelValue, (newVal) => {
   }
 })
 
-watch(() => props.options, (newOptions) => {
-  history.value = editorInstance.value?.getValue() || ''
-  editorInstance.value?.destroy()
-  initEditor(newOptions)
+//当对象中的属性变化就会触发wantch事件，不这么写只有引用变化才行
+const fn = useDebounceFn((newOptions) => {
+  if (editorInstance.value) {
+    try {
+      history.value = editorInstance.value?.getValue()
+      editorInstance.value?.destroy()
+    } catch (error) {
+      history.value = ''
+    }
+    initEditor(newOptions)
+  }
+}, 100)
 
-}, { deep: true })
+watch(() => props.options, fn, {
+  deep: true
+})
 
 function initEditor(options) {
-  editorInstance.value = new Vditor(editorRef.value, Object.assign(defaultOptions, props.options))
-  const defaultInput = options?.input || (() => { })
-  const defaultAfter = options?.after || (() => { })
-  const instance = new Vditor(editorRef.value, Object.assign
-    (defaultOptions, {
-      ...options, after: () => {
+  const defaultAfter = options?.after
+  const defaultInput = options?.input
+  const instance = new Vditor(
+    editorRef.value,
+    Object.assign(defaultOptions, {
+      ...options,
+      after: () => {
         defaultAfter && defaultAfter()
         if (history.value) {
           instance.setValue(history.value, true)
         }
-        modelValue.value = editorInstance.value?.getValue()
-      }
-      , input: (md) => {
+        const tmp = instance.getValue()
+        if (!tmp) {
+          modelValue.value = tmp
+        }
+      },
+      input: (md) => {
         defaultInput && defaultInput(md)
         modelValue.value = md
       }
-    }))
+    })
+  )
   editorInstance.value = instance
   modelValue.value = options?.value || ''
   return instance
@@ -94,4 +105,5 @@ onBeforeUnmount(() => {
   editorInstance.value?.destroy()
 })
 </script>
+
 <style scoped></style>

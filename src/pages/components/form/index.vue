@@ -137,22 +137,26 @@ const schema = ref([
   {
     prop: 'type',
     label: 'Activity type',
-    type: 'checkbox',
+    type: 'checkbox-group',
     value: [],
     children: [
       {
+        type: 'checkbox',
         label: 'Online activities',
         name: 'type'
       },
       {
+        type: 'checkbox',
         label: 'Promotion activities',
         name: 'type'
       },
       {
+        type: 'checkbox',
         label: 'Offline activities',
         name: 'type'
       },
       {
+        type: 'checkbox',
         label: 'Simple brand activities',
         name: 'type'
       }

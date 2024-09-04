@@ -96,7 +96,7 @@ const props = withDefaults(defineProps<ThemeSettingsProps>(), {
   darkMode: false,
   menuWidth: 280,
   showLogo: false,
-  showTabs: false,
+  showTabs: true,
   fixedHead: false,
   showBreadcrumb: false,
   mode: 'siderbar',
@@ -109,15 +109,6 @@ const emits = defineEmits<{
 }>()
 //将入参转换为响应式数据,供页面使用
 const form = reactive<ThemeSettingsProps>({
-  // theme: props.theme,
-  // darkMode: props.darkMode,
-  // menuWidth: props.menuWidth,
-  // showLogo: props.showLogo,
-  // showTabs: props.showTabs,
-  // fixedHead: props.fixedHead,
-  // showBreadcrumb: props.showBreadcrumb,
-  // mode: props.mode,
-  // backgroundColor: props.backgroundColor
   ...props
 })
 

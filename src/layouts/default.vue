@@ -26,34 +26,39 @@
     </div>
     <!-- 右边-->
     <div :class="['relative w-full h-full flex-1 overflow-hidden']">
-      <keep-alive>
-        <component :is="contentWrapperComponent">
-          <Header1 v-model:collapse="localSettings.collapse" :username="username" :avatarSize="avatarSize" :src="avatar"
-            :data="avatarMenu" :settings="settings" @settings-change="handleSettingsChange">
-            <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
-              :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect"
-              :active-text-color="settings?.theme">
-            </Menu>
-          </Header1>
-          <HeaderTabs :data="tabsStore.tabs" @tab-click="handleTabClick" @tab-remove="handleTabRemove"
-            @tab-menu-click="handleTabMenuClick" v-model="tabsStore.current"></HeaderTabs>
-          <div :class="[settings?.fixedHead ? 'pt-[50px]' : '']">
-            <router-view v-slot="{ Component }">
-              <Transition :name="camelToHyphen(settings?.transition || 'fade') + '-transition'" mode="out-in">
-                <component :is="Component" :key="$route.fullPath"></component>
-              </Transition>
-            </router-view>
-          </div>
-        </component>
-      </keep-alive>
+      <div class="overflow-y-auto h-full">
+        <keep-alive>
+          <component>
+            <Header1 v-model:collapse="localSettings.collapse" :username="username" :avatarSize="avatarSize"
+              :src="avatar" :data="avatarMenu" :settings="settings" @settings-change="handleSettingsChange">
+              <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
+                :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect"
+                :active-text-color="settings?.theme">
+              </Menu>
+            </Header1>
+            <HeaderTabs v-if="settings?.showTabs" :data="tabsStore.tabs" @tab-click="handleTabClick"
+              @tab-remove="handleTabRemove" @tab-menu-click="handleTabMenuClick" v-model="tabsStore.current">
+            </HeaderTabs>
+            <div :class="['p-2 bg', contentClass]">
+              <el-scrollbar>
+                <router-view v-slot="{ Component }">
+                  <Transition :name="camelToHyphen(settings?.transition || 'fade') + '-transition'" mode="out-in">
+                    <component :is="Component" :key="$route.fullPath" class="rounded bg-white shadow p-4"></component>
+                  </Transition>
+                </router-view>
+              </el-scrollbar>
+            </div>
+          </component>
+        </keep-alive>
+      </div>
+      <!-- 左侧菜单按钮抽屉组件 -->
+      <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"
+        :style="{ backgroundColor: settings?.backgroundColor }" @close="localSettings.collapse = true">
+        <Menu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect"
+          :active-text-color="settings?.theme">
+        </Menu>
+      </el-drawer>
     </div>
-    <!-- 左侧菜单按钮抽屉组件 -->
-    <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"
-      :style="{ backgroundColor: settings?.backgroundColor }" @close="localSettings.collapse = true">
-      <Menu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect"
-        :active-text-color="settings?.theme">
-      </Menu>
-    </el-drawer>
   </div>
 </template>
 
@@ -142,14 +147,6 @@ const mixMenuWidth = computed(() => {
 })
 
 const { getTopMenus, getSubMenus } = useMenu()
-
-const contentWrapperComponent = computed(() => settings.value?.fixedHead
-  ? ElScrollbar
-  : h('div', {
-    class: 'h-full overflow-y-auto'
-  })
-)
-
 const temWidth = ref(0)
 const changeWidthFlag = ref(false)
 const isMobile = ref(false)
@@ -180,6 +177,22 @@ useResizeObserver(document.body, (entries) => {
   isMobile.value = width < 440
 
   temWidth.value = width
+})
+
+const contentClass = computed(() => {
+  if (settings.value?.fixedHead) {
+    if (settings.value?.showTabs) {
+      return 'h-[calc(100%-90px)]'
+    } else {
+      return 'h-[calc(100%-50px)]'
+    }
+  } else {
+    if (settings.value?.showTabs) {
+      return 'min-h-[calc(100%-90px)]'
+    } else {
+      return 'min-h-[calc(100%-50px)]'
+    }
+  }
 })
 
 onBeforeMount(() => {
@@ -259,5 +272,9 @@ const handleTabMenuClick = (action: TabActions) => {
 <style lang="scss" scoped>
 .bg {
   background-color: var(--el-fill-color-light)
+}
+
+:deep(.el-scrollbar__view) {
+  height: 100%;
 }
 </style>

@@ -1,15 +1,25 @@
 <template>
   <div>
-    <Menu mode="horizontal" :data="data" class="w-[600px] mx-auto!">
+    <!-- <Menu mode="horizontal" :data="data" class="w-[600px] mx-auto!">
       <template #icon>
         123
       </template>
-    </Menu>
-    <VueEcharts :option="option" theme="#12ffff" :height="600"></VueEcharts>
+</Menu> -->
+    <!-- <VueEcharts :option="option" theme="#12ffff" :height="600"></VueEcharts> -->
     <!-- 过渡效果 -->
     <el-button type="primary" @click="() => toggle()">111</el-button>
-    <CollapseTransition>
-      <p class="w-20 h-20 border" v-show="show">这是一个元素</p>
+    <CollapseTransition duration="2s">
+      <div v-show="show" class="w-20 border border-color-red pt-10 pb-10">
+        <div class="overflow-y-auto">
+          <p>这是一个元素</p>
+          <p>这是一个元素</p>
+          <p>这是一个元素</p>
+          <p>这是一个元素</p>
+          <p>这是一个元素</p>
+          <p>这是一个元素</p>
+          <p>这是一个元素</p>
+        </div>
+      </div>
     </CollapseTransition>
   </div>
 </template>

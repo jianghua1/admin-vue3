@@ -38,6 +38,7 @@ export interface LoginFormInterface {
 export type NewFormProps = FormMetaProps & FormProps
 
 export type ComponentType =
+  | 'autocomplete'
   | 'input'
   | 'button'
   | 'input-number'
@@ -49,6 +50,7 @@ export type ComponentType =
   | 'slider'
   | 'switch'
   | 'checkbox'
+  | 'checkbox-button'
   | 'checkbox-group'
   | 'radio'
   | 'radio-button'
@@ -96,7 +98,10 @@ export interface FormItemProp extends Partial<FormItemProps> {
   defaultSlot?: typeof Component
   labelSlot?: typeof Component
   errorSlot?: typeof Component
+  prefixSlot?: typeof Component
+  suffixSlot?: typeof Component
   itemRef?: (ref: FormItemInstance) => void
+  childRef?: (ref: any) => void
 }
 
 export type FormSchema = FormItemProp[]

@@ -1,35 +1,40 @@
 <template>
-  <el-form-item v-bind="props" ref="formItemRef">
+  <el-form-item v-bind="props" :ref="(ref) => props?.itemRef && props.itemRef(ref as FormItemInstance)">
+    <slot name="prefix">
+      <template v-if="props?.prefixSlot">
+        <component :is="props.prefixSlot" v-bind="props" />
+      </template>
+    </slot>
     <template #default v-if="props?.defaultSlot">
       <component :is="props?.defaultSlot" v-bind="props" />
     </template>
     <template #default v-else>
-      <el-input v-if="type === 'input'" v-model="modelValue" v-bind="attrs" />
-      <el-input-number v-if="type === 'input-number'" v-model="modelValue" v-bind="attrs" />
-      <el-date-picker v-else-if="type === 'date-picker'" v-model="modelValue" v-bind="attrs" />
-      <el-time-picker v-else-if="type === 'time-picker'" v-model="modelValue" v-bind="attrs" />
-      <el-switch v-else-if="type === 'switch'" v-model="modelValue" />
-      <el-select v-else-if="type === 'select'" v-model="modelValue" v-bind="attrs">
-        <el-option :label="item.label" :value="item.value" v-for="(item, index) in children" :key="index"
-          v-bind="item" />
+      <el-select v-if="type === 'select'" v-model="modelValue" v-bind="attrs" v-on="events">
+        <el-option :label="item.label" :value="item.value" v-bind="item" v-for="(item, index) in children"
+          :key="index" />
       </el-select>
       <el-checkbox-group v-else-if="type === 'checkbox' || type === 'checkbox-group'" v-model="modelValue"
-        v-bind="attrs">
+        v-bind="attrs" v-on="events" :ref="(ref) => props?.childRef && props.childRef(ref)">
         <template v-for="(item, index) in children" :key="index">
           <el-checkbox v-if="item.type === 'checkbox'" :label="item.label" :value="item.value" v-bind="item" />
           <el-checkbox-button v-if="item.type === 'checkbox-button'" :label="item.label" :value="item.value"
             v-bind="item" />
         </template>
       </el-checkbox-group>
-      <el-radio-group v-else-if="type === 'radio' || type === 'radio-group'" v-model="modelValue" v-bind="attrs">
-        <template v-for="(item, index) in children" :key="index">
-          <el-radio v-bind="item" v-if="item.type === 'radio'" :label="item.value">{{ item.label }}</el-radio>
-          <el-radio-button v-bind="item" v-else-if="item.type === 'radio-button'" :label="item.value">{{ item.label
-            }}</el-radio-button>
-        </template>
+      <el-radio-group v-else-if="type === 'radio'" v-model="modelValue" v-bind="attrs" v-on="events">
+        <el-radio v-for="(item, index) in children" :key="index" v-bind="item" :label="item.value">{{ item.label
+          }}</el-radio>
       </el-radio-group>
+      <component :is="'el-' + type"
+        v-else-if="!['checkbox', 'radio', 'select'].includes(type) && typeof type !== 'undefined' && type !== ''"
+        v-model="modelValue" v-bind="attrs" v-on="events" :ref="(ref) => props?.childRef && props.childRef(ref)" />
       <span v-else class="text-gray-500" v-bind="attrs">{{ value }}</span>
     </template>
+    <slot name="suffix">
+      <template v-if="props?.suffixSlot">
+        <component :is="props.suffixSlot" v-bind="props" />
+      </template>
+    </slot>
     <template #label="scope" v-bind="props.labelSlot">
       <component :is="props.labelSlot" v-bind="scope" />
     </template>
@@ -48,18 +53,19 @@ const props = withDefaults(defineProps<FormItemProp>(), {
   showMessage: true,
   labelWidth: '',
   inlineMessage: '',
-  required: undefined
+  required: undefined,
+  type: ''
 })
 
-const formItemRef = ref<FormItemInstance>()
+// const formItemRef = ref<FormItemInstance>()
 
-const exposeEventNames = ['resetField', 'clearValidate', 'size', 'validateMessage', 'validateState', 'validate']
+// const exposeEventNames = ['resetField', 'clearValidate', 'size', 'validateMessage', 'validateState', 'validate']
 
 const modelValue = defineModel()
 
-const exposes = exposeEventsUtils(formItemRef, exposeEventNames)
+// const exposes = exposeEventsUtils(formItemRef, exposeEventNames)
 
-defineExpose({ ...exposes })
+// defineExpose({ ...exposes })
 
 onBeforeMount(() => {
   // if (props.type === 'select' && props.value === '') {
@@ -70,10 +76,10 @@ onBeforeMount(() => {
 })
 
 // onMounted(() => {
-watch(formItemRef, () => {
-  if (formItemRef.value && props.itemRef) {
-    props.itemRef(formItemRef.value)
-  }
-})
+// watch(formItemRef, () => {
+//   if (formItemRef.value && props.itemRef) {
+//     props.itemRef(formItemRef.value)
+//   }
+// })
 </script>
 <style scoped></style>

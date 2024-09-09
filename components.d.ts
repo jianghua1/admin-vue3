@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AvatarMenu: typeof import('./src/components/Avatar/AvatarMenu.vue')['default']
     Breadcrumb: typeof import('./src/components/Themes/Breadcrumb.vue')['default']
+    CollapseTransition: typeof import('./src/components/Transition/CollapseTransition.vue')['default']
     DarkModeToggle: typeof import('./src/components/Themes/DarkModeToggle.vue')['default']
     DropDown: typeof import('./src/components/Menu/DropDown.vue')['default']
     Editor: typeof import('./src/components/Editor/Editor.vue')['default']
@@ -34,7 +35,6 @@ declare module 'vue' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
-    ElLink: typeof import('element-plus/es')['ElLink']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']

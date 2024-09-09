@@ -6,6 +6,11 @@
       </template>
     </Menu>
     <VueEcharts :option="option" theme="#12ffff" :height="600"></VueEcharts>
+    <!-- 过渡效果 -->
+    <el-button type="primary" @click="() => toggle()">111</el-button>
+    <CollapseTransition>
+      <p class="w-20 h-20 border" v-show="show">这是一个元素</p>
+    </CollapseTransition>
   </div>
 </template>
 
@@ -130,6 +135,8 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
+
+const [show, toggle] = useToggle(true)
 
 </script>
 

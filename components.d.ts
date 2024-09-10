@@ -81,6 +81,7 @@ declare module 'vue' {
     VForm: typeof import('./src/components/Form/VForm.vue')['default']
     VFormItem: typeof import('./src/components/Form/VFormItem.vue')['default']
     VFormLayout: typeof import('./src/components/Form/VFormLayout.vue')['default']
+    VideoPlayer: typeof import('./src/components/Player/VideoPlayer.vue')['default']
     VTable: typeof import('./src/components/Table/VTable.vue')['default']
     VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
     VueEcharts: typeof import('./src/components/Charts/VueEcharts.vue')['default']

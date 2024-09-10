@@ -2,6 +2,7 @@
   <div>
     <VideoPlayer :options="options"></VideoPlayer>
   </div>
+  <div @click="handleClick">111</div>
 </template>
 <script setup lang="ts">
 import type { VideoPlayerOptions } from '@/components/Player/types'
@@ -22,8 +23,14 @@ const options = ref({
   ]
 } as VideoPlayerOptions)
 
-
-
+const handleClick = () => {
+  options.value.sources = [
+    {
+      src: 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
+      type: 'video/mp4'
+    }
+  ]
+}
 </script>
 
 <style scoped></style>

@@ -15,15 +15,16 @@
       </el-select>
       <el-checkbox-group v-else-if="type === 'checkbox' || type === 'checkbox-group'" v-model="modelValue"
         v-bind="attrs" v-on="events" :ref="(ref) => props?.childRef && props.childRef(ref)">
-        <template v-for="(item, index) in children" :key="index">
-          <el-checkbox v-if="item.type === 'checkbox'" :label="item.label" :value="item.value" v-bind="item" />
-          <el-checkbox-button v-if="item.type === 'checkbox-button'" :label="item.label" :value="item.value"
-            v-bind="item" />
-        </template>
+        <component :is="'el-' + item.type" v-for="(item, index) in children" :key="index" :label="item.label"
+          :value="item.value" v-bind="item" />
       </el-checkbox-group>
-      <el-radio-group v-else-if="type === 'radio'" v-model="modelValue" v-bind="attrs" v-on="events">
-        <el-radio v-for="(item, index) in children" :key="index" v-bind="item" :label="item.value">{{ item.label
-          }}</el-radio>
+      <el-radio-group v-else-if="type === 'radio' || type === 'radio-group'" v-model="modelValue" v-bind="attrs"
+        v-on="events">
+        <component :is="'el-' + item.type" v-for="(item, index) in children" :key="index" v-bind="item"
+          :label="item.value">
+          {{
+            item.label
+          }}</component>
       </el-radio-group>
       <component :is="'el-' + type"
         v-else-if="!['checkbox', 'radio', 'select'].includes(type) && typeof type !== 'undefined' && type !== ''"

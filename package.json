@@ -32,7 +32,8 @@
     "video.js": "^8.17.3",
     "vue": "^3.3.4",
     "vue-echarts": "^7.0.3",
-    "vue-router": "^4.2.2"
+    "vue-router": "^4.2.2",
+    "el-admin-components": "^1.1.2"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.76",

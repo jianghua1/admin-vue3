@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang='ts'>
-import type { FormSchema } from "@/components/Form/types";
-import { useForm } from "@/components/Form/useForm";
+import type { VpFormSchema } from "el-admin-components";
+import { useForm } from "el-admin-components";
 import type { FormInstance, FormItemInstance } from 'element-plus';
 
 definePage({

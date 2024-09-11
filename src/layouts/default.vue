@@ -65,9 +65,9 @@
 <script setup lang="ts">
 import type { RouteRecordRaw } from 'vue-router/auto';
 import type { AppRouteMenuItem, EmitSelectType } from '../components/Menu/types';
-import type { DropDownMenuItem } from '../components/Avatar/types';
+import type { DropDownMenuItem } from 'el-admin-components';
 import type { HeaderProps } from '../components/layouts/types';
-import { TabActions } from '@/components/layouts/types.d.ts';
+// import { TabActions } from '@/components/layouts/types.d.ts';
 import type { ThemeSettingsProps } from '../components/Themes/types';
 import { useMenu } from '../components/Menu/useMenu';
 import { darken, camelToHyphen } from '@/utils'
@@ -75,6 +75,14 @@ import { routes } from 'vue-router/auto/routes'
 import { useRouter } from 'vue-router';
 import { ElScrollbar } from 'element-plus'
 import { useTabsStore } from '@/store/tabs'
+// 定义一个tabsHeader Actions的枚举类型
+enum TabActions {
+  closeOthers = 'closeOthers',
+  closeLeft = 'closeLeft',
+  closeRight = 'closeRight',
+  closeAll = 'closeAll'
+}
+
 
 // console.log('routes', routes)
 interface ThemeSettingOptions extends HeaderProps {
@@ -113,7 +121,7 @@ function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
       name: route.name,
       meta: route.meta,
       alias: typeof route.redirect === 'string' ? route.redirect : undefined,
-      component: route.component
+      component: route.component as any
     }
     //若存在children属性进行递归操作
     if (route.children && Array.isArray(route.children) && route.children.length > 0) {

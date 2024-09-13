@@ -2,19 +2,14 @@
 <template>
   <el-switch v-model="copyTypeFlag" active-text="复制SVG图标数据" inactive-text="复制Icon名称">
   </el-switch>
-  <IconList @click="handleClick" :collection="iconPrefix" :show-text="showTextFlag"></IconList>
+  <VpIconList @click="handleClick" :collection="iconPrefix" :show-text="showTextFlag"></VpIconList>
 </template>
 <script setup lang='ts'>
 import { loadIcon } from '@iconify/vue';
 //可省略
 import { useClipboard } from '@vueuse/core';
+import { ref } from 'vue';
 
-definePage({
-  meta: {
-    title: '图标列表',
-    icon: 'mdi:message'
-  }
-})
 
 //开关 true - CopySvgData false - CopyIconName
 const copyTypeFlag = ref(false)

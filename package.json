@@ -17,10 +17,12 @@
     "p": "run-s build-only preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@unocss/reset": "^0.53.1",
     "@vueuse/core": "^10.1.2",
     "dayjs": "^1.11.12",
     "echarts": "^5.5.1",
+    "el-admin-components": "^1.1.2",
     "electron": "^32.0.1",
     "element-plus": "^2.7.6",
     "gsap": "^3.12.5",
@@ -32,8 +34,7 @@
     "video.js": "^8.17.3",
     "vue": "^3.3.4",
     "vue-echarts": "^7.0.3",
-    "vue-router": "^4.2.2",
-    "el-admin-components": "^1.1.2"
+    "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.76",

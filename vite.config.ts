@@ -27,6 +27,7 @@ import Icons from 'unplugin-icons/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { cdn } from 'vite-plugin-cdn2'
 import electron from 'vite-plugin-electron'
+import component from './src/shim'
 //开头需要配置：
 // export default defineConfig(({ command, mode }) => {
 //   const isProd = mode === 'production'
@@ -93,7 +94,14 @@ export default defineConfig({
     Components({
       directoryAsNamespace: false,
       collapseSamePrefixes: true,
-      resolvers: [ElementPlusResolver()]
+      resolvers: [
+        ElementPlusResolver(),
+        (componentName) => {
+          if (componentName.startsWith('Vp')) {
+            return { name: componentName, from: 'el-admin-components' }
+          }
+        }
+      ]
     }),
     Layouts({
       layoutsDirs: 'src/layouts',

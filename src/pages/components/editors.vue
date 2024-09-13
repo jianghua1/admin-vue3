@@ -1,12 +1,12 @@
 <template>
   <div>
-    <VForm :schema="schema" v-model="editorOptions"></VForm>
-    <Editor class="mt-5" :options="editorOptions" v-model="value"></Editor>
+    <VpForm :schema="schema" v-model="editorOptions"></VpForm>
+    <VpEditor class="mt-5" :options="editorOptions" v-model="value"></VpEditor>
   </div>
 </template>
 
 <script setup lang='ts'>
-import type { EditorOptions } from '@/components/Editor/types'
+import type { VpEditorOptions } from 'el-admin-components'
 import { colProps } from 'element-plus';
 import { ref } from 'vue';
 
@@ -23,7 +23,7 @@ const value = ref('')
 const editorOptions = ref({
   lang: 'zh-CN',
   mode: 'ir'
-} as EditorOptions)
+} as VpEditorOptions)
 
 const schema = ref([
   {

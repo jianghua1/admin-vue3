@@ -43,6 +43,9 @@ declare module 'vue-router/auto/routes' {
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/components': RouteRecordInfo<'/components', '/components', Record<never, never>, Record<never, never>>,
+    '/components/display/avatars': RouteRecordInfo<'/components/display/avatars', '/components/display/avatars', Record<never, never>, Record<never, never>>,
+    '/components/display/collapse-description': RouteRecordInfo<'/components/display/collapse-description', '/components/display/collapse-description', Record<never, never>, Record<never, never>>,
+    '/components/display/editors': RouteRecordInfo<'/components/display/editors', '/components/display/editors', Record<never, never>, Record<never, never>>,
     '/components/editors': RouteRecordInfo<'/components/editors', '/components/editors', Record<never, never>, Record<never, never>>,
     '/components/form': RouteRecordInfo<'/components/form', '/components/form', Record<never, never>, Record<never, never>>,
     '/components/form/': RouteRecordInfo<'/components/form/', '/components/form', Record<never, never>, Record<never, never>>,
@@ -52,10 +55,13 @@ declare module 'vue-router/auto/routes' {
     '/components/icons/ep-icon-test': RouteRecordInfo<'/components/icons/ep-icon-test', '/components/icons/ep-icon-test', Record<never, never>, Record<never, never>>,
     '/components/notice': RouteRecordInfo<'/components/notice', '/components/notice', Record<never, never>, Record<never, never>>,
     '/components/notice/notice-message': RouteRecordInfo<'/components/notice/notice-message', '/components/notice/notice-message', Record<never, never>, Record<never, never>>,
+    '/components/players/audio': RouteRecordInfo<'/components/players/audio', '/components/players/audio', Record<never, never>, Record<never, never>>,
+    '/components/players/video': RouteRecordInfo<'/components/players/video', '/components/players/video', Record<never, never>, Record<never, never>>,
     '/components/table': RouteRecordInfo<'/components/table', '/components/table', Record<never, never>, Record<never, never>>,
     '/components/table/': RouteRecordInfo<'/components/table/', '/components/table', Record<never, never>, Record<never, never>>,
     '/components/table/high': RouteRecordInfo<'/components/table/high', '/components/table/high', Record<never, never>, Record<never, never>>,
     '/components/table/select': RouteRecordInfo<'/components/table/select', '/components/table/select', Record<never, never>, Record<never, never>>,
+    '/index23': RouteRecordInfo<'/index23', '/index23', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
   }
 }

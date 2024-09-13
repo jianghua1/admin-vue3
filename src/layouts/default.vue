@@ -1,7 +1,6 @@
 <template>
   <div class="position-absolute left-0 top-0 w-full h-full overflow-hidden flex"
     :style="{ '--el-color-primary': settings?.theme }">
-    <!-- 左右布局 -->
     <div :style="{ width: mixMenuWidth, backgroundColor: settings?.backgroundColor }"
       class="h-full transition-width shrink-0" v-if="settings?.mode !== 'top'">
       <el-row class="h-full">
@@ -9,36 +8,35 @@
           :class="[settings?.mode !== 'mixbar' ? 'flex-1' : 'w-[64px] py-4']"
           :style="{ backgroundColor: settings?.mode === 'mixbar' ? darken(settings?.backgroundColor, 0.1) : settings?.backgroundColor }">
           <!-- 一级菜单 -->
-          <Menu :class="[{ mixbar: settings?.mode === 'mixbar' }]"
+          <VpMenu :class="[{ mixbar: settings?.mode === 'mixbar' }]"
             v-if="settings?.mode === 'siderbar' || settings?.mode === 'mixbar'" :data="mixMenus"
             :collapse="settings?.mode !== 'mixbar' && localSettings.collapse" text-color="#b8b8b8"
             :background-color="settings?.mode === 'mixbar' ? 'transparent' : 'auto'" @select="handleSelect"
             :active-text-color="settings?.theme">
-          </Menu>
+          </VpMenu>
         </el-scrollbar>
         <el-scrollbar v-if="settings?.mode === 'mix' || settings?.mode === 'mixbar'" class="flex-1">
           <!-- 二级菜单 -->
-          <Menu :data="getSubMenus(menus)" :collapse="localSettings.collapse" text-color="#b8b8b8"
+          <VpMenu :data="getSubMenus(menus)" :collapse="localSettings.collapse" text-color="#b8b8b8"
             :background-color="settings?.backgroundColor" @select="handleSelect" :active-text-color="settings?.theme">
-          </Menu>
+          </VpMenu>
         </el-scrollbar>
       </el-row>
     </div>
-    <!-- 右边-->
     <div :class="['relative w-full h-full flex-1 overflow-hidden']">
       <div class="overflow-y-auto h-full">
         <keep-alive>
           <component>
-            <Header1 v-model:collapse="localSettings.collapse" :username="username" :avatarSize="avatarSize"
+            <Header v-model:collapse="localSettings.collapse" :username="username" :avatarSize="avatarSize"
               :src="avatar" :data="avatarMenu" :settings="settings" @settings-change="handleSettingsChange">
-              <Menu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
+              <VpMenu v-if="settings?.mode === 'top' || settings?.mode === 'mix'" mode="horizontal"
                 :data="settings?.mode === 'mix' ? getTopMenus(menus) : menus" :collapse="false" @select="handleSelect"
                 :active-text-color="settings?.theme">
-              </Menu>
-            </Header1>
-            <HeaderTabs v-if="settings?.showTabs" :data="tabsStore.tabs" @tab-click="handleTabClick"
+              </VpMenu>
+            </Header>
+            <VpHeaderTabs v-if="settings?.showTabs" :data="tabsStore.tabs" @tab-click="handleTabClick"
               @tab-remove="handleTabRemove" @tab-menu-click="handleTabMenuClick" v-model="tabsStore.current">
-            </HeaderTabs>
+            </VpHeaderTabs>
             <div :class="['p-2 bg', contentClass]">
               <el-scrollbar>
                 <router-view v-slot="{ Component }">
@@ -51,12 +49,11 @@
           </component>
         </keep-alive>
       </div>
-      <!-- 左侧菜单按钮抽屉组件 -->
       <el-drawer v-if="isMobile" class="w-full!" direction="ltr" :model-value="!localSettings.collapse"
         :style="{ backgroundColor: settings?.backgroundColor }" @close="localSettings.collapse = true">
-        <Menu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect"
+        <VpMenu :data="menus" text-color="#b8b8b8" :background-color="settings?.backgroundColor" @select="handleSelect"
           :active-text-color="settings?.theme">
-        </Menu>
+        </VpMenu>
       </el-drawer>
     </div>
   </div>
@@ -64,17 +61,15 @@
 
 <script setup lang="ts">
 import type { RouteRecordRaw } from 'vue-router/auto';
-import type { AppRouteMenuItem, EmitSelectType } from '../components/Menu/types';
-import type { DropDownMenuItem } from 'el-admin-components';
-import type { HeaderProps } from '../components/layouts/types';
+import type { VpAppRouteMenuItem, VpDropDownMenuItem, VpHeaderProps, VpThemeSettingsProps } from 'el-admin-components'
 // import { TabActions } from '@/components/layouts/types.d.ts';
-import type { ThemeSettingsProps } from '../components/Themes/types';
-import { useMenu } from '../components/Menu/useMenu';
-import { darken, camelToHyphen } from '@/utils'
+import { useMenu } from 'el-admin-components'
 import { routes } from 'vue-router/auto/routes'
 import { useRouter } from 'vue-router';
 import { ElScrollbar } from 'element-plus'
 import { useTabsStore } from '@/store/tabs'
+import { darken, camelToHyphen } from '@/utils'
+import Header from '@/components/layouts/Header.vue'
 // 定义一个tabsHeader Actions的枚举类型
 enum TabActions {
   closeOthers = 'closeOthers',
@@ -83,16 +78,15 @@ enum TabActions {
   closeAll = 'closeAll'
 }
 
-
 // console.log('routes', routes)
-interface ThemeSettingOptions extends HeaderProps {
+interface ThemeSettingOptions extends VpHeaderProps {
   username: string,
   avatar: string,
   avatarSize: number | 'large' | 'default' | 'small',
-  avatarMenu: DropDownMenuItem[]
+  avatarMenu: VpDropDownMenuItem[]
 }
 
-const localSettings = reactive<ThemeSettingOptions>({
+const localSettings = reactive<VpThemeSettingsProps>({
   username: 'toimc',
   //菜单折叠
   collapse: false,
@@ -102,21 +96,25 @@ const localSettings = reactive<ThemeSettingOptions>({
   settings: {
     menuWidth: 280,
     backgroundColor: '#FF0000',
-  } as ThemeSettingsProps
+    mode: 'siderbar'
+  } as VpThemeSettingsProps
 })
-
 //对localSettings进行解构赋值
 const { username, avatarSize, avatar, avatarMenu } = toRefs(localSettings)
+console.log('username', username);
+console.log('avatarSize', username);
+console.log('avatar', username);
+console.log('avatarMenu', username);
 
-function generateMenuData(routes: RouteRecordRaw[]): AppRouteMenuItem[] {
+function generateMenuData(routes: RouteRecordRaw[]): VpAppRouteMenuItem[] {
   /**
    * 将route中的属性添加到menuData中，形成我们自己的路由元数据，元数据的标准是既能够满足
    * route的要求，又带有我们自己的属性，方便我们开发route组件所不具有的功能
    **/
-  const menuData: AppRouteMenuItem[] = []
+  const menuData: VpAppRouteMenuItem[] = []
   routes.forEach((route) => {
     //构建临时变量
-    let menuItem: AppRouteMenuItem = {
+    let menuItem: VpAppRouteMenuItem = {
       path: route.path,
       name: route.name,
       meta: route.meta,
@@ -139,7 +137,7 @@ const menus = computed(() => generateMenuData(routes))
 const settings = computed(() => localSettings.settings)
 //根据导航模式切换一级菜单数据
 const mixMenus = computed(() => settings.value?.mode === 'mixbar' ? getTopMenus(menus.value) : menus.value)
-
+console.log(mixMenus.value)
 const menuWidth = computed(() => localSettings.settings ? localSettings.settings.menuWidth : '240')
 
 //判断二级菜单的顶级是否所有菜单项都设置了Icon
@@ -220,11 +218,11 @@ watch(route, () => {
   tabsStore.current = route.name as string
 }, { immediate: true })
 
-const handleSettingsChange = (themeSettings: ThemeSettingsProps) => {
+const handleSettingsChange = (themeSettings: VpThemeSettingsProps) => {
   localSettings.settings = themeSettings
 }
 const router = useRouter()
-const handleSelect = (item: AppRouteMenuItem) => {
+const handleSelect = (item: VpAppRouteMenuItem) => {
   if (item && item.name) {
     router.push(item.name as string)
     if (isMobile.value)

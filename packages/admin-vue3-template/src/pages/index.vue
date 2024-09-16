@@ -1,8 +1,9 @@
 <template>
-  <div>home</div>
+  <HelloWorld></HelloWorld>
 </template>
 
 <script setup lang="tsx">
+import { HelloWorld } from 'el-admin-components'
 definePage({
   meta: {
     title: '首页',

@@ -63,7 +63,7 @@
 import type { RouteRecordRaw } from 'vue-router/auto';
 import type { VpAppRouteMenuItem, VpDropDownMenuItem, VpHeaderProps, VpThemeSettingsProps } from 'el-admin-components'
 // import { TabActions } from '@/components/layouts/types.d.ts';
-import { useMenu } from 'el-admin-components'
+// import { useMenu } from 'el-admin-components'
 import { routes } from 'vue-router/auto/routes'
 import { useRouter } from 'vue-router';
 import { ElScrollbar } from 'element-plus'
@@ -82,29 +82,22 @@ enum TabActions {
 interface ThemeSettingOptions extends VpHeaderProps {
   username: string,
   avatar: string,
-  avatarSize: number | 'large' | 'default' | 'small',
   avatarMenu: VpDropDownMenuItem[]
 }
 
-const localSettings = reactive<VpThemeSettingsProps>({
-  username: 'toimc',
-  //菜单折叠
+const localSettings = reactive<ThemeSettingOptions>({
   collapse: false,
+  username: 'toimc',
   avatar: '',
   avatarSize: 16,
-  avatarMenu: [{ key: 1, value: '退出登陆' }],
+  avatarMenu: [],
   settings: {
-    menuWidth: 280,
-    backgroundColor: '#FF0000',
-    mode: 'siderbar'
-  } as VpThemeSettingsProps
+    menuWidth: 280
+  } as VpThemeSettingsProps,
+  locales: []
 })
 //对localSettings进行解构赋值
 const { username, avatarSize, avatar, avatarMenu } = toRefs(localSettings)
-console.log('username', username);
-console.log('avatarSize', username);
-console.log('avatar', username);
-console.log('avatarMenu', username);
 
 function generateMenuData(routes: RouteRecordRaw[]): VpAppRouteMenuItem[] {
   /**

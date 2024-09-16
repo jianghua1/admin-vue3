@@ -67,9 +67,9 @@ export default defineConfig({
     //   }
     // }),
     UnoCSS(),
-    electron({
-      entry: 'electron/main.ts'
-    }),
+    // electron({
+    //   entry: 'electron/main.ts'
+    // }),
     Icons({
       // 配置选项
     }),
@@ -88,7 +88,10 @@ export default defineConfig({
         'vue',
         // 'vue-router'
         VueRouterAutoImports,
-        '@vueuse/core'
+        '@vueuse/core',
+        {
+          'el-admin-components': ['useForm', 'useMenu', 'useAudioPlayer', 'useDrag']
+        }
       ]
     }),
     Components({

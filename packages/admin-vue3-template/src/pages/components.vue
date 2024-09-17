@@ -4,13 +4,14 @@
   </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 definePage({
   meta: {
-    title: '组件示例',
+    title: 'pages.components',
     icon: 'mdi:apps'
   },
-  redirect: '/components/icons/ep-icon-list'
+  redirect: '/components/icon/ep-icon-list'
 })
 </script>
+
 <style scoped></style>

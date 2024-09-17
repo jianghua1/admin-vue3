@@ -26,3 +26,11 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+html/
+
+mock/downloads
+mock/assets
+stats.html
+
+release/
+dist-electron/

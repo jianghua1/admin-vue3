@@ -1,32 +1,25 @@
+/**
+ * Darkens a color by the specified rate.
+ *
+ * @param {string} color - The color to be darkened in hexadecimal format.
+ * @param {number} rate - The rate at which the color should be darkened.
+ * @return {string} The darkened color in hexadecimal format.
+ */
 export function darken(color: string, rate: number) {
-  const rgb = hexToRgb(color)
-  if (!rgb) {
-    throw new Error(`无效的颜色：${color}`)
-  }
-  const newRgb = {
-    r: Math.max(0, Math.min(255, Math.round(rgb.r - rgb.r * rate))),
-    g: Math.max(0, Math.min(255, Math.round(rgb.g - rgb.g * rate))),
-    b: Math.max(0, Math.min(255, Math.round(rgb.b - rgb.b * rate)))
-  }
-  const adjustedColor = rgbToHex(newRgb)
-  return adjustedColor
-}
+  // 将颜色值转换为 RGB 格式
+  const r = parseInt(color.slice(1, 3), 16)
+  const g = parseInt(color.slice(3, 5), 16)
+  const b = parseInt(color.slice(5, 7), 16)
 
-// Helper function to convert hex to RGB
-function hexToRgb(hex: any) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      }
-    : null
-}
+  // 根据比率调整 RGB 值
+  const adjustedR = Math.round(r * (1 - rate))
+  const adjustedG = Math.round(g * (1 - rate))
+  const adjustedB = Math.round(b * (1 - rate))
 
-// Helper function to convert RGB to hex
-function rgbToHex(rgb: any) {
-  return `#${rgb.r.toString(16).padStart(2, '0')}${rgb.g.toString(16).padStart(2, '0')}${rgb.b
+  // 将调整后的 RGB 值转换回十六进制颜色值
+  const adjustedColor = `#${adjustedR.toString(16).padStart(2, '0')}${adjustedG
     .toString(16)
-    .padStart(2, '0')}`
+    .padStart(2, '0')}${adjustedB.toString(16).padStart(2, '0')}`
+
+  return adjustedColor
 }

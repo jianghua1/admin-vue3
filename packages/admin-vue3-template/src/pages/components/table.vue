@@ -4,12 +4,13 @@
   </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 definePage({
   meta: {
-    title: '表格组件',
-    icon: 'mdi:apps'
+    title: 'pages.tables',
+    icon: 'ph:table-light'
   }
 })
 </script>
+
 <style scoped></style>

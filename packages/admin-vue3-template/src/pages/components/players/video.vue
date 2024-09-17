@@ -1,29 +1,33 @@
 <template>
-  <VpVideoPlayer :options="options"></VpVideoPlayer>
+  <VideoPlayer :options="options"></VideoPlayer>
   <div class="pt-2">
     <el-button type="primary" @click="handleClick">ChangeSource</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+definePage({
+  meta: {
+    title: 'components.video-player',
+    icon: 'ph:video'
+  }
+})
 
-// import type { VpVideoPlayerOptions } from '@/components/Player/types'
+import type { VideoPlayerOptions } from '@/components/Player/types'
 
 const options = ref({
   sources: [
     {
-      src: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      src: 'https://toimc-online.static.toimc.com/vue-toimc-admin/video/001.mp4',
       type: 'video/mp4'
     }
   ]
-} as any)
-// } as VpVideoPlayerOptions)
+} as VideoPlayerOptions)
 
 const handleClick = () => {
   options.value.sources = [
     {
-      src: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      src: 'https://toimc-online.static.toimc.com/vue-toimc-admin/video/002.mp4',
       type: 'video/mp4'
     }
   ]

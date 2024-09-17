@@ -1,10 +1,16 @@
 <template>
-  <VpDescription title="个人信息" border :column="3" :data="data"></VpDescription>
+  <Description title="个人信息" border :column="3" :data="data"></Description>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { VpDescription } from 'el-admin-components'
+import type { DescriptionItem } from '@/components/Description/types'
+
+definePage({
+  meta: {
+    title: 'pages.display.description',
+    icon: 'carbon:collapse-all'
+  }
+})
 
 const data = ref([
   {
@@ -43,8 +49,12 @@ const data = ref([
       type: 'warning'
     }
   }
-] as any[])
-// ] as VpDescriptionItem[])
+] as DescriptionItem[])
 </script>
+
+<route lang="yaml">
+meta:
+  layout: default
+</route>
 
 <style scoped></style>

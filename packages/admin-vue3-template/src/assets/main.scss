@@ -1,26 +1,14 @@
 @import "./styles/transition.scss";
 
 html {
-  transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
   background-color: var(--el-bg-color);
 }
+
 .dark {
   background-color: var(--el-bg-color);
 }
 
-.el-menu--horizontal.el-menu {
-  border-bottom: 0 !important;
-}
-
-.mixbar .el-menu-item {
-    height: auto !important;
-    line-height: unset !important;
-    flex-direction: column;
-    margin-bottom: 15px;
-    padding: 4px 0 !important;
-
-    svg {
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
+body {
+  height: var(--body-height)
 }

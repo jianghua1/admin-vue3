@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 
 import App from './App.vue'
 import router from './router'
-// import I18n from './modules/i18n'
+import I18n from './modules/i18n'
 import ElementPlus from 'element-plus'
 
 if (import.meta.env.MODE !== 'production' || process.env.ELECTRON) {
@@ -19,21 +19,19 @@ import '@unocss/reset/tailwind-compat.css'
 import 'virtual:uno.css'
 
 import 'virtual:svg-icons-register'
-import 'el-admin-components/style'
 
 import './assets/main.scss'
-// import { setupDirectives } from './directives'
+import { setupDirectives } from './directives'
 import { setupStore } from './store'
 
 const app = createApp(App)
 app.use(ElementPlus)
-// app.use(ElAdminComponents)
 
-// setupDirectives(app)
+setupDirectives(app)
 setupStore(app)
 
 app.use(router)
-// app.use(I18n)
+app.use(I18n)
 
 app.mount('#app')
 

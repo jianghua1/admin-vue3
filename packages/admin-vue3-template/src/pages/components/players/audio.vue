@@ -1,16 +1,29 @@
 <template>
   <div>
-    <VpAudioPlayer :title="title" :options="options" ref="audioRef" @next="handleNext" @prev="handlePrev"
-      @mode="handleMode"></VpAudioPlayer>
+    <AudioPlayer
+      :title="title"
+      :options="options"
+      ref="audioRef"
+      @next="handleNext"
+      @prev="handlePrev"
+      @mode="handleMode"
+    ></AudioPlayer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAudioPlayer } from 'el-admin-components'
+import type { AudioPlayerOptions, AudioPlayerMethods } from '@/components/Player/types'
+import { useAudioPlayer } from '@/components/Player/useAudioPlayer'
 // import { Howler } from 'howler'
-import { ref, watch } from 'vue'
 
-const audioRef = ref<any>()
+definePage({
+  meta: {
+    title: 'components.audio-player',
+    icon: 'ant-design:audio-outlined'
+  }
+})
+
+const audioRef = ref<AudioPlayerMethods>()
 const title = ref('')
 
 // 音乐列表
@@ -41,13 +54,13 @@ const lists = ref([
 
 const options = ref({
   src: ''
-} as any)
+} as AudioPlayerOptions)
 
 const { current, handleMode, handleNext, handlePrev } = useAudioPlayer(lists.value)
 
 watch(
   current,
-  (newVal: number) => {
+  (newVal) => {
     options.value.src = lists.value[newVal || 0].src
     title.value = lists.value[newVal || 0].title
   },

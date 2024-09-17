@@ -1,12 +1,16 @@
 <template>
-  <HelloWorld></HelloWorld>
+  <div>home
+
+    <HelloWorld msg="hello monorepo with vue"></HelloWorld>
+  </div>
 </template>
 
 <script setup lang="tsx">
 import { HelloWorld } from 'el-admin-components'
+
 definePage({
   meta: {
-    title: '首页',
+    title: 'pages.home',
     icon: 'mdi:home'
   }
 })

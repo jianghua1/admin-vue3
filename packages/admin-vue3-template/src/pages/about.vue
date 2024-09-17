@@ -3,6 +3,7 @@
     <RouterLink to="/">home</RouterLink>
     <RouterLink to="/about">about</RouterLink>
     <h1>This is an about page</h1>
+    <NetIcon url="//at.alicdn.com/t/font_1791095_hy6b9xbrdsk.css" type="qian"></NetIcon>
   </div>
 </template>
 
@@ -11,7 +12,7 @@ import { RouterLink } from 'vue-router/auto'
 
 definePage({
   meta: {
-    title: '关于我们',
+    title: 'pages.about',
     icon: 'mdi:user'
   }
 })

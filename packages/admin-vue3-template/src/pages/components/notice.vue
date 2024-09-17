@@ -4,12 +4,13 @@
   </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 definePage({
   meta: {
-    title: '通知组件',
-    icon: 'mdi:home'
+    title: 'pages.notice',
+    icon: 'fe:notice-push'
   }
 })
 </script>
+
 <style scoped></style>

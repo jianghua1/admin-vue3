@@ -1,154 +1,126 @@
 <template>
-  <div>
-    <el-tabs v-model="activeName" class="demo-tabs">
-      <el-tab-pane label="单选" name="1">
-        <VpTable @row-click="handleRowClick" :columns="fixedTableColumns" :data="fixedTableData" highlight-current-row>
-        </VpTable>
-        <p>行点击回调内容</p>
-        <p>{{ rowClickRef }}</p>
-        <p>菜单点击回调内容</p>
-        <p>{{ menuClickRef }}</p>
-      </el-tab-pane>
-      <el-tab-pane label="多选" name="2">
-        <VpTable ref="multipleTableRef" :columns="selectColumns" :data="tableData" highlight-current-row
-          @selection-change="handleSelectionChange">
-        </VpTable>
-        <div style="margin-top: 20px">
-          <el-button @click="toggleSelection([tableData[1], tableData[2]])">
-            Toggle selection status of second and third rows
-          </el-button>
-          <el-button @click="toggleSelection()">Clear selection</el-button>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="排序" name="3">
-        <VpTable :columns="orderColumns" :data="tableData" :default-sort="{ prop: 'date', order: 'descending' }">
-        </VpTable>
-      </el-tab-pane>
-      <el-tab-pane label="过滤" name="4">
-        <VpTable :columns="filterColumns" :data="filterTableData" ref="filterTableRef">
-        </VpTable>
-        <div>
-          <el-button @click="resetDateFilter">reset date filter</el-button>
-          <el-button @click="clearFilter">reset all filters</el-button>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="插槽" name="5">
-        <VpTable :columns="customColumns" :data="customTableData">
-          <el-table-column label="Operations">
-            <template #default="scope">
-              <el-button size="small" @click="handleEdit(scope)">Edit</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope)">Delete</el-button>
-            </template>
-          </el-table-column>
-        </VpTable>
-      </el-tab-pane>
-      <el-tab-pane label="树形结构" name="8">
-        <VpTable :columns="treeTableColumns" :data="treeTableData" default-expand-all row-key="id" border></VpTable>
-      </el-tab-pane>
-      <el-tab-pane label="表尾合计" name="9">
-        <VpTable :columns="sumTableColumns" :data="sumTableData" show-summary border></VpTable>
-        <VpTable :columns="sumTableColumns" :data="sumTableData" show-summary :summary-method="getSummaries" border>
-        </VpTable>
-      </el-tab-pane>
-      <el-tab-pane label="行和列合并" name="10">
-        <VpTable :columns="sumTableColumns" :data="sumTableData" :span-method="arraySpanMethod" border></VpTable>
-        <VpTable :columns="sumTableColumns" :data="sumTableData" :span-method="objectSpanMethod" border
-          style="width: 100%; margin-top: 20px">
-        </VpTable>
-      </el-tab-pane>
-    </el-tabs>
-  </div>
+  <el-tabs v-model="activeName">
+    <el-tab-pane label="单选" name="1">
+      <VTable
+        @row-click="handleRowClick"
+        :data="fixedTableData"
+        :columns="fixedTableColumns"
+        highlight-current-row
+      >
+      </VTable>
+      <p>行点击回调内容：</p>
+      <p>{{ argsRef }}</p>
+      <p>菜单击回调内容：</p>
+      <p>{{ menuClickRef }}</p>
+    </el-tab-pane>
+    <el-tab-pane label="多选" name="2">
+      <VTable
+        ref="multipleTableRef"
+        :data="tableData"
+        :columns="selectColumns"
+        highlight-current-row
+        @selection-change="handleSelectionChange"
+      >
+      </VTable>
+      <div style="margin-top: 20px">
+        <el-button @click="toggleSelection([tableData[1], tableData[2]])"
+          >Toggle selection status of second and third rows</el-button
+        >
+        <el-button @click="toggleSelection()">Clear selection</el-button>
+      </div>
+      <!-- <p>行点击回调内容：</p>
+      <p>{{ argsRef }}</p>
+      <p>菜单击回调内容：</p>
+      <p>{{ menuClickRef }}</p> -->
+    </el-tab-pane>
+    <el-tab-pane label="排序" name="3">
+      <VTable
+        :data="tableData"
+        :columns="orderColumns"
+        :default-sort="{ prop: 'date', order: 'descending' }"
+      >
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="过滤" name="4">
+      <VTable
+        ref="filterTableRef"
+        row-key="date"
+        :data="filterTableData"
+        :columns="filterColumns"
+        :default-sort="{ prop: 'date', order: 'descending' }"
+      >
+      </VTable>
+      <div>
+        <el-button @click="resetDateFilter">reset date filter</el-button>
+        <el-button @click="clearFilter">reset all filters</el-button>
+      </div>
+    </el-tab-pane>
+    <el-tab-pane label="自定义列模板3种写法" name="5">
+      <VTable :data="customTableData" :columns="customColumns">
+        <el-table-column label="Operations">
+          <template #default="scope">
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"
+              >Delete</el-button
+            >
+          </template>
+        </el-table-column>
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="自定义表头" name="6">
+      <VTable :data="filterTableData1" :columns="customColumns1"> </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="展开行" name="7">
+      switch parent border: <el-switch v-model="parentBorder" /> switch child border:
+      <el-switch v-model="childBorder" />
+      <VTable :border="parentBorder" :data="expandTableData" :columns="expandTableColumns">
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="树形菜单" name="8">
+      <VTable :data="treeTableData" :columns="treeTableColumns" default-expand-all row-key="id">
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="表尾合计行" name="9">
+      <VTable :data="sumTableData" :columns="sumTableColumns" border show-summary> </VTable>
+      <VTable
+        :data="sumTableData"
+        border
+        height="200"
+        :summary-method="getSummaries"
+        show-summary
+        :columns="sumTableColumns"
+      >
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="合并行或列" name="10">
+      <VTable
+        :data="sumTableData"
+        :columns="sumTableColumns"
+        :span-method="arraySpanMethod"
+        border
+        style="width: 100%"
+      >
+      </VTable>
+
+      <VTable
+        :data="sumTableData"
+        :columns="sumTableColumns"
+        :span-method="objectSpanMethod"
+        border
+        style="width: 100%; margin-top: 20px"
+      >
+      </VTable>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
-<script setup lang='tsx'>
+<script setup lang="tsx">
+import type { TableColumnType } from '@/components/Table/types'
+import { ElTable } from 'element-plus'
+import PopOver from './Popover.vue'
 
-import type { VpTableColumnType } from "el-admin-components"
-import type { ElTable } from "element-plus"
-import VpPopOver from "el-admin-components"
-import { Timer } from '@element-plus/icons-vue';
-import { ref, h } from "vue";
-
-const activeName = ref('1')
-const rowClickRef = ref()
-const menuClickRef = ref()
-//单选的回调 三个参数： row，column，event
-const handleRowClick = (...args: any) => {
-}
-
-const handleClick = (scope, opt: string) => {
-  menuClickRef.value = scope.row + scope.column + opt
-}
-
-const fixedTableColumns = [
-  { label: '日期', prop: 'date' },
-  { label: '姓名', prop: 'name' },
-  { label: '州', prop: 'state' },
-  { label: '城市', prop: 'city' },
-  { label: '地址', prop: 'address' },
-  { label: '邮政编码', prop: 'zip' },
-  { label: '标签', prop: 'tag' },
-  {
-    label: '操作', prop: 'operation', width: '120', fixed: 'right',
-    defaultSlot: (_props) => (
-      <>
-        <el-button link type="primary" size="small" onClick={(e) => {
-          e.stopPropagation();
-          handleClick(_props, 'detail')
-        }}>
-          Detail
-        </el-button>
-        <el-button link type="primary" size="small" onClick={(e) => {
-          e.stopPropagation();
-          handleClick(_props, 'edit')
-        }}>
-          Edit
-        </el-button>
-      </>
-    )
-  }
-] as VpTableColumnType[]
-
-const fixedTableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Home',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Office',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Home',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Office',
-  },
-]
-//多选
 interface User {
-  id?: number
+  id?: string | number
   date: string
   name: string
   address: string
@@ -156,103 +128,232 @@ interface User {
   children?: User[]
 }
 
-const tableData: User[] = [
+definePage({
+  meta: {
+    title: 'pages.table-select',
+    icon: 'fluent:select-all-on-24-regular',
+    order: 150,
+    keepAlive: true
+  }
+})
+
+const activeName = ref('1')
+const argsRef = ref()
+const menuClickRef = ref()
+
+// 单选与多选
+const fixedTableColumns = ref([
+  {
+    prop: 'date',
+    label: 'Date'
+  },
+  {
+    prop: 'name',
+    label: 'Name'
+  },
+  {
+    prop: 'state',
+    label: 'State'
+  },
+  {
+    prop: 'city',
+    label: 'City'
+  },
+  {
+    prop: 'address',
+    label: 'Address'
+  },
+  {
+    prop: 'zip',
+    label: 'Zip'
+  },
+  {
+    prop: 'tag',
+    label: 'Tag'
+  },
+  {
+    prop: '',
+    label: 'Operations',
+    width: 120,
+    fixed: 'right',
+    defaultSlot: (_props) => (
+      <>
+        <el-button
+          link
+          type="primary"
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation()
+            handleClick(_props, 'detail')
+          }}
+        >
+          Detail
+        </el-button>
+        <el-button
+          link
+          type="primary"
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation()
+            handleClick(_props, 'edit')
+          }}
+        >
+          Edit
+        </el-button>
+      </>
+    )
+  }
+] as TableColumnType[])
+
+const fixedTableData = ref([
   {
     date: '2016-05-03',
     name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
     address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+    tag: 'Home'
   },
   {
     date: '2016-05-02',
     name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
     address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+    tag: 'Office'
   },
   {
     date: '2016-05-04',
     name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
     address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+    tag: 'Home'
   },
   {
     date: '2016-05-01',
     name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
     address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+    tag: 'Office'
+  }
+])
+
+// 多选
+const selectColumns = [
+  {
+    type: 'selection',
+    width: 55
+  },
+  {
+    prop: 'date',
+    label: 'Date'
+  },
+  {
+    prop: 'name',
+    label: 'Name'
+  },
+  {
+    prop: 'address',
+    label: 'Address'
+  }
+] as TableColumnType[]
+
+const orderColumns = [
+  {
+    prop: 'date',
+    label: 'Date',
+    sortable: true
+  },
+  {
+    prop: 'name',
+    label: 'Name'
+  },
+  {
+    prop: 'address',
+    label: 'Address'
+  }
+] as TableColumnType[]
+
+// 过滤示例的columns
+const filterColumns = [
+  {
+    prop: 'date',
+    label: 'Date',
+    columnKey: 'date',
+    sortable: true,
+    filters: [
+      { text: '2016-05-01', value: '2016-05-01' },
+      { text: '2016-05-02', value: '2016-05-02' },
+      { text: '2016-05-03', value: '2016-05-03' },
+      { text: '2016-05-04', value: '2016-05-04' }
+    ],
+    filterMethod: (value: string, row: User, column: TableColumnType) => {
+      const property = column['property']
+      return row[property as string] === value
+    }
+  },
+  {
+    prop: 'name',
+    label: 'Name'
+  },
+  {
+    prop: 'address',
+    label: 'Address'
+  },
+  {
+    prop: 'tag',
+    label: 'Tag',
+    filters: [
+      { text: 'Home', value: 'Home' },
+      { text: 'Office', value: 'Office' }
+    ],
+    filterMethod: (value: string, row: User) => {
+      return row.tag === value
+    }
+  }
+] as TableColumnType[]
+
+const tableData: User[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
   },
   {
     date: '2016-05-08',
     name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles'
   },
   {
     date: '2016-05-06',
     name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles'
   },
   {
     date: '2016-05-07',
     name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }
-]
-
-const selectColumns = [
-  { type: 'selection', width: '55' },
-  { label: '日期', prop: 'date' },
-  { label: '姓名', prop: 'name' },
-  { label: '地址', prop: 'address' },
-] as VpTableColumnType[]
-
-const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-const multipleSelection = ref<User[]>([])
-
-
-const toggleSelection = (rows?: User[]) => {
-  if (rows) {
-    rows.forEach((row) => {
-      multipleTableRef.value!.toggleRowSelection(row, undefined as any)
-    })
-  } else {
-    multipleTableRef.value!.clearSelection()
-  }
-}
-const handleSelectionChange = (val: User[]) => {
-  multipleSelection.value = val
-}
-//排序
-const orderColumns = [
-  { label: '日期', prop: 'date', sortOrders: true },
-  { label: '姓名', prop: 'name' },
-  { label: '地址', prop: 'address' },
-] as VpTableColumnType[]
-//过滤
-const filterHandler = (
-  value: string,
-  row: User,
-  column: VpTableColumnType
-) => {
-  const property = column['property']
-  return row[property as string] === value
-}
-
-const filterColumns = [
-  {
-    label: '日期', prop: 'date', filters: [
-      { text: '2016-05-01', value: '2016-05-01' },
-      { text: '2016-05-02', value: '2016-05-02' },
-      { text: '2016-05-03', value: '2016-05-03' },
-      { text: '2016-05-04', value: '2016-05-04' },
-    ],
-    'filterMethod': filterHandler,
-    columnKey: 'date',
-    sortable: true
-  },
-  { label: '姓名', prop: 'name' },
-  { label: '地址', prop: 'address' },
-  {
-    label: '标签', prop: 'tag', filterMethod: (value, row) => {
-      return row.tag === value
-    }, filters: [
-      { text: 'old', value: 'old' }, { text: 'new', value: 'new' }
-    ]
+    address: 'No. 189, Grove St, Los Angeles'
   }
 ]
 
@@ -261,67 +362,94 @@ const filterTableData: User[] = [
     date: '2016-05-03',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
-    tag: 'new' // add a new property called 'tag'
+    tag: 'Home'
   },
   {
     date: '2016-05-02',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
-    tag: 'old'
+    tag: 'Office'
   },
   {
     date: '2016-05-04',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
-    tag: 'old'
+    tag: 'Home'
   },
   {
     date: '2016-05-01',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
-    tag: 'old'
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-    tag: 'old'
+    tag: 'Office'
   }
 ]
 
-const filterTableRef = ref()
+const handleClick = (scope, event: string) => {
+  const { $index, cellIndex, column, expanded, row } = scope
+  menuClickRef.value = `Event ${event}: \n $index: ${$index}, \n cellIndex: ${cellIndex}, \n column: ${JSON.stringify(
+    column
+  )}, \n expanded: ${expanded}, \n row: ${JSON.stringify(row)}`
+}
 
+const handleRowClick = (...args) => {
+  argsRef.value = args
+}
+
+// 多选表格
+const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+const multipleSelection = ref<User[]>([])
+const toggleSelection = (rows?: User[]) => {
+  if (rows) {
+    rows.forEach((row) => {
+      // TODO: improvement typing when refactor table
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      multipleTableRef.value!.toggleRowSelection(row, undefined)
+    })
+  } else {
+    multipleTableRef.value!.clearSelection()
+  }
+}
+const handleSelectionChange = (val: User[]) => {
+  multipleSelection.value = val
+}
+
+// 过滤表格
+const filterTableRef = ref()
 const resetDateFilter = () => {
   filterTableRef.value!.clearFilter(['date'])
 }
-
+// TODO: improvement typing when refactor table
 const clearFilter = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   filterTableRef.value!.clearFilter()
 }
 
-// 自定义列模板
+// 自定义的列模板
 const customColumns = [
+  // 第一种用法
   {
-    label: 'date',
-    // prop: 'date'
+    label: 'Date',
     defaultSlot: (scope: any) => (
       <div style="display: flex; align-items: center">
-        <el-icon><Timer /></el-icon>
-        <span style="margin-left: 5px">{scope.row.date}</span>
+        <el-icon>
+          <timer />
+        </el-icon>
+        <span style="margin-left: 10px">{scope.row.date}</span>
       </div>
     )
   },
+  // 第二种用法，Component
   {
-    label: 'name',
-    // prop: 'name'
-    defaultSlot: (scope: any) => {
-      const { row } = scope;
-      return h(VpPopOver, {
-        row: row
-      });
+    label: 'Name',
+    defaultSlot: (scope) => {
+      const { row } = scope
+      return h(PopOver, {
+        row
+      })
     }
   }
-] as VpTableColumnType[]
+] as TableColumnType[]
 
 const customTableData: User[] = [
   {
@@ -343,55 +471,400 @@ const customTableData: User[] = [
     date: '2016-05-01',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
   }
 ]
-const handleEdit = (scope) => {
-  console.log(scope.$index, scope.row)
+const handleEdit = (index: number, row: User) => {
+  console.log(index, row)
 }
-const handleDelete = (scope) => {
-  console.log(scope.$index, scope.row)
+const handleDelete = (index: number, row: User) => {
+  console.log(index, row)
 }
-// 树形菜单
-const treeTableData: User[] = [
+
+// 自定义表头
+const search = ref('')
+
+// 自定义的列模板
+const tableDataHead: User[] = [
   {
-    id: 1,
     date: '2016-05-03',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles'
   },
   {
-    id: 2,
+    date: '2016-05-02',
+    name: 'John',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    date: '2016-05-04',
+    name: 'Morgan',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    date: '2016-05-01',
+    name: 'Jessy',
+    address: 'No. 189, Grove St, Los Angeles'
+  }
+]
+
+const filterTableData1 = computed(() =>
+  tableDataHead.filter(
+    (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase())
+  )
+)
+
+const customColumns1 = [
+  // 第一种用法
+  {
+    label: 'Date',
+    prop: 'date'
+  },
+  {
+    label: 'Name',
+    prop: 'name'
+  },
+  {
+    align: 'right',
+    defaultSlot: (scope) => (
+      <>
+        <el-button size="small" onClick={handleEdit(scope.$index, scope.row)}>
+          Edit
+        </el-button>
+        <el-button size="small" type="danger" onClick={handleDelete(scope.$index, scope.row)}>
+          Delete
+        </el-button>
+      </>
+    ),
+    headerSlot: () => (
+      <el-input
+        modelValue={search.value}
+        onInput={(e) => (search.value = e)}
+        size="small"
+        placeholder="Type to search"
+      />
+    )
+  }
+] as TableColumnType[]
+
+// 展开行
+const parentBorder = ref(false)
+const childBorder = ref(false)
+const expandTableData = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  },
+  {
     date: '2016-05-02',
     name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  },
+  {
+    date: '2016-05-08',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  },
+  {
+    date: '2016-05-06',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  },
+  {
+    date: '2016-05-07',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114'
+      }
+    ]
+  }
+]
+
+const childColumns = [
+  { label: 'Name', prop: 'name' },
+  { label: 'State', prop: 'state' },
+  { label: 'City', prop: 'city' },
+  { label: 'Address', prop: 'address' },
+  { label: 'Zip', prop: 'zip' }
+] as TableColumnType[]
+
+const childComponent = (data) => (
+  <>
+    <v-table data={data} columns={childColumns} border={childBorder.value}></v-table>
+  </>
+)
+
+const expandTableColumns = [
+  {
+    type: 'expand',
+    defaultSlot: ({ row }) => (
+      <div>
+        <p>State: {row.state}</p>
+        <p>City: {row.city}</p>
+        <p>Address: {row.address}</p>
+        <p>Zip: {row.zip}</p>
+        <h3>Family</h3>
+        {childComponent(row.family)}
+      </div>
+    )
+  },
+  {
+    label: 'Date',
+    prop: 'date'
+  },
+  {
+    label: 'Name',
+    prop: 'name'
+  }
+] as TableColumnType[]
+
+// 树形菜单
+const treeTableData: User[] = [
+  {
+    id: 1,
+    date: '2016-05-02',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    id: 2,
+    date: '2016-05-04',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    id: 3,
+    date: '2016-05-01',
+    name: 'wangxiaohu',
     address: 'No. 189, Grove St, Los Angeles',
     children: [
       {
-        id: 21,
-        date: '2016-05-02',
-        name: 'Tom Jr.',
+        id: 31,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles'
+      },
+      {
+        id: 32,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
         address: 'No. 189, Grove St, Los Angeles'
       }
     ]
   },
   {
-    id: 3,
-    date: '2016-05-04',
-    name: 'Tom',
+    id: 4,
+    date: '2016-05-03',
+    name: 'wangxiaohu',
     address: 'No. 189, Grove St, Los Angeles'
   }
 ]
-const treeTableColumns = [
-  { label: '日期', prop: 'date' },
-  { label: '姓名', prop: 'name' },
-  { label: '地址', prop: 'address' }
-] as VpTableColumnType[]
 
-//表尾合计行
+const treeTableColumns = [
+  {
+    prop: 'date',
+    label: 'Date'
+  },
+  {
+    prop: 'name',
+    label: 'Name'
+  },
+  {
+    prop: 'address',
+    label: 'Address'
+  }
+] as TableColumnType[]
+
+// 合计功能
 interface Product {
   id: string
   name: string
@@ -401,17 +874,36 @@ interface Product {
 }
 
 interface SummaryMethodProps<T = Product> {
-  columns: VpTableColumnType[]
+  columns: TableColumnType[]
   data: T[]
 }
 
 const sumTableColumns = [
-  { label: 'ID', prop: 'id', width: 180 },
-  { label: 'Name', prop: 'name' },
-  { label: 'Amount 1', prop: 'amount1', sortable: true },
-  { label: 'Amount 2', prop: 'amount2', sortable: true },
-  { label: 'Amount 3', prop: 'amount3', sortable: true }
-] as VpTableColumnType[]
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 180
+  },
+  {
+    label: 'Name',
+    prop: 'name'
+  },
+  {
+    label: 'Amount 1',
+    prop: 'amount1',
+    sortable: true
+  },
+  {
+    label: 'Amount 2',
+    prop: 'amount2',
+    sortable: true
+  },
+  {
+    label: 'Amount 3',
+    prop: 'amount3',
+    sortable: true
+  }
+] as TableColumnType[]
 
 const getSummaries = (param: SummaryMethodProps) => {
   const { columns, data } = param
@@ -438,57 +930,54 @@ const getSummaries = (param: SummaryMethodProps) => {
 
   return sums
 }
-const sumTableData: Product[] = [
+
+const sumTableData = [
   {
     id: '12987122',
     name: 'Tom',
     amount1: '234',
     amount2: '3.2',
-    amount3: 10,
+    amount3: 10
   },
   {
     id: '12987123',
     name: 'Tom',
     amount1: '165',
     amount2: '4.43',
-    amount3: 12,
+    amount3: 12
   },
   {
     id: '12987124',
     name: 'Tom',
     amount1: '324',
     amount2: '1.9',
-    amount3: 9,
+    amount3: 9
   },
   {
     id: '12987125',
     name: 'Tom',
     amount1: '621',
     amount2: '2.2',
-    amount3: 17,
+    amount3: 17
   },
   {
     id: '12987126',
     name: 'Tom',
     amount1: '539',
     amount2: '4.1',
-    amount3: 15,
-  },
+    amount3: 15
+  }
 ]
 
-//合并行或列
+// 合并行或列
 interface SpanMethodProps {
   row: User
-  column: VpTableColumnType
+  column: TableColumnType
   rowIndex: number
   columnIndex: number
 }
-const arraySpanMethod = ({
-  row,
-  column,
-  rowIndex,
-  columnIndex,
-}: SpanMethodProps) => {
+
+const arraySpanMethod = ({ row, column, rowIndex, columnIndex }: SpanMethodProps) => {
   if (rowIndex % 2 === 0) {
     if (columnIndex === 0) {
       return [1, 2]
@@ -498,25 +987,25 @@ const arraySpanMethod = ({
   }
 }
 
-const objectSpanMethod = ({
-  row,
-  column,
-  rowIndex,
-  columnIndex,
-}: SpanMethodProps) => {
+const objectSpanMethod = ({ row, column, rowIndex, columnIndex }: SpanMethodProps) => {
   if (columnIndex === 0) {
     if (rowIndex % 2 === 0) {
       return {
         rowspan: 2,
-        colspan: 1,
+        colspan: 1
       }
     } else {
       return {
         rowspan: 0,
-        colspan: 0,
+        colspan: 0
       }
     }
   }
 }
+
+const handleDragRowChange = (rows: any[]) => {
+  console.log('🚀 ~ file: select.vue:1014 ~ handleDragRowChange ~ rows:', rows)
+}
 </script>
+
 <style scoped></style>

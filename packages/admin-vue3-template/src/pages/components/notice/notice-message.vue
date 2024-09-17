@@ -1,41 +1,117 @@
 <template>
-  <div>通知组件示例</div>
-  <!-- <NoticeNotification value="1234" color="" size="9"></NoticeNotification> -->
-  <VpNotice :actions="actions" :lists="lists" wrap-class="w-[300px]" @click-item="handleClickItem"
-    @click-avatar="handleClickAvatar"></VpNotice>
+  <div class="ml-5">
+    <Notice
+      :actions="actions"
+      :lists="lists"
+      wrap-class="w-[300px]"
+      @click-item="handleClickItem"
+    ></Notice>
+    <Notification value="100232" :scale="scale"></Notification>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    {{ scale }}
+    <button @click="scale = 1">click 1</button>
+    <button @click="scale = 0.5">click 0.5</button>
+    <button @click="scale = 1.5">click 1.5</button>
+  </div>
 </template>
 
-<script setup lang='ts'>
-import type { VpNoticeActionsItem, VpNoticeMessageListOptions } from "el-admin-components";
-import { ref } from "vue";
+<script setup lang="ts">
+import type { NoticeActionsItem, NoticeMessageListOptions } from '@/components/Notice/types'
 
-const actions = ref<VpNoticeActionsItem[]>([
-  { title: '清空', icon: 'ep:delete', click: () => console.log('清空') },
-  { title: '更多', icon: 'ep:more', click: () => console.log('更多') }
-])
-const lists = ref<VpNoticeMessageListOptions[]>([
+definePage({
+  meta: {
+    title: 'pages.head-message',
+    icon: 'mdi:message'
+  }
+})
+
+const scale = ref(0.5)
+
+const actions = ref<NoticeActionsItem[]>([
   {
-    title: '通知1',
-    contents: [
-      { title: '通知标题', content: '通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文', time: '2022-12-12 12:12:12', tag: '紧急', tagProps: { type: 'danger' }, avatar: { src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' } },
-      { title: '通知标题2', content: '通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文通知正文', time: '2022-12-12 12:12:12', tagProps: { type: 'danger' }, avatar: { src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' } }
-    ]
-  }, {
-    title: '通知2',
+    title: '清空',
+    icon: 'ep:delete',
+    click: () => console.log('清空')
+  },
+  {
+    title: '更多',
+    icon: 'ep:more',
+    click: () => console.log('更多')
+  }
+])
+
+const lists = ref<NoticeMessageListOptions[]>([
+  {
+    title: '通知',
     contents: [
       {
-        title: '通知标题2', content: '通知正文2', time: '2022-12-12 12:12:12', tag: '重要', tagProps: { type: 'warning' }, avatar: {
-          src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-        }
+        title: '消息1',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容1',
+        time: '2022-01-03 14:55:33',
+        tagProps: { type: 'danger' },
+        tag: '紧急'
+      },
+      {
+        title: '消息1',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容1',
+        time: '2022-01-02 14:55:33'
+      },
+      {
+        title: '消息1',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容1',
+        time: '2022-01-01 14:55:33'
+      }
+    ]
+  },
+  {
+    title: '关注',
+    contents: [
+      {
+        title: '消息3',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容3',
+        time: '2022-01-02 14:55:33',
+        tagProps: { type: 'info' },
+        tag: '通知'
+      },
+      {
+        title: '消息3',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容3',
+        time: '2022-01-01 14:55:33'
+      }
+    ]
+  },
+  {
+    title: '待办',
+    contents: [
+      {
+        title: '消息2',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容2',
+        time: '2022-01-02 14:55:33',
+        tagProps: { type: 'info' },
+        tag: '通知'
+      },
+      {
+        title: '消息2',
+        avatar: { url: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png' },
+        content: '消息内容2',
+        time: '2022-01-01 14:55:33'
       }
     ]
   }
 ])
+
 const handleClickItem = (item: any) => {
-  alert(111)
-}
-const handleClickAvatar = (avater: any) => {
-  alert(222)
+  console.log('🚀 ~ file: notice-message.vue:100 ~ handleClickItem ~ item:', item)
 }
 </script>
+
 <style scoped></style>

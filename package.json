@@ -1,10 +1,13 @@
 {
-  "name": "admin-vue3",
+  "name": "admin-vue3-monorepo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "components:build:watch": "pnpm --filter=el-admin-components run build:watch",
+    "components:build": "pnpm --filter=el-admin-components run build",
+    "template:dev": "pnpm --filter=admin-vue3-template run dev",
+    "template:build": "pnpm --filter=admin-vue3-template run build"
   },
   "keywords": [],
   "author": "",

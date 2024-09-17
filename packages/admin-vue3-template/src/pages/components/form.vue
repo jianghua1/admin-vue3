@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 definePage({
   meta: {
-    title: '表单组件',
-    icon: 'mdi:apps'
+    title: 'pages.forms',
+    icon: 'fluent:form-24-regular',
+    order: 150
   }
 })
 </script>
+
 <style scoped></style>

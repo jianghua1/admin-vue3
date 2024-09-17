@@ -5,7 +5,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    hideMenu: true,
+    hideMenu: true
   }
 })
 </script>

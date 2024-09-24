@@ -59,6 +59,7 @@ export function useForm(schema: FormSchema) {
     model,
     rules,
     setForm,
+    setRules,
     formValue: computed(() => flatObj(model.value))
   }
 }

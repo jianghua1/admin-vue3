@@ -21,7 +21,7 @@
     </el-row>
     <!-- 登录 -->
     <el-form-item>
-      <el-button type="primary" class="w-full mt-4" @click="onSubmit()">登录</el-button>
+      <el-button type="primary" class="w-full mt-4" @click="onSubmit(formRef)">登录</el-button>
     </el-form-item>
   </el-form>
   <!-- 第三方登录 -->
@@ -88,11 +88,11 @@ const rules = reactive<FormRules<LoginFormInterface>>({
   ]
 })
 
-const onSubmit = (form: any) => {
-  if (formRef.value) {
-    formRef.value.validate((valid: any) => {
+const onSubmit = (formRef: any) => {
+  if (formRef) {
+    formRef.validate((valid: any) => {
       if (valid)
-        emits('submit', form)
+        emits('submit', formRef)
     })
   }
 }

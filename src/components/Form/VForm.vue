@@ -52,13 +52,18 @@ const exposes = exposeEventsUtils(formRef, exposeEventNames)
 
 defineExpose({ ...exposes })
 
-const { model, rules } = useForm(props.schema ?? [])
 
-watch(model, () => {
-  emits('update:modelValue', model.value)
-}, {
-  deep: true
+const { model, setRules } = useForm(props.schema ?? [])
+const rules = ref<any>()
+
+onBeforeMount(() => {
+  rules.value = setRules(props.schema ?? [])
 })
 
+watch(() => model, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    emits('update:modelValue', model.value)
+  }
+})
 </script>
 <style scoped></style>

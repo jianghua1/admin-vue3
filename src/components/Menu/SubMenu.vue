@@ -10,7 +10,8 @@
   <el-sub-menu :index="getIndex(data)" v-if="menuHasChildren(data)">
     <template #title v-if="!data.meta?.icon">{{ data.meta?.title }}</template>
     <template #title v-else>
-      <Iconify :icon="data.meta?.icon" :style="iconProps.style" :class="iconProps.class"></Iconify>
+      <Iconify :icon="(data.meta?.icon as string | IconifyIcon)" :style="iconProps.style" :class="iconProps.class">
+      </Iconify>
       <span>{{ data.meta?.title }}</span>
     </template>
     <SubMenu v-for="child in data.children" :data="child" v-bind="subAttrs" :key="`${data.path}/${child.path}`">
@@ -23,6 +24,7 @@ import type { SubMenuProps as ElSubMenuProps } from 'element-plus'
 import { inject } from 'vue'
 import type { AppRouteMenuItem, IconOptions } from './types'
 import { useMenu } from './useMenu'
+import type { IconifyIcon } from '@iconify/vue';
 
 interface SubMenuProps extends Partial<ElSubMenuProps> {
   data: AppRouteMenuItem

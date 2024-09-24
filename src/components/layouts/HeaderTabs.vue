@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between items-center px-2">
     <el-tabs type="card" class="myTabs overflow-hidden flex-1" closable v-on="forwardEvents" v-model="modelValue">
-      <el-tab-pane :name="item?.name as string" v-for="item in data" :key="item.name as string"
+      <el-tab-pane :name="(item?.name as string | number)" v-for="item in data" :key="item.name as string"
         :label="item.meta && item.meta?.title"></el-tab-pane>
     </el-tabs>
     <!-- @ts-ignore -->

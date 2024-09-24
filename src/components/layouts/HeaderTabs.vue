@@ -4,8 +4,7 @@
       <el-tab-pane :name="(item?.name as string | number)" v-for="item in data" :key="item.name as string"
         :label="item.meta && item.meta?.title"></el-tab-pane>
     </el-tabs>
-    <!-- @ts-ignore -->
-    <DropDown :items="(items as any)" class="w-6" @command="handleCommand">
+    <DropDown :items="items" class="w-6" @command="handleCommand">
       <template #header>
         <Iconify icon="mdi:view-grid" size="18px"></Iconify>
       </template>
@@ -15,6 +14,7 @@
     </DropDown>
   </div>
 </template>
+
 
 <script setup lang='ts'>
 import type { TabsProps, TabsPaneContext } from 'element-plus'
@@ -36,6 +36,7 @@ type HeaderTabsEvents = {
   tabAdd: []
   tabMenuClick: [action: TabActions]
 }
+
 const eventsName = ['tabClick', 'tabChange', 'edit', 'tabRemove', 'tabAdd']
 
 withDefaults(defineProps<HeaderTabsProps>(), {
@@ -73,18 +74,13 @@ const items = ref([
     text: '关闭右侧'
   }, {
     action: TabActions.closeAll,
-    icon: 'codicon:close-all',
+    icon: 'ep:close',
     text: '关闭全部'
   }
 ])
 
-
-// const handleClick = (item: any) => {
-//   emits('tabMenuClick', item.action)
-// }
-
-const handleCommand = (item: { item: DropDownItem; index: number }) => {
-  emits('tabMenuClick', item.item.action)
+const handleCommand = (action: TabActions) => {
+  emits('tabMenuClick', action)
 }
 </script>
 <style scoped lang="scss">

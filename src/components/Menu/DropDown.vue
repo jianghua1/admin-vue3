@@ -1,8 +1,6 @@
 <template>
   <el-dropdown trigger="click" @command="handleCommand">
-    <slot name="header">
-
-    </slot>
+    <slot name="header"></slot>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-for="(item, index) in props.items" :key="index" :command="{ item, index }"
@@ -18,28 +16,26 @@
   </el-dropdown>
 </template>
 
+
 <script setup lang='ts' generic="T extends {icon?: string}">
 import type { IconProps } from '@iconify/vue';
 import type { DropDownItem } from './types';
 
-
-interface dropdownProps extends Partial<IconProps> {
-  items: DropDownItem[]
-  iconProps?: Partial<IconProps>
-  iconClass?: string
+interface DropdownProps extends Partial<IconProps> {
+  items: DropDownItem[];
+  iconProps?: Partial<IconProps>;
+  iconClass?: string;
 }
 
-
-const props = defineProps<dropdownProps>()
+const props = defineProps<DropdownProps>();
 
 const currentIndex = defineModel('modelValue', {
   default: 0
 })
 
 const emits = defineEmits<{
-  change: [item: DropDownItem, index?: number]
-}>()
-
+  change: [item: DropDownItem, index?: number];
+}>();
 
 const handleCommand = (command: { item: DropDownItem; index: number }) => {
   currentIndex.value = command.index
@@ -47,6 +43,7 @@ const handleCommand = (command: { item: DropDownItem; index: number }) => {
 }
 
 </script>
+
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item) {
   &.active {

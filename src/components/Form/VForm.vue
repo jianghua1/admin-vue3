@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="model" :rules="rules" ref="formRef" v-bind="{ ...props }">
+  <el-form :model="model" :rules="formRules" ref="formRef" v-bind="{ ...props }">
 
     <slot name="default">
       <!-- <el-row :class="rowClass" :style="rowStyle"> -->
@@ -20,6 +20,7 @@ import type { VFromProps } from './types';
 
 import { useForm } from './useForm';
 import { exposeEventsUtils } from '@/utils';
+import { onBeforeMount } from 'vue';
 
 const props = withDefaults(defineProps<VFromProps>(), {
   inline: false,
@@ -54,10 +55,10 @@ defineExpose({ ...exposes })
 
 
 const { model, setRules } = useForm(props.schema ?? [])
-const rules = ref<any>()
+const formRules = ref<any>()
 
 onBeforeMount(() => {
-  rules.value = setRules(props.schema ?? [])
+  formRules.value = setRules(props.schema ?? [])
 })
 
 watch(() => model, (newValue, oldValue) => {

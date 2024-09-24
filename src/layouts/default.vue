@@ -67,7 +67,7 @@ import type { RouteRecordRaw } from 'vue-router/auto';
 import type { AppRouteMenuItem, EmitSelectType } from '../components/Menu/types';
 import type { DropDownMenuItem } from '../components/Avatar/types';
 import type { HeaderProps } from '../components/layouts/types';
-import { TabActions } from '@/components/layouts/types.d.ts';
+import { TabActions } from '../components/layouts/types';
 import type { ThemeSettingsProps } from '../components/Themes/types';
 import { useMenu } from '../components/Menu/useMenu';
 import { darken, camelToHyphen } from '@/utils'

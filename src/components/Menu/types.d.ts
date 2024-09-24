@@ -42,3 +42,9 @@ export type EmitSelectType = [
 ]
 
 export type OpenCloseType = [index: string, indexPath: string[]]
+
+export type DropDownItem = {
+  action: TabActions
+  icon: string
+  text: string
+}

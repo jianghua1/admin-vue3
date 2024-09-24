@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<FormItemProp>(), {
   required: undefined
 })
 
-const modelValue = defineModel()
+const modelValue: { [key: string]: any } = defineModel()
 //初始化modelValue
 
 onBeforeMount(() => {

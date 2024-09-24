@@ -4,7 +4,8 @@
       <el-tab-pane :name="item?.name as string" v-for="item in data" :key="item.name as string"
         :label="item.meta && item.meta?.title"></el-tab-pane>
     </el-tabs>
-    <DropDown :items="items" class="w-6" @change="handleClick">
+    <!-- @ts-ignore -->
+    <DropDown :items="(items as any)" class="w-6" @command="handleCommand">
       <template #header>
         <Iconify icon="mdi:view-grid" size="18px"></Iconify>
       </template>
@@ -17,9 +18,9 @@
 
 <script setup lang='ts'>
 import type { TabsProps, TabsPaneContext } from 'element-plus'
-import type { AppRouteMenuItem } from '../Menu/types'
+import type { AppRouteMenuItem, DropDownItem } from '../Menu/types'
 import { forwardEventsUtils } from '../../utils/format'
-import { TabActions } from './types.d.ts'
+import { TabActions } from './types'
 
 interface HeaderTabsProps extends Partial<TabsProps> {
   data: AppRouteMenuItem[]
@@ -77,8 +78,13 @@ const items = ref([
   }
 ])
 
-const handleClick = (item: any) => {
-  emits('tabMenuClick', item.action)
+
+// const handleClick = (item: any) => {
+//   emits('tabMenuClick', item.action)
+// }
+
+const handleCommand = (item: { item: DropDownItem; index: number }) => {
+  emits('tabMenuClick', item.item.action)
 }
 </script>
 <style scoped lang="scss">

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <VForm :schema="schema" v-model="editorOptions"></VForm>
+    <VForm :schema="(schema as FormItemProp[])" v-model="editorOptions"></VForm>
+    <!-- <VForm :schema="schema" v-model="editorOptions"></VForm> -->
     <Editor class="mt-5" :options="editorOptions" v-model="value"></Editor>
   </div>
 </template>
@@ -9,7 +10,9 @@
 import type { EditorOptions } from '@/components/Editor/types'
 import { colProps } from 'element-plus';
 import { ref } from 'vue';
-
+// editorOptions.ts
+import type { II18n } from '@/components/II18n/types';
+import type { FormItemProp } from '@/components/Form/types';
 definePage({
   meta: {
     title: '编辑器组件',
@@ -21,7 +24,7 @@ definePage({
 const value = ref('')
 
 const editorOptions = ref({
-  lang: 'zh-CN',
+  lang: 'zh-CN' as keyof II18n,
   mode: 'ir'
 } as EditorOptions)
 

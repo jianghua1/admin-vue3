@@ -11,12 +11,14 @@ import { useRegisterSW } from 'virtual:pwa-register/vue'
 const intervalMS = 60 * 60 * 1000
 
 useRegisterSW({
-  onRegisteredSW(r) {
-    r && setInterval(() => {
-      r.update()
-    }, intervalMS)
+  onRegisteredSW(swScriptUrl, registration) {
+    if (registration) {
+      registration && setInterval(() => {
+        // @ts-ignore
+        registration.updateViaCache()
+      }, intervalMS)
+    }
   }
 })
-
 </script>
 <style scoped></style>

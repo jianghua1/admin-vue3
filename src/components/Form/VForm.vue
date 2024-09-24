@@ -1,5 +1,6 @@
 <template>
-  <el-form v-bind="props" :model="model" :rules="rules" ref="formRef">
+  <el-form :model="model" :rules="rules" ref="formRef" v-bind="{ ...props }">
+
     <slot name="default">
       <!-- <el-row :class="rowClass" :style="rowStyle"> -->
       <template v-if="schema && schema.length">

@@ -1,6 +1,9 @@
 name: 'admin-vue3-action'
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 4_3_7_6
 
 permissions:
   contents: write

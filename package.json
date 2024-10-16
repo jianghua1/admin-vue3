@@ -1,0 +1,29 @@
+{
+  "name": "pk-admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "admin:dev": "pnpm --filter=pk-admin-vue3 run dev",
+    "admin:build": "pnpm --filter=pk-admin-vue3 run build",
+    "admin:build-only": "pnpm --filter=pk-admin-vue3 run build-only",
+    "components:build": "pnpm --filter=el-admin-components run build",
+    "components:build:watch": "pnpm --filter=el-admin-components run build:watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nx/eslint": "18.0.7",
+    "@nx/vite": "18.0.7",
+    "@nx/web": "18.0.7",
+    "@vitest/ui": "^1.3.1",
+    "eslint": "~8.48.0",
+    "nx": "18.0.7",
+    "nx-remotecache-qiniu": "^1.0.2",
+    "vite": "~5.0.0",
+    "vitest": "^1.3.1",
+    "el-admin-components": "workspace:*"
+  },
+  "nx": {}
+}

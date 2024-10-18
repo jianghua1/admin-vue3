@@ -1,23 +1,10 @@
 <template>
-  <el-menu
-    ref="menuRef"
-    v-bind="menuProps"
-    :style="{ '--bg-color': backgroundColor }"
-    class="border-r-0!"
-    @select="handleSelect"
-    @open="handleOpen"
-    @close="handleClose"
-    :default-active="getDefaultActive($route)"
-  >
+  <el-menu ref="menuRef" v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" class="border-r-0!"
+    @select="handleSelect" @open="handleOpen" @close="handleClose" :default-active="getDefaultActive($route)">
     <slot name="icon"></slot>
     <div class="flex-grow" v-if="isDefined(slots['icon'])" />
-    <sub-menu
-      v-for="menu in fileredMenus"
-      :key="menu.path"
-      :data="menu"
-      :collapse="collapse"
-      v-bind="subMenuProps"
-    ></sub-menu>
+    <sub-menu v-for="menu in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse"
+      v-bind="subMenuProps"></sub-menu>
   </el-menu>
 </template>
 
@@ -81,12 +68,25 @@ onMounted(() => {
 })
 
 function getDefaultActive(route: RouteLocationNormalizedLoaded) {
+  let maxLength = 0;
   let key = ''
+
+  const path = route.name as string
+
+  if (path === '/' || key === '') {
+    const tem = fileredMenus.value.find((item) => item.path === '/')
+    return tem && tem.meta ? tem.meta.key as string : ''
+  }
 
   const findKey = (menus: AppRouteMenuItem[]) => {
     menus.forEach((item) => {
-      if (item.name === route.name) {
-        key = item.meta?.key as string
+      const itemPath = item.name as string
+      if (path.includes(itemPath)) {
+        if (maxLength < itemPath.length) {
+          maxLength = itemPath.length
+          key = item.meta?.key as string
+          console.log('key', key)
+        }
       }
       if (item.children) {
         findKey(item.children)
@@ -98,6 +98,8 @@ function getDefaultActive(route: RouteLocationNormalizedLoaded) {
 
   return key
 }
+
+
 
 const handleSelect = (...args: MenuSelectEvent) => {
   const [index] = args

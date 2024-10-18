@@ -26,6 +26,7 @@ export interface AppRouteMenuItem {
   path: string
   component?: Component
   redirect?: string
+  fullPath?: string
 }
 
 export interface IconOptions {

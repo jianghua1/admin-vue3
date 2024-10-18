@@ -1,17 +1,6 @@
 <template>
-  <el-table
-    v-loading="loading"
-    v-bind="props"
-    v-on="events"
-    style="width: 100%"
-    ref="tableRef"
-    :data="localData"
-  >
-    <Column
-      v-for="(column, index) in columns"
-      v-bind="setColumnDefaults(column)"
-      :key="column.id || index"
-    >
+  <el-table v-loading="loading" v-bind="props" v-on="events" style="width: 100%" ref="tableRef" :data="localData">
+    <Column v-for="(column, index) in columns" v-bind="setColumnDefaults(column)" :key="column.id || index">
     </Column>
     <slot></slot>
     <template #append>
@@ -22,12 +11,17 @@
     </template>
   </el-table>
   <slot name="footer">
-    <div :class="['p-2 flex', paginationClass]" v-if="isDefined(pagination)">
-      <el-pagination v-bind="pagination" v-on="pageEvents">
-        <template #default="scope" v-if="pagination.defaultSlot">
-          <component :is="pagination.defaultSlot" v-bind="scope"></component>
-        </template>
-      </el-pagination>
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <slot name="footer-actions"></slot>
+      </div>
+      <div :class="['p-2 flex', paginationClass]" v-if="isDefined(pagination)">
+        <el-pagination v-bind="pagination" v-on="pageEvents">
+          <template #default="scope" v-if="pagination.defaultSlot">
+            <component :is="pagination.defaultSlot" v-bind="scope"></component>
+          </template>
+        </el-pagination>
+      </div>
     </div>
   </slot>
 </template>

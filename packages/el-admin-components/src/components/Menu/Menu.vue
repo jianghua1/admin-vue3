@@ -68,14 +68,15 @@ onMounted(() => {
 })
 
 function getDefaultActive(route: RouteLocationNormalizedLoaded) {
-  let maxLength = 0;
+  // 最长匹配的路径
+  let maxLength = 0
   let key = ''
 
   const path = route.name as string
 
-  if (path === '/' || key === '') {
-    const tem = fileredMenus.value.find((item) => item.path === '/')
-    return tem && tem.meta ? tem.meta.key as string : ''
+  if (path === '/' && key === '') {
+    const tmp = fileredMenus.value.find((item) => item.path === '/')
+    return tmp && tmp.meta ? (tmp.meta.key as string) : ''
   }
 
   const findKey = (menus: AppRouteMenuItem[]) => {
@@ -85,7 +86,6 @@ function getDefaultActive(route: RouteLocationNormalizedLoaded) {
         if (maxLength < itemPath.length) {
           maxLength = itemPath.length
           key = item.meta?.key as string
-          console.log('key', key)
         }
       }
       if (item.children) {

@@ -1,8 +1,5 @@
 <template>
-  <el-form-item
-    v-bind="props"
-    :ref="(ref) => props?.itemRef && props.itemRef(ref as FormItemInstance)"
-  >
+  <el-form-item v-bind="props" :ref="(ref) => props?.itemRef && props.itemRef(ref as FormItemInstance)">
     <template #default>
       <template v-if="props?.prefixSlot">
         <component :is="props.prefixSlot" v-bind="props"></component>
@@ -59,42 +56,19 @@
         :ref="(ref) => props.childRef && props.childRef(ref)"
       /> -->
         <el-select v-if="type === 'select'" v-model="modelValue" v-bind="attrs" v-on="events">
-          <el-option
-            :label="item.label"
-            :value="item.value"
-            v-bind="item"
-            v-for="(item, index) in children"
-            :key="index"
-          />
+          <el-option :label="item.label" :value="item.value" v-bind="item" v-for="(item, index) in children"
+            :key="index" />
         </el-select>
-        <el-checkbox-group
-          v-else-if="type === 'checkbox' || type === 'checkbox-group'"
-          v-model="modelValue"
-          v-bind="attrs"
-        >
-          <component
-            :is="'el-' + item.type"
-            :label="item.label"
-            :value="item.value"
-            v-bind="item"
-            v-on="events"
-            v-for="(item, index) in children"
-            :key="index"
-          />
+        <el-checkbox-group v-else-if="type === 'checkbox' || type === 'checkbox-group'" v-model="modelValue"
+          v-bind="attrs">
+          <component :is="'el-' + item.type" :label="item.label" :value="item.value" v-bind="item" v-on="events"
+            v-for="(item, index) in children" :key="index" />
         </el-checkbox-group>
-        <el-radio-group
-          v-else-if="type === 'radio' || type === 'radio-group'"
-          v-model="modelValue"
-          v-bind="attrs"
-          v-on="events"
-        >
-          <component
-            :is="'el-' + item.type"
-            v-for="(item, index) in children"
-            :key="index"
-            :label="item.value"
-            >{{ item.label }}</component
-          >
+        <el-radio-group v-else-if="type === 'radio' || type === 'radio-group'" v-model="modelValue" v-bind="attrs"
+          v-on="events">
+          <component :is="'el-' + item.type" v-for="(item, index) in children" :key="index" :label="item.value">{{
+            item.label
+          }}</component>
         </el-radio-group>
         <!-- <el-autocomplete
         v-else-if="type === 'autocomplete'"
@@ -110,18 +84,21 @@
         v-on="events"
         :ref="(ref) => props.childRef && props.childRef(ref)"
       /> -->
-        <component
-          :is="'el-' + type"
-          v-else-if="
-            !['checkbox', 'radio', 'select'].includes(type || '') &&
-            typeof type !== 'undefined' &&
-            type !== ''
-          "
-          v-model="modelValue"
-          v-bind="attrs"
-          v-on="events"
-          :ref="(ref) => props.childRef && props.childRef(ref)"
-        />
+        <el-upload ref="upload" v-else-if="type === 'upload'" v-model:file-list="modelValue" v-bind="uploadAttrs">
+          <el-button type="primary">
+            Click to upload
+          </el-button>
+          <template #tip>
+            <div class="el-upload__tip">
+              Drag files here or click to upload
+            </div>
+          </template>
+        </el-upload>
+        <component :is="'el-' + type" v-else-if="
+          !['checkbox', 'radio', 'select'].includes(type || '') &&
+          typeof type !== 'undefined' &&
+          type !== ''
+        " v-model="modelValue" v-bind="attrs" v-on="events" :ref="(ref) => props.childRef && props.childRef(ref)" />
         <span v-else v-bind="attrs">{{ value }}</span>
       </div>
       <template v-if="props?.suffixSlot">
@@ -164,6 +141,26 @@ const modelValue = defineModel()
 // const exposes = exposeEventsUtils(formItemRef, exposeEvents)
 
 // defineExpose({ ...exposes })
+
+const uploadDefaultValues = {
+  action: '#',
+  headers: {},
+  method: 'post',
+  multiple: false,
+  data: {},
+  name: 'file',
+  'with-credentials': false,
+  'show-file-list': true,
+  drag: false,
+  accept: '',
+  'list-type': 'text',
+  'auto-upload': true,
+  disabled: false
+};
+
+const uploadAttrs = computed(() => {
+  return Object.assign(uploadDefaultValues, props.attrs)
+})
 
 onBeforeMount(() => {
   // 针对于select类型，如果value为空串，则改成undefined

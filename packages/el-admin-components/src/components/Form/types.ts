@@ -53,6 +53,7 @@ export type ComponentType =
   | 'tree'
   | 'steps'
   | 'step'
+  | 'upload'
   | ''
   | undefined
 

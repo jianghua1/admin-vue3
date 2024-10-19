@@ -188,6 +188,11 @@ onMounted(() => {
   if (props.draggableRow) {
     rowDrop()
   }
+  window.addEventListener('resize', fn)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', fn)
 })
 
 function setColumnDefaults(column: object) {
@@ -217,7 +222,6 @@ async function setAdaptive() {
   }
 }
 const fn = useDebounceFn(setAdaptive, 200)
-useResizeObserver(tableRef, fn)
 
 function columnDrop() {
   nextTick(() => {

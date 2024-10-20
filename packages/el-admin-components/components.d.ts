@@ -22,6 +22,7 @@ declare module 'vue' {
     Form: typeof import('./src/components/Form/Form.vue')['default']
     FormItem: typeof import('./src/components/Form/FormItem.vue')['default']
     FormLayout: typeof import('./src/components/Form/FormLayout.vue')['default']
+    FormSchemaItem: typeof import('./src/components/Form/FormSchemaItem.vue')['default']
     FullScreen: typeof import('./src/components/Themes/FullScreen.vue')['default']
     Header: typeof import('./src/components/Layouts/Header.vue')['default']
     HeaderTabs: typeof import('./src/components/Layouts/HeaderTabs.vue')['default']

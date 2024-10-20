@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import type { IconProps } from '@iconify/vue'
+import type { IconProps } from '../Icon/types'
 import type { TagProps, LinkProps } from 'element-plus'
 
 export interface DescriptionItemProps {
@@ -29,6 +29,7 @@ export interface DescriptionProps {
   size?: '' | 'default' | 'small' | 'large'
   extra?: string
   title?: string
+  titleClass?: string
   collapse?: boolean
   data: DescriptionItem[]
 }

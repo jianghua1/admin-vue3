@@ -2,7 +2,7 @@
   <div class="p-2">
     <slot name="title">
       <div class="flex justify-between items-center">
-        <span>{{ title }}</span>
+        <span :class="titleClass">{{ title }}</span>
         <span
           :class="[
             'i-ep:arrow-down transition-all transition-duration-500',

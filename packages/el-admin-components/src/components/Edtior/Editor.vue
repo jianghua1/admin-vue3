@@ -46,7 +46,6 @@ const history = ref('')
 const emits = defineEmits(['init'])
 
 watch(modelValue, (newVal) => {
-  console.log('in')
   if (editorInstance.value && newVal && `${newVal}` !== editorInstance.value.getValue()) {
     editorInstance.value.setValue(newVal + '')
   }

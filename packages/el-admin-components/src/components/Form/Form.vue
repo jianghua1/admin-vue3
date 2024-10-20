@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="model" :rules="rules" ref="formRef" v-bind="restProps">
+  <el-form :model="modelValue" :rules="rules" ref="formRef" v-bind="restProps">
     <slot name="default">
       <el-row :class="rowClass" :style="rowStyle">
         <template v-if="schema && schema.length">
@@ -7,7 +7,7 @@
             v-for="(item, index) in schema"
             :key="index"
             v-bind="item"
-            v-model="model[item.prop as string]"
+            v-model="internalModel[item.prop as string]"
           >
           </FormLayout>
         </template>
@@ -21,7 +21,7 @@
 import { exposeEventsUtils } from '@/utils/format'
 import type { FormProps } from './types'
 import { useForm } from './useForm'
-import type { FormInstance, FormItemProp } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
 const exposeEvents = ['validate', 'validateField', 'resetFields', 'clearValidate', 'scrollToField']
 
@@ -40,15 +40,12 @@ const props = withDefaults(defineProps<FormProps>(), {
 
 const formRef = ref<FormInstance>()
 
-const emits = defineEmits<{
-  validate: [prop: FormItemProp, isValid: boolean, message: string]
-  'update:modelValue': [model: any]
-}>()
+const modelValue = defineModel()
 const exposes = exposeEventsUtils(formRef, exposeEvents)
 
 defineExpose({ ...exposes })
 
-const { model, rules } = useForm(props.schema || [])
+const { model, internalModel, rules } = useForm(props)
 
 const restProps = computed(() => {
   const { rules, model, ...rest } = props
@@ -58,7 +55,16 @@ const restProps = computed(() => {
 watch(
   model,
   () => {
-    emits('update:modelValue', model.value)
+    modelValue.value = model.value
+  },
+  {
+    deep: true
+  }
+)
+watch(
+  modelValue,
+  () => {
+    internalModel.value = modelValue.value
   },
   {
     deep: true

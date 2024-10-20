@@ -1,6 +1,17 @@
 <template>
-  <el-table v-loading="loading" v-bind="props" v-on="events" style="width: 100%" ref="tableRef" :data="localData">
-    <Column v-for="(column, index) in columns" v-bind="setColumnDefaults(column)" :key="column.id || index">
+  <el-table
+    v-loading="loading"
+    v-bind="props"
+    v-on="events"
+    :style="tableStyle"
+    ref="tableRef"
+    :data="localData"
+  >
+    <Column
+      v-for="(column, index) in columns"
+      v-bind="setColumnDefaults(column)"
+      :key="column.id || index"
+    >
     </Column>
     <slot></slot>
     <template #append>
@@ -11,7 +22,7 @@
     </template>
   </el-table>
   <slot name="footer">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between">
       <div class="flex items-center">
         <slot name="footer-actions"></slot>
       </div>
@@ -74,6 +85,7 @@ const props = withDefaults(defineProps<TableProps>(), {
   // rowKey: 'id'
 })
 const tableRef = ref()
+const tableStyle = ref({ width: '100%', height: 'auto' })
 
 const emits = defineEmits<TableEmitsType>()
 
@@ -140,7 +152,34 @@ const paginationClass = computed(() => {
   return defaultClass
 })
 
+watch(
+  [() => props.data, () => props.columns],
+  async () => {
+    dragInit()
+    await nextTick()
+    init()
+  },
+  {
+    deep: true
+  }
+)
+
+const fn = useDebounceFn(setAdaptive, 200)
+
 onBeforeMount(() => {
+  dragInit()
+})
+
+onMounted(() => {
+  init()
+  window.addEventListener('resize', fn)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', fn)
+})
+
+function dragInit() {
   localCols.value = addId(props.draggableCol, props.columns)
   localData.value = addId(props.draggableRow, props.data)
   if (props.draggableRow && localData.value.length) {
@@ -156,29 +195,11 @@ onBeforeMount(() => {
           )}
         </DragIcon>
       )
-      // return h(
-      //   DragIcon,
-      //   {
-      //     props: _prop
-      //   },
-      //   {
-      //     default: () => {
-      //       const { row } = _prop
-      //       return defaultSlot
-      //         ? defaultSlot(_prop)
-      //         : h(
-      //             'span',
-      //             { props: _prop },
-      //             localCols.value[0]?.prop ? row[localCols.value[0].prop] : ''
-      //           )
-      //     }
-      //   }
-      // )
     }
   }
-})
+}
 
-onMounted(() => {
+function init() {
   if (props.adaptive) {
     setAdaptive()
   }
@@ -188,12 +209,7 @@ onMounted(() => {
   if (props.draggableRow) {
     rowDrop()
   }
-  window.addEventListener('resize', fn)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', fn)
-})
+}
 
 function setColumnDefaults(column: object) {
   return { ...columnDefaults, ...column } as TableColumnType
@@ -218,10 +234,9 @@ async function setAdaptive() {
       offset = props.adaptive
     }
     const height = window.innerHeight - tableRef.value.$el.getBoundingClientRect().top - offset
-    tableRef.value.style.height = height + 'px'
+    tableStyle.value.height = height + 'px'
   }
 }
-const fn = useDebounceFn(setAdaptive, 200)
 
 function columnDrop() {
   nextTick(() => {

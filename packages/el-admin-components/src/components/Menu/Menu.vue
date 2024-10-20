@@ -1,10 +1,23 @@
 <template>
-  <el-menu ref="menuRef" v-bind="menuProps" :style="{ '--bg-color': backgroundColor }" class="border-r-0!"
-    @select="handleSelect" @open="handleOpen" @close="handleClose" :default-active="getDefaultActive($route)">
+  <el-menu
+    ref="menuRef"
+    v-bind="menuProps"
+    :style="{ '--bg-color': backgroundColor }"
+    class="border-r-0!"
+    @select="handleSelect"
+    @open="handleOpen"
+    @close="handleClose"
+    :default-active="getDefaultActive($route)"
+  >
     <slot name="icon"></slot>
     <div class="flex-grow" v-if="isDefined(slots['icon'])" />
-    <sub-menu v-for="menu in fileredMenus" :key="menu.path" :data="menu" :collapse="collapse"
-      v-bind="subMenuProps"></sub-menu>
+    <sub-menu
+      v-for="menu in fileredMenus"
+      :key="menu.path"
+      :data="menu"
+      :collapse="collapse"
+      v-bind="subMenuProps"
+    ></sub-menu>
   </el-menu>
 </template>
 
@@ -98,8 +111,6 @@ function getDefaultActive(route: RouteLocationNormalizedLoaded) {
 
   return key
 }
-
-
 
 const handleSelect = (...args: MenuSelectEvent) => {
   const [index] = args

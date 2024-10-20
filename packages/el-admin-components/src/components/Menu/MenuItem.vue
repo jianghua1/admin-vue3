@@ -9,7 +9,11 @@
         :style="iconProps?.style"
         :class="iconProps?.class"
       ></Iconify>
-      <template #title>{{ $t(data.meta?.title || '') }}</template>
+      <template #title>
+        <span class="ml-3">
+          {{ $t(data.meta?.title || '') }}
+        </span>
+      </template>
     </el-menu-item>
     <el-menu-item v-else :index="getIndex(data)" :disabled="data.meta?.disabled">
       <Iconify

@@ -1,4 +1,6 @@
-import type { IconifyIcon, IconProps } from '@iconify/vue'
+import type { IconifyIcon } from '@iconify/vue'
+// import type { IconifyIcon, IconProps } from '@iconify/vue'
+import type { IconProps } from '../Icon/types'
 import type { CSSProperties, Component } from 'vue'
 
 // export type Component<T = any> =

@@ -93,10 +93,10 @@ export default defineConfig(() => {
       // }),
       dts({
         rollupTypes: true,
-        include: ['src/*.ts'],
         compilerOptions: {
           skipDiagnostics: true
-        }
+        },
+        exclude: ['node_modules/**', 'dist/**']
       }),
       copy({
         targets: [

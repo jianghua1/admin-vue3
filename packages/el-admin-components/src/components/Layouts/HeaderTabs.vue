@@ -1,14 +1,21 @@
 <template>
   <div class="flex justify-between items-center px-2">
-    <el-tabs type="card" class="myTabs overflow-hidden flex-1" closable v-on="forwardEvents" v-model="modelValue">
-      <el-tab-pane :name="(item?.fullPath || item.path) as string" v-for="item in data"
-        :key="(item.fullPath || item.path) as string"
-        :label="item.meta && $t(item.meta?.title as string)"></el-tab-pane>
+    <el-tabs
+      type="card"
+      class="myTabs overflow-hidden flex-1"
+      closable
+      v-on="forwardEvents"
+      v-model="modelValue"
+    >
+      <el-tab-pane
+        :name="(item?.fullPath || item.path) as string"
+        v-for="item in data"
+        :key="(item?.fullPath || item.path) as string"
+        :label="item.meta && $t(item.meta?.title as string)"
+      ></el-tab-pane>
     </el-tabs>
     <DropDown :items="items" class="w-6" @change="handleClick">
-      <template #header>
-        <Iconify icon="mdi:view-grid" size="18px" />
-      </template>
+      <template #header> <Iconify icon="mdi:view-grid" size="18px" /></template>
       <template #item="{ item }">
         {{ item.text }}
       </template>
@@ -71,24 +78,20 @@ const handleClick = (item) => {
 .myTabs {
   :deep(.el-tabs__header) {
     @apply p-0 m-0 border-b-none flex items-center;
-
     .el-tabs__nav {
       @apply border-none;
     }
-
     .el-tabs__nav-prev,
     .el-tabs__nav-next {
       line-height: 40px;
     }
   }
-
   :deep(.el-tabs__item) {
     @apply py-0 h-[34px] px-4;
     border-radius: 4px;
     border: 1px solid var(--el-border-color) !important;
     transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
     margin-right: 5px;
-
     &.is-active {
       color: var(--el-color-primary) !important;
       background: var(--el-color-primary-light-9) !important;

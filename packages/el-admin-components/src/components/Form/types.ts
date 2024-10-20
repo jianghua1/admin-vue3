@@ -71,6 +71,7 @@ export interface FormItemProp extends Partial<FormItemProps> {
   events?: any
   // 扩展属性
   attrs?: any
+  slots?: any
   span?: number
   colProps?: ColProps
   value?: any
